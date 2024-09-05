@@ -9,16 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-progress": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
+    "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.417.0",
     "next": "14.2.5",
+    "next-auth": "^4.24.7",
+    "prism-react-renderer": "^2.4.0",
     "react": "^18",
+    "react-code-block": "^1.0.0",
     "react-dom": "^18",
+    "react-use": "^17.5.1",
     "tailwind-merge": "^2.4.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",
