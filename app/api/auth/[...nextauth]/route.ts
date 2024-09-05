@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import api from "@/lib/axios";
 import axios from "axios";
 
 const handler = NextAuth({
@@ -19,11 +20,7 @@ const handler = NextAuth({
 
       try {
         // Verify if the user is already registered
-        const loginResponse = await axios.post(
-          "http://localhost:8000/auth/google/login",
-          { email },
-          { headers: { "Content-Type": "application/json" } },
-        );
+        const loginResponse = await api.post("/auth/google/login", { email });
 
         if (loginResponse.data) {
           user.jwt = loginResponse.data;
@@ -74,22 +71,18 @@ async function registerUser({
   user,
 }: any) {
   try {
-    const registerResponse = await axios.post(
-      "http://localhost:8000/auth/google/register",
-      {
-        user: {
-          first_name: given_name,
-          last_name: family_name,
-          avatar_url: picture,
-          level_id: 1,
-        },
-        login: {
-          email,
-          is_google_user: true,
-        },
+    const registerResponse = await api.post("/auth/google/register", {
+      user: {
+        first_name: given_name,
+        last_name: family_name,
+        avatar_url: picture,
+        level_id: 1,
       },
-      { headers: { "Content-Type": "application/json" } },
-    );
+      login: {
+        email,
+        is_google_user: true,
+      },
+    });
 
     if (registerResponse.data) {
       user.jwt = registerResponse.data;
