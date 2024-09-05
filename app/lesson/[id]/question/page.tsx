@@ -3,12 +3,12 @@
 import React, { useEffect } from "react";
 import { Progress } from "@/components/ui/progress";
 import { PawPrint, X } from "lucide-react";
-import Link from "next/link";
 import BreadcrumbComponent from "../../BreadcrumbComponent";
 import { Button } from "@/components/ui/button";
 import CodeBlockComponent from "../../CodeBlockComponent";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -16,19 +16,33 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import api from "@/lib/axios";
 import { Lesson } from "@/types/validators";
 import classnames from "classnames";
+import { useRouter } from "next/navigation";
 
 interface Props {
   params: { id: string };
-  children: React.ReactNode;
 }
 
-function QuestionsPage({ params, children }: Props) {
+function QuestionsPage({ params }: Props) {
+  const router = useRouter();
   const [lessonQuestions, setLessonQuestions] = React.useState<Lesson>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const [progress, setProgress] = React.useState(0);
 
   useEffect(() => {
     const fetchLessonQuestions = async () => {
@@ -53,26 +67,39 @@ function QuestionsPage({ params, children }: Props) {
 </html>`;
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
-  const handleNextQuestion = () => {
-    setCurrentQuestionIndex((prev) => prev + 1);
-  };
   const currentQuestion = lessonQuestions[currentQuestionIndex];
 
   const options = currentQuestion?.Options;
+
+  const handleNextQuestion = () => {
+    if (attempt === 0) {
+      setIsDialogOpen(true);
+      return;
+    }
+
+    if (currentQuestionIndex === lessonQuestions.length - 1) {
+      router.push(`/lesson/${params.id}/result`);
+    } else {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    }
+  };
 
   const handleSubmit = async (optionId: number) => {
     await api.post("/attempt", {
       question_id: currentQuestion.question_id,
       selected_option_id: optionId,
     });
-    if (!options[optionId].is_correct) {
-      if (attempt === 1) {
-        // se não tiver mais tentativas, abrir sheet dizendo que perdeu e redirecionar para a página de lições
 
-        return;
-      }
+    const selectedOption = options.find((option) => option.option_id === optionId);
+    if (!selectedOption?.is_correct) {
       setAttempt((prev) => prev - 1);
     }
+
+    setProgress((prev) => prev + (1 / lessonQuestions.length) * 100);
+  };
+
+  const handleExit = () => {
+    router.push("/");
   };
 
   return (
@@ -81,12 +108,32 @@ function QuestionsPage({ params, children }: Props) {
       <BreadcrumbComponent activeHref="/test" />
       {/* Header elements */}
       <div className="flex items-center">
-        <Link href="#" className="flex gap-1">
-          <X aria-label="Fechar" />
-          <span>Fechar</span>
-        </Link>
+        <AlertDialog>
+          <AlertDialogTrigger className="flex gap-1">
+            <X aria-label="Fechar" />
+            <span>Fechar</span>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-red-600 text-white hover:bg-red-400"
+                onClick={handleExit}
+              >
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
         <div className="ml-40 flex grow gap-4 items-center">
-          <Progress value={50} />
+          <Progress value={progress} />
           <div className="inline-flex gap-2">
             <PawPrint aria-hidden="true" />
             {attempt}
@@ -96,10 +143,10 @@ function QuestionsPage({ params, children }: Props) {
       {/* Question */}
       <div className="mt-32 flex gap-8 justify-center items-center">
         <div>Mascote</div>
-        <div className="max-w-xl">
-          <div className="bg-green-200 p-5 rounded-xl rounded-es-none mb-4">
+        <div className="max-w-xl bg-green-200 p-5 rounded-xl rounded-es-none">
+          <p className="mb-4">
             {currentQuestion && currentQuestion.question_text}
-          </div>
+          </p>
           <CodeBlockComponent code={code} language="html" />
         </div>
       </div>
@@ -109,7 +156,7 @@ function QuestionsPage({ params, children }: Props) {
           options.map((option, index) => (
             <Sheet key={index}>
               <SheetTrigger>
-                <Button onClick={() => handleSubmit(index)}>
+                <Button onClick={() => handleSubmit(option.option_id)}>
                   {option.option_text}
                 </Button>
               </SheetTrigger>
@@ -129,18 +176,40 @@ function QuestionsPage({ params, children }: Props) {
                       {option.is_correct
                         ? "Você acertou! Continue aprendendo."
                         : `Você errou! A resposta correta é ${
-                            options.find((o) => o.option_text)?.option_text
+                            options.find((o) => o.is_correct)?.option_text
                           }.`}
                     </p>
                   </SheetDescription>
                 </SheetHeader>
                 <SheetFooter>
-                  <Button>Continuar</Button>
+                  <SheetClose asChild>
+                    <Button onClick={handleNextQuestion}>Continuar</Button>
+                  </SheetClose>
                 </SheetFooter>
               </SheetContent>
             </Sheet>
           ))}
       </div>
+
+      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AlertDialogTrigger></AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Você perdeu!</AlertDialogTitle>
+            <AlertDialogDescription>
+              Infelizmente, não foi dessa vez. Você não tem mais tentativas.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction
+              className="bg-red-600 text-white hover:bg-red-400"
+              onClick={handleExit}
+            >
+              Continuar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
