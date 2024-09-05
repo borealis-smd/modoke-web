@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { Progress } from "@/components/ui/progress";
-import { PawPrint, X } from "lucide-react";
+import { CircleCheckBig, CircleX, PawPrint, Terminal, X } from "lucide-react";
 import BreadcrumbComponent from "../../BreadcrumbComponent";
 import { Button } from "@/components/ui/button";
 import CodeBlockComponent from "../../CodeBlockComponent";
@@ -27,6 +27,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 import api from "@/lib/axios";
 import { Lesson } from "@/types/validators";
 import classnames from "classnames";
@@ -39,10 +40,12 @@ interface Props {
 function QuestionsPage({ params }: Props) {
   const router = useRouter();
   const [lessonQuestions, setLessonQuestions] = React.useState<Lesson>([]);
-  const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
+  const [selectedOption, setSelectedOption] = React.useState<
+    (typeof options)[0] | null
+  >(null);
 
   useEffect(() => {
     const fetchLessonQuestions = async () => {
@@ -53,8 +56,6 @@ function QuestionsPage({ params }: Props) {
         setLessonQuestions(lessonQuestions);
       } catch (err: any) {
         setError(err);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -72,6 +73,8 @@ function QuestionsPage({ params }: Props) {
   const options = currentQuestion?.Options;
 
   const handleNextQuestion = () => {
+    setSelectedOption(null);
+
     if (attempt === 0) {
       setIsDialogOpen(true);
       return;
@@ -90,7 +93,10 @@ function QuestionsPage({ params }: Props) {
       selected_option_id: optionId,
     });
 
-    const selectedOption = options.find((option) => option.option_id === optionId);
+    setSelectedOption(
+      options.find((option) => option.option_id === optionId) || null
+    );
+
     if (!selectedOption?.is_correct) {
       setAttempt((prev) => prev - 1);
     }
@@ -140,6 +146,13 @@ function QuestionsPage({ params }: Props) {
           </div>
         </div>
       </div>
+
+      {error && (
+        <Alert className="bg-red-400 text-black mt-5">
+          <Terminal className="h-4 w-4" />
+          <AlertTitle>Essa não! Ocorreu um erro.</AlertTitle>
+        </Alert>
+      )}
       {/* Question */}
       <div className="mt-32 flex gap-8 justify-center items-center">
         <div>Mascote</div>
@@ -155,31 +168,52 @@ function QuestionsPage({ params }: Props) {
         {options &&
           options.map((option, index) => (
             <Sheet key={index}>
-              <SheetTrigger>
-                <Button onClick={() => handleSubmit(option.option_id)}>
+              <SheetTrigger tabIndex={-1}>
+                <Button
+                  onClick={() => handleSubmit(option.option_id)}
+                  tabIndex={0}
+                  role="button"
+                  className={classnames({
+                    "bg-green-400": selectedOption && option.is_correct,
+                    "bg-red-400":
+                      selectedOption &&
+                      selectedOption.option_id === option.option_id,
+                  })}
+                >
                   {option.option_text}
                 </Button>
               </SheetTrigger>
               <SheetContent
                 side="bottom"
-                className={classnames({
-                  "bg-green-400": option.is_correct,
-                  "bg-red-400": !option.is_correct,
-                })}
+                className={
+                  classnames({
+                    "bg-green-400": option.is_correct,
+                    "bg-red-400": !option.is_correct,
+                  }) + " flex flex-row items-center justify-between py-12 px-36"
+                }
               >
-                <SheetHeader>
-                  <SheetTitle className="text-3xl">
-                    {option.is_correct ? "Parabéns!" : "Oops!"}
-                  </SheetTitle>
-                  <SheetDescription className="text-black text-md">
-                    <p>
-                      {option.is_correct
-                        ? "Você acertou! Continue aprendendo."
-                        : `Você errou! A resposta correta é ${
-                            options.find((o) => o.is_correct)?.option_text
-                          }.`}
-                    </p>
-                  </SheetDescription>
+                <SheetHeader className="flex flex-row items-center gap-8">
+                  <div>
+                    {option.is_correct ? (
+                      <CircleCheckBig className="w-16 h-16" />
+                    ) : (
+                      <CircleX className="w-16 h-16" />
+                    )}
+                  </div>
+                  <div>
+                    <SheetTitle className="text-4xl">
+                      {option.is_correct ? "Parabéns!" : "Oops!"}
+                    </SheetTitle>
+                    <SheetDescription className="text-black text-xl">
+                      <p>
+                        {option.is_correct
+                          ? "Você acertou! Continue aprendendo."
+                          : `Você errou! A resposta correta é ${
+                              options.find((o) => o.is_correct)?.option_text
+                            }.`}
+                      </p>
+                    </SheetDescription>
+                  </div>
                 </SheetHeader>
                 <SheetFooter>
                   <SheetClose asChild>
