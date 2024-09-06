@@ -48,8 +48,6 @@ function QuestionsPage({ params }: Props) {
   useEffect(() => {
     const fetchLessonQuestions = async () => {
       try {
-        setFinished(true);
-
         const { data: lessonQuestions } = await api.get(
           `/question/lesson?lesson_id=${params.id}`
         );
@@ -78,12 +76,11 @@ function QuestionsPage({ params }: Props) {
     }
 
     if (currentQuestionIndex === lessonQuestions.length - 1) {
-      setFinished(true);
-
       const { data }: { data: User } = await api.get("/user/");
       await api.put("/user/", { xp: data.xp + xp });
-
+      
       // await api.put(`/lesson/finish?lesson_id=${params.id}`);
+      setFinished(true);
     } else {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
