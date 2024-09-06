@@ -25,7 +25,6 @@ import TerminalIcon from "@mui/icons-material/TerminalOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import ElectricBoltSharpIcon from "@mui/icons-material/ElectricBoltSharp";
-import Spinner from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
