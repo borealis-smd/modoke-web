@@ -28,6 +28,8 @@ import ElectricBoltSharpIcon from "@mui/icons-material/ElectricBoltSharp";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ChatBubbleComponent from "@/app/ChatBubbleComponent";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 interface Props {
   params: { id: string };
@@ -48,6 +50,9 @@ function QuestionsPage({ params }: Props) {
   useEffect(() => {
     const fetchLessonQuestions = async () => {
       try {
+        setFinished(true);
+        setConfetti(true);
+
         const { data: lessonQuestions } = await api.get(
           `/question/lesson?lesson_id=${params.id}`
         );
@@ -78,9 +83,10 @@ function QuestionsPage({ params }: Props) {
     if (currentQuestionIndex === lessonQuestions.length - 1) {
       const { data }: { data: User } = await api.get("/user/");
       await api.put("/user/", { xp: data.xp + xp });
-      
+
       // await api.put(`/lesson/finish?lesson_id=${params.id}`);
       setFinished(true);
+      setConfetti(true);
     } else {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
@@ -109,8 +115,30 @@ function QuestionsPage({ params }: Props) {
     router.push("/");
   };
 
+  const { width, height } = useWindowSize();
+  const [confetti, setConfetti] = React.useState(false);
+  useEffect(() => {
+    let timer;
+    if (confetti) {
+      timer = setTimeout(() => {
+        setConfetti(false);
+      }, 3000);
+    }
+  }, [confetti]);
+
   return (
     <div className="mx-24 py-14">
+      {confetti && (
+        <Confetti
+          width={width}
+          height={height}
+          numberOfPieces={400}
+          recycle={false}
+          initialVelocityX={0.01}
+          initialVelocityY={0.01}
+        />
+      )}
+
       <BreadcrumbComponent activeHref="/test" />
 
       <div className="flex items-center justify-between">

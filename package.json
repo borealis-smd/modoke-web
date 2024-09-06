@@ -24,6 +24,7 @@
     "prism-react-renderer": "^2.4.0",
     "react": "^18",
     "react-code-block": "^1.0.0",
+    "react-confetti": "^6.1.0",
     "react-dom": "^18",
     "react-use": "^17.5.1",
     "tailwind-merge": "^2.4.0",
