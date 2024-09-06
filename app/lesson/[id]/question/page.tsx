@@ -25,6 +25,9 @@ import TerminalIcon from "@mui/icons-material/TerminalOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import ElectricBoltSharpIcon from "@mui/icons-material/ElectricBoltSharp";
+import Spinner from "@/components/ui/spinner";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface Props {
   params: { id: string };
@@ -34,7 +37,6 @@ function QuestionsPage({ params }: Props) {
   const router = useRouter();
   const [lessonQuestions, setLessonQuestions] = React.useState<Lesson>([]);
   const [error, setError] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
   const [selectedOption, setSelectedOption] = React.useState<
@@ -46,14 +48,12 @@ function QuestionsPage({ params }: Props) {
   useEffect(() => {
     const fetchLessonQuestions = async () => {
       try {
-        setLoading(true);
+        // setFinished(true);
 
         const { data: lessonQuestions } = await api.get(
           `/question/lesson?lesson_id=${params.id}`
         );
         setLessonQuestions(lessonQuestions);
-
-        setLoading(false);
       } catch (err: any) {
         setError(err);
       }
@@ -63,9 +63,6 @@ function QuestionsPage({ params }: Props) {
   }, [params.id]);
 
   const [attempt, setAttempt] = React.useState(5);
-  const code = `<html _____ = “pt-br”>
-  ...
-</html>`;
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
   const currentQuestion = lessonQuestions[currentQuestionIndex];
@@ -117,9 +114,8 @@ function QuestionsPage({ params }: Props) {
 
   return (
     <div className="mx-24 py-14">
-      {/* Breadcrumb */}
       <BreadcrumbComponent activeHref="/test" />
-      {/* Header elements */}
+
       <div className="flex items-center justify-between">
         <AlertDialog>
           <AlertDialogTrigger className="flex gap-1">
@@ -163,26 +159,34 @@ function QuestionsPage({ params }: Props) {
           </AlertTitle>
         </Alert>
       ) : finished ? (
-        <div className="mt-32 flex gap-8 justify-center items-center text-2xl">
-          <div>Mascote</div>
-          <div className="flex flex-col">
-            <div className="max-w-xl bg-green-200 p-5 rounded-xl rounded-es-none mb-3">
-              Parabéns! Lição concluída!
-            </div>
-            <div className="inline-flex gap-6 font-bold">
-              <div className="inline-flex gap-1 items-center">
-                <TaskAltIcon /> {lessonQuestions.length - (5 - attempt)}/
-                {lessonQuestions.length}
+        <>
+          {/* modificar alert de saída quando na pagina de feedback */}
+          <div className="mt-32 flex gap-8 justify-center items-center text-2xl">
+            <div>Mascote</div>
+            <div className="flex flex-col">
+              <div className="max-w-xl bg-green-200 p-5 rounded-xl rounded-es-none mb-3">
+                Parabéns! Lição concluída!
               </div>
-              <div className="inline-flex gap-1 items-center">
-                <ElectricBoltSharpIcon /> {xp} XP
+              <div className="inline-flex gap-6 font-bold">
+                <div className="inline-flex gap-1 items-center">
+                  <TaskAltIcon /> {lessonQuestions.length - (5 - attempt)}/
+                  {lessonQuestions.length}
+                </div>
+                <div className="inline-flex gap-1 items-center">
+                  <ElectricBoltSharpIcon /> {xp} XP
+                </div>
               </div>
             </div>
           </div>
-        </div>
+          <div className="text-end absolute bottom-24 right-24">
+            <Link href="/learn">
+              <Button variant="secondary">Continuar</Button>
+            </Link>
+          </div>
+        </>
       ) : (
         <>
-          <QuestionComponent currentQuestion={currentQuestion} code={code} />
+          <QuestionComponent currentQuestion={currentQuestion} />
           <OptionsComponent
             options={options}
             selectedOption={selectedOption}
