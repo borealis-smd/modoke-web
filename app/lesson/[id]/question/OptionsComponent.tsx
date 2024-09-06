@@ -29,7 +29,7 @@ const OptionsComponent = ({
   handleNextQuestion,
 }: Props) => {
   return (
-    <div className="flex justify-center gap-10 mt-10">
+    <div className="flex justify-center flex-wrap gap-10 mt-10">
       {options &&
         options.map((option, index) => (
           <Sheet key={index}>
@@ -54,15 +54,15 @@ const OptionsComponent = ({
                 classnames({
                   "bg-green-400": option.is_correct,
                   "bg-red-400": !option.is_correct,
-                }) + " flex flex-row items-center justify-between py-12 px-36"
+                }) + " flex flex-row items-center justify-between py-12 px-36 rounded-ss-3xl rounded-se-3xl"
               }
             >
-              <SheetHeader className="flex flex-row items-center gap-8">
+              <SheetHeader className="flex flex-row items-center gap-9">
                 <div>
                   {option.is_correct ? (
-                    <TaskAltIcon className="w-16 h-16" />
+                    <TaskAltIcon className="w-20 h-20" />
                   ) : (
-                    <HighlightOffIcon className="w-16 h-16" />
+                    <HighlightOffIcon className="w-20 h-20" />
                   )}
                 </div>
                 <div>
