@@ -2,20 +2,7 @@
 
 import React, { useEffect } from "react";
 import { Progress } from "@/components/ui/progress";
-import { CircleCheckBig, CircleX, PawPrint, Terminal, X } from "lucide-react";
 import BreadcrumbComponent from "../../BreadcrumbComponent";
-import { Button } from "@/components/ui/button";
-import CodeBlockComponent from "../../CodeBlockComponent";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,9 +16,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import api from "@/lib/axios";
-import { Lesson } from "@/types/validators";
-import classnames from "classnames";
+import { Lesson, User } from "@/types/validators";
 import { useRouter } from "next/navigation";
+import OptionsComponent from "./OptionsComponent";
+import QuestionComponent from "./QuestionComponent";
+import PetsIcon from "@mui/icons-material/Pets";
+import TerminalIcon from "@mui/icons-material/TerminalOutlined";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import ElectricBoltSharpIcon from "@mui/icons-material/ElectricBoltSharp";
 
 interface Props {
   params: { id: string };
@@ -46,6 +39,8 @@ function QuestionsPage({ params }: Props) {
   const [selectedOption, setSelectedOption] = React.useState<
     (typeof options)[0] | null
   >(null);
+  const [finished, setFinished] = React.useState(false);
+  const [xp, setXp] = React.useState(0);
 
   useEffect(() => {
     const fetchLessonQuestions = async () => {
@@ -72,7 +67,7 @@ function QuestionsPage({ params }: Props) {
 
   const options = currentQuestion?.Options;
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = async () => {
     setSelectedOption(null);
 
     if (attempt === 0) {
@@ -81,7 +76,12 @@ function QuestionsPage({ params }: Props) {
     }
 
     if (currentQuestionIndex === lessonQuestions.length - 1) {
-      router.push(`/lesson/${params.id}/result`);
+      setFinished(true);
+
+      const { data }: { data: User } = await api.get("/user/");
+      await api.put("/user/", { xp: data.xp + xp });
+
+      // await api.put(`/lesson/finish?lesson_id=${params.id}`);
     } else {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
@@ -93,11 +93,13 @@ function QuestionsPage({ params }: Props) {
       selected_option_id: optionId,
     });
 
-    setSelectedOption(
-      options.find((option) => option.option_id === optionId) || null
-    );
+    const selected =
+      options.find((option) => option.option_id === optionId) || null;
+    setSelectedOption(selected);
 
-    if (!selectedOption?.is_correct) {
+    if (selected?.is_correct) {
+      setXp((prev) => prev + currentQuestion.xp);
+    } else {
       setAttempt((prev) => prev - 1);
     }
 
@@ -116,8 +118,7 @@ function QuestionsPage({ params }: Props) {
       <div className="flex items-center">
         <AlertDialog>
           <AlertDialogTrigger className="flex gap-1">
-            <X aria-label="Fechar" />
-            <span>Fechar</span>
+            <ArrowBackIcon aria-label="Fechar" />
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -139,91 +140,53 @@ function QuestionsPage({ params }: Props) {
           </AlertDialogContent>
         </AlertDialog>
         <div className="ml-40 flex grow gap-4 items-center">
-          <Progress value={progress} />
-          <div className="inline-flex gap-2">
-            <PawPrint aria-hidden="true" />
+          <Progress className="border-2 border-black/50" value={progress} />
+          <div className="inline-flex gap-1 items-center">
+            <PetsIcon aria-hidden="true" />
             {attempt}
           </div>
         </div>
       </div>
 
       {error && (
-        <Alert className="bg-red-400 text-black mt-5">
-          <Terminal className="h-4 w-4" />
-          <AlertTitle>Essa não! Ocorreu um erro.</AlertTitle>
+        <Alert className="bg-red-400 text-black mt-5 flex items-center">
+          <AlertTitle className="inline-flex gap-2 items-center">
+            <TerminalIcon className="h-6 w-6" />
+            Essa não! Ocorreu um erro.
+          </AlertTitle>
         </Alert>
       )}
-      {/* Question */}
-      <div className="mt-32 flex gap-8 justify-center items-center">
-        <div>Mascote</div>
-        <div className="max-w-xl bg-green-200 p-5 rounded-xl rounded-es-none">
-          <p className="mb-4">
-            {currentQuestion && currentQuestion.question_text}
-          </p>
-          <CodeBlockComponent code={code} language="html" />
+
+      {finished ? (
+        <div className="mt-32 flex gap-8 justify-center items-center text-2xl">
+          <div>Mascote</div>
+          <div className="flex flex-col">
+            <div className="max-w-xl bg-green-200 p-5 rounded-xl rounded-es-none mb-3">
+              Parabéns! Lição concluída!
+            </div>
+            <div className="inline-flex gap-6 font-bold">
+              <div className="inline-flex gap-1 items-center">
+                <TaskAltIcon /> {lessonQuestions.length - (5 - attempt)}/
+                {lessonQuestions.length}
+              </div>
+              <div className="inline-flex gap-1 items-center">
+                <ElectricBoltSharpIcon /> {xp} XP
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      {/* Options */}
-      <div className="flex justify-center gap-10 mt-10">
-        {options &&
-          options.map((option, index) => (
-            <Sheet key={index}>
-              <SheetTrigger tabIndex={-1}>
-                <Button
-                  onClick={() => handleSubmit(option.option_id)}
-                  tabIndex={0}
-                  role="button"
-                  className={classnames({
-                    "bg-green-400": selectedOption && option.is_correct,
-                    "bg-red-400":
-                      selectedOption &&
-                      selectedOption.option_id === option.option_id,
-                  })}
-                >
-                  {option.option_text}
-                </Button>
-              </SheetTrigger>
-              <SheetContent
-                side="bottom"
-                className={
-                  classnames({
-                    "bg-green-400": option.is_correct,
-                    "bg-red-400": !option.is_correct,
-                  }) + " flex flex-row items-center justify-between py-12 px-36"
-                }
-              >
-                <SheetHeader className="flex flex-row items-center gap-8">
-                  <div>
-                    {option.is_correct ? (
-                      <CircleCheckBig className="w-16 h-16" />
-                    ) : (
-                      <CircleX className="w-16 h-16" />
-                    )}
-                  </div>
-                  <div>
-                    <SheetTitle className="text-4xl">
-                      {option.is_correct ? "Parabéns!" : "Oops!"}
-                    </SheetTitle>
-                    <SheetDescription className="text-black text-xl">
-                      <p>
-                        {option.is_correct
-                          ? "Você acertou! Continue aprendendo."
-                          : `Você errou! A resposta correta é ${
-                              options.find((o) => o.is_correct)?.option_text
-                            }.`}
-                      </p>
-                    </SheetDescription>
-                  </div>
-                </SheetHeader>
-                <SheetFooter>
-                  <SheetClose asChild>
-                    <Button onClick={handleNextQuestion}>Continuar</Button>
-                  </SheetClose>
-                </SheetFooter>
-              </SheetContent>
-            </Sheet>
-          ))}
-      </div>
+      ) : (
+        <>
+          <QuestionComponent currentQuestion={currentQuestion} code={code} />
+
+          <OptionsComponent
+            options={options}
+            selectedOption={selectedOption}
+            handleSubmit={handleSubmit}
+            handleNextQuestion={handleNextQuestion}
+          />
+        </>
+      )}
 
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <AlertDialogTrigger></AlertDialogTrigger>

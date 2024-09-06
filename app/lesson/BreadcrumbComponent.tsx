@@ -28,7 +28,7 @@ const BreadcrumbComponent = ({ activeHref }: Props) => {
   });
 
   return (
-    <Breadcrumb className="mb-3">
+    <Breadcrumb className="mb-4">
       <BreadcrumbList>
         {links.map((link, index) => (
           <React.Fragment key={index}>
