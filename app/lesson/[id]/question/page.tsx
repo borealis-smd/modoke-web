@@ -27,6 +27,7 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import ElectricBoltSharpIcon from "@mui/icons-material/ElectricBoltSharp";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import ChatBubbleComponent from "@/app/ChatBubbleComponent";
 
 interface Props {
   params: { id: string };
@@ -47,7 +48,7 @@ function QuestionsPage({ params }: Props) {
   useEffect(() => {
     const fetchLessonQuestions = async () => {
       try {
-        // setFinished(true);
+        setFinished(true);
 
         const { data: lessonQuestions } = await api.get(
           `/question/lesson?lesson_id=${params.id}`
@@ -116,30 +117,37 @@ function QuestionsPage({ params }: Props) {
       <BreadcrumbComponent activeHref="/test" />
 
       <div className="flex items-center justify-between">
-        <AlertDialog>
-          <AlertDialogTrigger className="flex gap-1">
+        {!finished ? (
+          <AlertDialog>
+            <AlertDialogTrigger className="flex gap-1">
+              <ArrowBackIcon className="w-8 h-8" aria-label="Fechar" />
+            </AlertDialogTrigger>
+            <AlertDialogContent className="max-w-2xl h-[620px] flex flex-col items-center justify-center">
+              <AlertDialogHeader>
+                <AlertDialogTitle className="font-black text-center">
+                  EII, NÃO SAIA!
+                </AlertDialogTitle>
+                <AlertDialogDescription className="text-center text-lg">
+                  Você perderá seu progresso. Tem certeza que deseja sair?
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter className="w-full sm:space-x-0 max-w-[480px]">
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  className="bg-red-600 text-white hover:bg-red-400"
+                  onClick={handleExit}
+                >
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        ) : (
+          <Link href="/learn">
             <ArrowBackIcon className="w-8 h-8" aria-label="Fechar" />
-          </AlertDialogTrigger>
-          <AlertDialogContent className="max-w-2xl h-[620px] flex flex-col items-center justify-center">
-            <AlertDialogHeader>
-              <AlertDialogTitle className="font-black text-center">
-                EII, NÃO SAIA!
-              </AlertDialogTitle>
-              <AlertDialogDescription className="text-center text-lg">
-                Você perderá seu progresso. Tem certeza que deseja sair?
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter className="w-full sm:space-x-0 max-w-[480px]">
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction
-                className="bg-red-600 text-white hover:bg-red-400"
-                onClick={handleExit}
-              >
-                Continue
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+          </Link>
+        )}
+
         <Progress
           className="border-2 border-black/50 max-w-[1382px] h-[32px] mx-14"
           value={progress}
@@ -159,20 +167,21 @@ function QuestionsPage({ params }: Props) {
         </Alert>
       ) : finished ? (
         <>
-          {/* modificar alert de saída quando na pagina de feedback */}
-          <div className="mt-32 flex gap-8 justify-center items-center text-2xl">
-            <div>Mascote</div>
-            <div className="flex flex-col">
-              <div className="max-w-xl bg-green-200 p-5 rounded-xl rounded-es-none mb-3">
-                Parabéns! Lição concluída!
-              </div>
-              <div className="inline-flex gap-6 font-bold">
-                <div className="inline-flex gap-1 items-center">
-                  <TaskAltIcon /> {lessonQuestions.length - (5 - attempt)}/
-                  {lessonQuestions.length}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="flex gap-8 justify-center items-center text-2xl">
+              <div>Mascote</div>
+              <div className="flex flex-col">
+                <div className="mb-3">
+                  <ChatBubbleComponent content="Parabéns! Lição concluída!" />
                 </div>
-                <div className="inline-flex gap-1 items-center">
-                  <ElectricBoltSharpIcon /> {xp} XP
+                <div className="inline-flex gap-6 font-bold">
+                  <div className="inline-flex gap-1 items-center">
+                    <TaskAltIcon /> {lessonQuestions.length - (5 - attempt)}/
+                    {lessonQuestions.length}
+                  </div>
+                  <div className="inline-flex gap-1 items-center">
+                    <ElectricBoltSharpIcon /> {xp} XP
+                  </div>
                 </div>
               </div>
             </div>
