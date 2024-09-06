@@ -20,12 +20,12 @@ const BreadcrumbComponent = ({ activeHref }: Props) => {
     { href: "/test", label: "Teste seus conhecimentos", active: false },
   ];
 
-  links = links.map((link) => {
-    if (link.href === activeHref) {
-      link.active = true;
-    }
-    return link;
-  });
+  links = links.map((link) => ({
+    ...link,
+    active: link.href === activeHref,
+  }));
+
+  const activeIndex = links.findIndex((link) => link.active);
 
   return (
     <Breadcrumb className="mb-4">
@@ -34,9 +34,13 @@ const BreadcrumbComponent = ({ activeHref }: Props) => {
           <React.Fragment key={index}>
             <BreadcrumbItem>
               {link.active ? (
-                <BreadcrumbPage className="font-semibold">{link.label}</BreadcrumbPage>
-              ) : (
+                <BreadcrumbPage className="font-semibold">
+                  {link.label}
+                </BreadcrumbPage>
+              ) : index < activeIndex ? (
                 <BreadcrumbLink href={link.href}>{link.label}</BreadcrumbLink>
+              ) : (
+                <span>{link.label}</span>
               )}
             </BreadcrumbItem>
             {index < links.length - 1 && <BreadcrumbSeparator />}
