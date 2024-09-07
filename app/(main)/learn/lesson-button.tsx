@@ -87,7 +87,7 @@ export const LessonButton = ({
             {!isFirst ? (
               <Button
                 size="rounded"
-                variant={!isCompleted ? "locked" : "secondary"}
+                variant={!isCompleted ? "locked" : "lesson"}
                 className={cn(
                   "h-[140px] w-[140px] border-b-8",
                   index === 0 && !isCompleted && "border",
@@ -109,13 +109,13 @@ export const LessonButton = ({
               </Button>
             ) : (
               <div className="relative h-[102px] w-[102px]">
-                <div className="absolute border-neutral-40/25 0 -top-6 left-3.5 px-3 py-2.5 border-2 font-bold uppercase text-green-800 bg-white rounded-xl animate-bounce tracking-wide z-10">
+                <div className="absolute border-neutral-40/25 0 -top-6 left-3.5 px-3 py-2.5 border-2 font-semibold uppercase text-green-800 bg-white rounded-xl animate-bounce tracking-wide z-10">
                   COMEÇAR
                   <div className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2"></div>
                 </div>
                 <Button
                   size="rounded"
-                  variant={"secondary"}
+                  variant={"lesson"}
                   className={"h-[140px] w-[140px] border-b-8"}
                 >
                   <Icon
@@ -133,7 +133,7 @@ export const LessonButton = ({
           </div>
           <span
             className={cn(
-              "text-center font-semibold text-lg",
+              "text-center font-regular text-lg",
               index === 0 && "ml-10 mt-12",
               index !== 0 && "mt-2"
             )}
