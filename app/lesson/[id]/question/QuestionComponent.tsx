@@ -11,7 +11,7 @@ const QuestionComponent = ({ currentQuestion }: Props) => {
   return (
     <>
       {currentQuestion && (
-        <div className="mt-32 flex gap-8 justify-center items-center">
+        <div className="flex gap-8 justify-center items-center">
           <div>Mascote</div>
           {currentQuestion && (
             <ChatBubbleComponent content={currentQuestion.question_text} />
