@@ -20,7 +20,7 @@ const SessonsPage = () => {
       <div className="flex flex-row-reverse gap-[48px] px-6">
          <FeedWrapper>
             <div className="pt-5">
-               <Banner title="Sessões" />
+               <Banner title="Sessões" variant="session"/>
 
                <div className="mt-6">
                   {sessons.map((sesson, index) => (
