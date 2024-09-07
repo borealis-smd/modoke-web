@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Progress } from "@/components/ui/progress";
 import BreadcrumbComponent from "../../BreadcrumbComponent";
 import {
@@ -17,7 +17,7 @@ import {
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import api from "@/lib/axios";
 import { Lesson, User } from "@/types/validators";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import OptionsComponent from "./OptionsComponent";
 import QuestionComponent from "./QuestionComponent";
 import PetsIcon from "@mui/icons-material/Pets";
@@ -111,34 +111,42 @@ function QuestionsPage({ params }: Props) {
     setProgress((prev) => prev + (1 / lessonQuestions.length) * 100);
   };
 
-  const handleExit = (link: string = "/learn") => {
-    router.push(link);
+  const currentPath = usePathname();
+  const handleExit = (path: string = "/learn") => {
+    if (path === "/learn") {
+      router.push(path);
+    } else {
+      const basePath = currentPath.substring(0, currentPath.lastIndexOf("/"));
+      const newPath = `${basePath}/${path}`;
+      router.push(newPath);
+    }
   };
 
   const { width, height } = useWindowSize();
   const [confetti, setConfetti] = React.useState(false);
   useEffect(() => {
-    let timer;
+    let timer: NodeJS.Timeout;
     if (confetti) {
       timer = setTimeout(() => {
         setConfetti(false);
       }, 3000);
     }
+    return () => clearTimeout(timer);
   }, [confetti]);
 
   const [isAlertOpen, setIsAlertOpen] = React.useState(false);
   const [breadcrumbChangeTo, setBreadcrumbChangeTo] = React.useState("");
-  const handleBreadcrumbPageChange = (data: {
-    activeLinkHref: string;
-    changeTo: string;
-  }) => {
-    if (data.activeLinkHref === "/test") {
-      setIsAlertOpen(true);
-      setBreadcrumbChangeTo(data.changeTo);
-    } else {
-      handleExit(data.changeTo);
-    }
-  };
+  const handleBreadcrumbPageChange = useCallback(
+    (data: { activeLinkHref: string; changeTo: string }) => {
+      if (data.activeLinkHref === "/test") {
+        setIsAlertOpen(true);
+        setBreadcrumbChangeTo(data.changeTo);
+      } else {
+        handleExit(data.changeTo);
+      }
+    },
+    []
+  );
 
   return (
     <div className="mx-24 py-14">
@@ -178,7 +186,9 @@ function QuestionsPage({ params }: Props) {
                 <AlertDialogAction
                   className="bg-red-600 text-white hover:bg-red-400"
                   onClick={() =>
-                    breadcrumbChangeTo ? handleExit(breadcrumbChangeTo) : handleExit
+                    breadcrumbChangeTo
+                      ? handleExit(breadcrumbChangeTo)
+                      : handleExit()
                   }
                 >
                   Sair
@@ -260,7 +270,7 @@ function QuestionsPage({ params }: Props) {
           <AlertDialogFooter>
             <AlertDialogAction
               className="bg-red-600 text-white hover:bg-red-400"
-              onClick={() => handleExit}
+              onClick={() => handleExit()}
             >
               Continuar
             </AlertDialogAction>
