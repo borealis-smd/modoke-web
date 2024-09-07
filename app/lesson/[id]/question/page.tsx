@@ -50,9 +50,6 @@ function QuestionsPage({ params }: Props) {
   useEffect(() => {
     const fetchLessonQuestions = async () => {
       try {
-        // setFinished(true);
-        // setConfetti(true);
-
         const { data: lessonQuestions } = await api.get(
           `/question/lesson?lesson_id=${params.id}`
         );
