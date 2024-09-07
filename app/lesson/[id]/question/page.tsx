@@ -50,8 +50,8 @@ function QuestionsPage({ params }: Props) {
   useEffect(() => {
     const fetchLessonQuestions = async () => {
       try {
-        setFinished(true);
-        setConfetti(true);
+        // setFinished(true);
+        // setConfetti(true);
 
         const { data: lessonQuestions } = await api.get(
           `/question/lesson?lesson_id=${params.id}`
@@ -111,8 +111,8 @@ function QuestionsPage({ params }: Props) {
     setProgress((prev) => prev + (1 / lessonQuestions.length) * 100);
   };
 
-  const handleExit = () => {
-    router.push("/");
+  const handleExit = (link: string = "/learn") => {
+    router.push(link);
   };
 
   const { width, height } = useWindowSize();
@@ -125,6 +125,20 @@ function QuestionsPage({ params }: Props) {
       }, 3000);
     }
   }, [confetti]);
+
+  const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+  const [breadcrumbChangeTo, setBreadcrumbChangeTo] = React.useState("");
+  const handleBreadcrumbPageChange = (data: {
+    activeLinkHref: string;
+    changeTo: string;
+  }) => {
+    if (data.activeLinkHref === "/test") {
+      setIsAlertOpen(true);
+      setBreadcrumbChangeTo(data.changeTo);
+    } else {
+      handleExit(data.changeTo);
+    }
+  };
 
   return (
     <div className="mx-24 py-14">
@@ -139,11 +153,14 @@ function QuestionsPage({ params }: Props) {
         />
       )}
 
-      <BreadcrumbComponent activeHref="/test" />
+      <BreadcrumbComponent
+        activeHref="/test"
+        onData={handleBreadcrumbPageChange}
+      />
 
       <div className="flex items-center justify-between">
         {!finished ? (
-          <AlertDialog>
+          <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
             <AlertDialogTrigger className="flex gap-1">
               <ArrowBackIcon className="w-8 h-8" aria-label="Fechar" />
             </AlertDialogTrigger>
@@ -157,12 +174,14 @@ function QuestionsPage({ params }: Props) {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter className="w-full sm:space-x-0 max-w-[480px]">
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogCancel>Continuar</AlertDialogCancel>
                 <AlertDialogAction
                   className="bg-red-600 text-white hover:bg-red-400"
-                  onClick={handleExit}
+                  onClick={() =>
+                    breadcrumbChangeTo ? handleExit(breadcrumbChangeTo) : handleExit
+                  }
                 >
-                  Continue
+                  Sair
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
@@ -241,7 +260,7 @@ function QuestionsPage({ params }: Props) {
           <AlertDialogFooter>
             <AlertDialogAction
               className="bg-red-600 text-white hover:bg-red-400"
-              onClick={handleExit}
+              onClick={() => handleExit}
             >
               Continuar
             </AlertDialogAction>
