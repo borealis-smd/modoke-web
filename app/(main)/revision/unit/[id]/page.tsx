@@ -28,9 +28,9 @@ const RevisionUnit = () => {
             </Link>
 
             {unit.map((unit, index) => (
-               <div key={index} className="mt-8 bg-white p-8 border-2 border-slate-300/50 rounded-lg">
-                  <h1 className="text-2xl font-medium mb-4">Unidades: {unit.title_unit}</h1>
-                  <span>{unit.content}</span>
+               <div key={index} className="mt-8 bg-white p-2 lg:p-8 border-2 border-slate-300/50 rounded-lg">
+                  <h1 className="text-xl lg:text-2xl font-medium mb-4">Unidades: {unit.title_unit}</h1>
+                  <span className="text-sm lg:text-base">{unit.content}</span>
                </div>
             ))}
 
