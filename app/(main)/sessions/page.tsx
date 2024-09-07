@@ -1,3 +1,4 @@
+import { Banner } from "@/components/banner";
 import { FeedWrapper } from "@/components/feed-wrapper";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -19,15 +20,7 @@ const SessonsPage = () => {
       <div className="flex flex-row-reverse gap-[48px] px-6">
          <FeedWrapper>
             <div className="pt-5">
-               <div
-                  className="bg-green-700 w-full h-[8rem] lg:h-[10.5rem] flex items-center text-white px-6 py-5 rounded-lg"
-                  role="banner"
-                  aria-labelledby="session-header"
-               >
-                  <h1 id="session-header" className="text-2xl lg:text-4xl font-semibold">
-                     Sessões
-                  </h1>
-               </div>
+               <Banner title="Sessões" />
 
                <div className="mt-6">
                   {sessons.map((sesson, index) => (
