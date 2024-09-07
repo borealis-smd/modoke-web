@@ -1,5 +1,11 @@
 import { FeedWrapper } from "@/components/feed-wrapper";
 
+{/*type Props = {
+   title_unit: string;
+   content: ;
+}*/}
+
+
 const RevisionUnit = () => {
    return (
       <div className="flex flex-row-reverse gap-[48px] px-6">
