@@ -6,31 +6,39 @@ interface Props {
   content: string;
 }
 
-function extractCodeBlock(content: string): string | null {
-  const match = content.match(/<CodeBlockComponent (.*?)\/>/);
-  if (!match) return null;
+function parseContent(content: string) {
+  const parts = content.split(
+    /(<CodeBlockComponent code={`.*?`} language=".*?" \/>)/g
+  );
 
-  return match[1]
-    .replace(/code=/, "")
-    .replace("{`", "")
-    .replace("`}", "")
-    .trim();
+  return parts.map((part, index) => {
+    const codeMatch = part.match(
+      /<CodeBlockComponent code={`([\s\S]*?)`} language="(.*?)" \/>/
+    );
+
+    if (codeMatch) {
+      const code = codeMatch[1].trim();
+      const language = codeMatch[2].trim();
+      return <CodeBlockComponent key={index} code={code} language={language} />;
+    } else {
+      const cleanText = DOMPurify.sanitize(part);
+      return (
+        <p
+          key={index}
+          className="text-2xl font-normal py-2.5 text-gray-900 dark:text-white"
+          dangerouslySetInnerHTML={{ __html: cleanText }}
+        />
+      );
+    }
+  });
 }
 
 function ChatBubbleComponent({ content }: Props) {
-  const hasCode = content.includes("<CodeBlockComponent");
-  const codeBlock = hasCode ? extractCodeBlock(content) : null;
-  const cleanContent = DOMPurify.sanitize(content);
+  const parsedContent = parseContent(content);
 
   return (
     <div className="flex flex-col w-fit max-w-[750px] p-5 border-gray-200 bg-green-200 rounded-e-3xl rounded-es-3xl dark:bg-green-700">
-      <p
-        className="text-2xl font-normal py-2.5 text-gray-900 dark:text-white"
-        dangerouslySetInnerHTML={{ __html: cleanContent }}
-      ></p>
-      {hasCode && codeBlock && (
-        <CodeBlockComponent code={codeBlock} language="html" />
-      )}
+      {parsedContent}
     </div>
   );
 }
