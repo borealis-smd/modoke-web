@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const QuestionSchema = z.array(
+const QuestionSchema = z.array(
   z.object({
     question_id: z
       .number()
@@ -35,7 +35,7 @@ export const QuestionSchema = z.array(
   })
 );
 
-export const UserSchema = z.object({
+const UserSchema = z.object({
   first_name: z.string().min(1, "Nome não deve ser vazio."),
   last_name: z.string().min(1, "Sobrenome não deve ser vazio."),
   xp: z.number().int({ message: "XP deve ser um número inteiro." }),
@@ -46,5 +46,15 @@ export const UserSchema = z.object({
   updated_at: z.date(),
 });
 
+const DefinitionSchema = z.object({
+  explanation_id: z.number().int(),
+  content: z.string(),
+  part: z.enum(["PART_1", "PART_2", "PART_3"]),
+  lesson_id: z.number().int(),
+  created_at: z.date(),
+  updated_at: z.date(),
+});
+
 export type Lesson = z.infer<typeof QuestionSchema>;
 export type User = z.infer<typeof UserSchema>;
+export type Definition = z.infer<typeof DefinitionSchema>;
