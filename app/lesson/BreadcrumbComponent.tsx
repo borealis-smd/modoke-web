@@ -18,7 +18,7 @@ const BreadcrumbComponent = ({ activeHref, onData }: Props) => {
     { href: "/definition", label: "Atributo lang", active: false },
     { href: "/application", label: "Aplicação", active: false },
     { href: "/code", label: "Exemplo de código", active: false },
-    { href: "/test", label: "Teste seus conhecimentos", active: false },
+    { href: "/questions", label: "Teste seus conhecimentos", active: false },
   ];
 
   links = links.map((link) => ({
