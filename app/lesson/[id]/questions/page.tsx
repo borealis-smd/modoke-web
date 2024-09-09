@@ -183,7 +183,7 @@ function QuestionsPage({ params }: Props) {
           className="border-2 border-black/50 max-w-[1626px] h-[32px] mr-14"
           value={progress}
         />
-        <div className="inline-flex gap-1 items-center">
+        <div className="inline-flex gap-1 items-center text-lg">
           <PetsIcon className="w-8 h-7" aria-hidden="true" />
           {attempt}
         </div>
