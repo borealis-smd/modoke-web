@@ -55,6 +55,6 @@ const ExplanationSchema = z.object({
   updated_at: z.date(),
 });
 
-export type Lesson = z.infer<typeof QuestionSchema>;
+export type Question = z.infer<typeof QuestionSchema>;
 export type User = z.infer<typeof UserSchema>;
 export type Explanation = z.infer<typeof ExplanationSchema>;

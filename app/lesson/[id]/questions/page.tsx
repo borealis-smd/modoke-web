@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import api from "@/lib/axios";
-import { Lesson, User } from "@/types/validators";
+import { Question, User } from "@/types/validators";
 import { useRouter, usePathname } from "next/navigation";
 import OptionsComponent from "./OptionsComponent";
 import QuestionComponent from "./QuestionComponent";
@@ -36,7 +36,7 @@ interface Props {
 
 function QuestionsPage({ params }: Props) {
   const router = useRouter();
-  const [lessonQuestions, setLessonQuestions] = React.useState<Lesson>([]);
+  const [lessonQuestions, setLessonQuestions] = React.useState<Question>([]);
   const [error, setError] = React.useState(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [progress, setProgress] = React.useState(0);

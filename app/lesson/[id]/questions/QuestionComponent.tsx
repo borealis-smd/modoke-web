@@ -1,10 +1,10 @@
 import React from "react";
 import CodeBlockComponent from "../../CodeBlockComponent"; // Deve permanecer
-import { Lesson } from "@/types/validators";
+import { Question } from "@/types/validators";
 import ChatBubbleComponent from "@/app/ChatBubbleComponent";
 
 interface Props {
-  currentQuestion: Lesson[0];
+  currentQuestion: Question[0];
 }
 
 const QuestionComponent = ({ currentQuestion }: Props) => {
