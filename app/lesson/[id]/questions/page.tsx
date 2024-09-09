@@ -130,12 +130,7 @@ function QuestionsPage({ params }: Props) {
     return () => clearTimeout(timer);
   }, [confetti]);
 
-  const {
-    isAlertOpen,
-    setIsAlertOpen,
-    breadcrumbChangeTo,
-    setBreadcrumbChangeTo,
-  } = useBreadcrumb();
+  const { isAlertOpen, setIsAlertOpen, breadcrumbChangeTo } = useBreadcrumb();
 
   return (
     <>

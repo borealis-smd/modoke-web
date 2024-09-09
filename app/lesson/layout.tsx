@@ -5,6 +5,7 @@ import BreadcrumbComponent from "./BreadcrumbComponent";
 import { usePathname, useRouter } from "next/navigation";
 import { BreadcrumbProvider, useBreadcrumb } from "./BreadcrumbContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import api from "@/lib/axios";
 
 interface Props {
   children: React.ReactNode;
@@ -31,7 +32,20 @@ function LessonPageContent({ children }: Props) {
     }
   };
 
-  const { setIsAlertOpen, setBreadcrumbChangeTo } = useBreadcrumb();
+  const { setIsAlertOpen, setBreadcrumbChangeTo, lessonLabel, setLessonLabel } =
+    useBreadcrumb();
+
+  useEffect(() => {
+    const fetchLesson = async () => {
+      const lessonId = currentPath.split("/")[2];
+      const { data: lesson } = await api.get(
+        `/lesson/id?lesson_id=${lessonId}`
+      );
+      setLessonLabel(lesson.lesson_title);
+    };
+
+    fetchLesson();
+  }, [setLessonLabel]);
 
   const handleBreadcrumbPageChange = useCallback(
     (data: { activeLinkHref: string; changeTo: string }) => {
@@ -47,10 +61,10 @@ function LessonPageContent({ children }: Props) {
 
   const handleReturnTo = () => {
     const links = [
-      { href: "/definition", label: "Atributo lang" },
-      { href: "/application", label: "Aplicação" },
-      { href: "/code", label: "Exemplo de código" },
-      { href: "/questions", label: "Teste seus conhecimentos" },
+      { href: "/definition" },
+      { href: "/application" },
+      { href: "/code" },
+      { href: "/questions" },
     ];
 
     const activeIndex = links.findIndex((link) => link.href === activeHref);
@@ -77,16 +91,18 @@ function LessonPageContent({ children }: Props) {
 
   return (
     <div className="mx-24 py-14">
-      <div className="flex items-center gap-5 mb-4">
-        <div className="cursor-pointer" onClick={handleReturnTo}>
-          <ArrowBackIcon className="w-8 h-8" aria-label="Fechar" />
-        </div>
+      {lessonLabel && (
+        <div className="flex items-center gap-5 mb-4">
+          <div className="cursor-pointer" onClick={handleReturnTo}>
+            <ArrowBackIcon className="w-8 h-8" aria-label="Fechar" />
+          </div>
 
-        <BreadcrumbComponent
-          activeHref={activeHref}
-          onData={handleBreadcrumbPageChange}
-        />
-      </div>
+          <BreadcrumbComponent
+            activeHref={activeHref}
+            onData={handleBreadcrumbPageChange}
+          />
+        </div>
+      )}
       {children}
     </div>
   );

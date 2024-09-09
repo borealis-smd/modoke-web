@@ -9,8 +9,10 @@ import React, {
 interface BreadcrumbContextType {
   isAlertOpen: boolean;
   breadcrumbChangeTo: string;
+  lessonLabel: string;
   setIsAlertOpen: (value: boolean) => void;
   setBreadcrumbChangeTo: (path: string) => void;
+  setLessonLabel: (label: string) => void;
 }
 
 export const BreadcrumbContext = createContext<
@@ -22,14 +24,17 @@ export const BreadcrumbProvider: FC<{ children: ReactNode }> = ({
 }) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [breadcrumbChangeTo, setBreadcrumbChangeTo] = useState("");
+  const [lessonLabel, setLessonLabel] = useState("");
 
   return (
     <BreadcrumbContext.Provider
       value={{
         isAlertOpen,
         breadcrumbChangeTo,
+        lessonLabel,
         setIsAlertOpen,
         setBreadcrumbChangeTo,
+        setLessonLabel,
       }}
     >
       {children}
