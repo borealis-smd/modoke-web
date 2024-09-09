@@ -7,30 +7,45 @@ interface Props {
 }
 
 function parseContent(content: string) {
-  const parts = content.split(
-    /(<CodeBlockComponent code={`.*?`} language=".*?" \/>)/g
-  );
+  const elements: Array<JSX.Element> = [];
+  let lastIndex = 0;
 
-  return parts.map((part, index) => {
-    const codeMatch = part.match(
-      /<CodeBlockComponent code={`([\s\S]*?)`} language="(.*?)" \/>/
-    );
+  const regex = /<CodeBlockComponent code={`([\s\S]*?)`} language="(.*?)" \/>/g;
+  let match;
 
-    if (codeMatch) {
-      const code = codeMatch[1].trim();
-      const language = codeMatch[2].trim();
-      return <CodeBlockComponent key={index} code={code} language={language} />;
-    } else {
-      const cleanText = DOMPurify.sanitize(part);
-      return (
-        <p
-          key={index}
-          className="text-2xl font-normal py-2.5 text-gray-900 dark:text-white"
-          dangerouslySetInnerHTML={{ __html: cleanText }}
+  while ((match = regex.exec(content)) !== null) {
+    const beforeCode = content.slice(lastIndex, match.index);
+    if (beforeCode) {
+      elements.push(
+        <div
+          key={lastIndex}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(beforeCode) }}
+          className="mb-3"
         />
       );
     }
-  });
+    const code = match[1].trim();
+    const language = match[2].trim();
+    elements.push(
+      <CodeBlockComponent key={match.index} code={code} language={language} />
+    );
+
+    lastIndex = match.index + match[0].length;
+  }
+
+  const remainingContent = content.slice(lastIndex);
+  if (remainingContent) {
+    elements.push(
+      <div
+        key={lastIndex}
+        dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(remainingContent),
+        }}
+      />
+    );
+  }
+
+  return elements;
 }
 
 function ChatBubbleComponent({ content }: Props) {
