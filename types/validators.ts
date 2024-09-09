@@ -46,7 +46,7 @@ const UserSchema = z.object({
   updated_at: z.date(),
 });
 
-const DefinitionSchema = z.object({
+const ExplanationSchema = z.object({
   explanation_id: z.number().int(),
   content: z.string(),
   part: z.enum(["PART_1", "PART_2", "PART_3"]),
@@ -57,4 +57,4 @@ const DefinitionSchema = z.object({
 
 export type Lesson = z.infer<typeof QuestionSchema>;
 export type User = z.infer<typeof UserSchema>;
-export type Definition = z.infer<typeof DefinitionSchema>;
+export type Explanation = z.infer<typeof ExplanationSchema>;
