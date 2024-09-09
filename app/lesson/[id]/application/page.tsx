@@ -18,7 +18,7 @@ function ApplicationPage({ params }: Props) {
   const [error, setError] = React.useState(null);
 
   useEffect(() => {
-    const fetchDefinition = async () => {
+    const fetchApplication = async () => {
       try {
         const { data }: { data: Explanation[] } = await api.get(
           `/explanation?lesson_id=${params.id}&part=PART_2`
@@ -32,7 +32,7 @@ function ApplicationPage({ params }: Props) {
       }
     };
 
-    fetchDefinition();
+    fetchApplication();
   }, [params.id]);
 
   return (

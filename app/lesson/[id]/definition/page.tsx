@@ -24,7 +24,7 @@ function DefinitionPage({ params }: Props) {
           `/explanation?lesson_id=${params.id}&part=PART_1`
         );
         const parts = data[0].content
-          .split(/(?=<p>|<CodeBlockComponent>)/)
+          .split(/(?=<p>)/)
           .filter((part: string) => part.trim() !== "");
         setDefinitionInParts(parts);
       } catch (err: any) {
