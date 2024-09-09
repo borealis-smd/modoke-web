@@ -4,6 +4,7 @@ import React, { useCallback, useEffect } from "react";
 import BreadcrumbComponent from "./BreadcrumbComponent";
 import { usePathname, useRouter } from "next/navigation";
 import { BreadcrumbProvider, useBreadcrumb } from "./BreadcrumbContext";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 interface Props {
   children: React.ReactNode;
@@ -44,12 +45,48 @@ function LessonPageContent({ children }: Props) {
     [setBreadcrumbChangeTo, setIsAlertOpen]
   );
 
+  const handleReturnTo = () => {
+    const links = [
+      { href: "/definition", label: "Atributo lang" },
+      { href: "/application", label: "Aplicação" },
+      { href: "/code", label: "Exemplo de código" },
+      { href: "/questions", label: "Teste seus conhecimentos" },
+    ];
+
+    const activeIndex = links.findIndex((link) => link.href === activeHref);
+    const previousIndex = activeIndex - 1;
+
+    if (links[activeIndex].href === "/questions") {
+      setIsAlertOpen(true);
+      setBreadcrumbChangeTo(links[previousIndex].href);
+      return;
+    }
+
+    if (activeIndex === -1) {
+      router.push("/learn");
+    }
+
+    if (previousIndex < 0) {
+      router.push("/learn");
+      return;
+    }
+
+    const previousLink = links[previousIndex];
+    handleExit(previousLink.href);
+  };
+
   return (
     <div className="mx-24 py-14">
-      <BreadcrumbComponent
-        activeHref={activeHref}
-        onData={handleBreadcrumbPageChange}
-      />
+      <div className="flex items-center gap-5 mb-4">
+        <div className="cursor-pointer" onClick={handleReturnTo}>
+          <ArrowBackIcon className="w-8 h-8" aria-label="Fechar" />
+        </div>
+
+        <BreadcrumbComponent
+          activeHref={activeHref}
+          onData={handleBreadcrumbPageChange}
+        />
+      </div>
       {children}
     </div>
   );

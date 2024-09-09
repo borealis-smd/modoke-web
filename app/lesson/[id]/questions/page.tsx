@@ -21,7 +21,6 @@ import OptionsComponent from "./OptionsComponent";
 import QuestionComponent from "./QuestionComponent";
 import PetsIcon from "@mui/icons-material/Pets";
 import TerminalIcon from "@mui/icons-material/TerminalOutlined";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import ElectricBoltSharpIcon from "@mui/icons-material/ElectricBoltSharp";
 import { Button } from "@/components/ui/button";
@@ -152,11 +151,8 @@ function QuestionsPage({ params }: Props) {
       )}
 
       <div className="flex items-center justify-between">
-        {!finished ? (
+        {!finished && (
           <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-            <AlertDialogTrigger className="flex gap-1">
-              <ArrowBackIcon className="w-8 h-8" aria-label="Fechar" />
-            </AlertDialogTrigger>
             <AlertDialogContent className="max-w-2xl h-[620px] flex flex-col items-center justify-center">
               <AlertDialogHeader>
                 <AlertDialogTitle className="font-black text-center">
@@ -181,14 +177,10 @@ function QuestionsPage({ params }: Props) {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-        ) : (
-          <Link href="/learn">
-            <ArrowBackIcon className="w-8 h-8" aria-label="Fechar" />
-          </Link>
         )}
 
         <Progress
-          className="border-2 border-black/50 max-w-[1382px] h-[32px] mx-14"
+          className="border-2 border-black/50 max-w-[1626px] h-[32px] mr-14"
           value={progress}
         />
         <div className="inline-flex gap-1 items-center">

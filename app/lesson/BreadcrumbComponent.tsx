@@ -35,11 +35,11 @@ const BreadcrumbComponent = ({ activeHref, onData }: Props) => {
 
   return (
     <>
-      <Breadcrumb className="mb-4">
+      <Breadcrumb className="flex items-center">
         <BreadcrumbList>
           {links.map((link, index) => (
             <React.Fragment key={index}>
-              <BreadcrumbItem>
+              <BreadcrumbItem className="text-lg">
                 {link.active ? (
                   <BreadcrumbPage className="font-semibold">
                     {link.label}
