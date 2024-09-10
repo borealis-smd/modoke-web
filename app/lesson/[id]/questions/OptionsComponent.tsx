@@ -86,9 +86,9 @@ const OptionsComponent = ({
                   <SheetHeader className="flex flex-row items-center gap-9">
                     <div>
                       {option.is_correct ? (
-                        <TaskAltIcon className="w-20 h-20" />
+                        <TaskAltIcon sx={{ width: 80, height: 80 }} />
                       ) : (
-                        <HighlightOffIcon className="w-20 h-20" />
+                        <HighlightOffIcon sx={{ width: 80, height: 80 }} />
                       )}
                     </div>
                     <div>

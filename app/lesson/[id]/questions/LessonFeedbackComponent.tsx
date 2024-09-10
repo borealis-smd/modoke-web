@@ -24,11 +24,11 @@ function LessonFeedbackComponent({ lessonQuestions, xp, attempt }: Props) {
             </div>
             <div className="inline-flex gap-6 font-bold">
               <div className="inline-flex gap-1 items-center">
-                <TaskAltIcon /> {lessonQuestions.length - (5 - attempt)}/
+                <TaskAltIcon sx={{ width: 33, height: 33 }} /> {lessonQuestions.length - (5 - attempt)}/
                 {lessonQuestions.length}
               </div>
               <div className="inline-flex gap-1 items-center">
-                <ElectricBoltSharpIcon /> {xp} XP
+                <ElectricBoltSharpIcon sx={{ width: 27, height: 33 }} /> {xp} XP
               </div>
             </div>
           </div>

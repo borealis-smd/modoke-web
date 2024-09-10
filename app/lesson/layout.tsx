@@ -101,9 +101,12 @@ function LessonPageContent({ children }: Props) {
         <div className="flex items-center gap-5 mb-4">
           <div className="cursor-pointer" onClick={handleReturnTo}>
             {activeHref === "/questions" && isFinished ? (
-              <CloseIcon className="w-8 h-8" aria-label="Fechar" />
+              <CloseIcon sx={{ width: 32, height: 32 }} aria-label="Fechar" />
             ) : (
-              <ArrowBackIcon className="w-8 h-8" aria-label="Voltar" />
+              <ArrowBackIcon
+                sx={{ width: 32, height: 32 }}
+                aria-label="Voltar"
+              />
             )}
           </div>
 
