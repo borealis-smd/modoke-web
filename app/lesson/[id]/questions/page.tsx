@@ -11,7 +11,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import api from "@/lib/axios";
@@ -21,14 +20,11 @@ import OptionsComponent from "./OptionsComponent";
 import QuestionComponent from "./QuestionComponent";
 import PetsIcon from "@mui/icons-material/Pets";
 import TerminalIcon from "@mui/icons-material/TerminalOutlined";
-import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import ElectricBoltSharpIcon from "@mui/icons-material/ElectricBoltSharp";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import ChatBubbleComponent from "@/app/ChatBubbleComponent";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { useBreadcrumb } from "../../BreadcrumbContext";
+import LessonFeedbackComponent from "./LessonFeedbackComponent";
+import StartQuizComponent from "./StartQuizComponent";
 
 interface Props {
   params: { id: string };
@@ -44,6 +40,7 @@ function QuestionsPage({ params }: Props) {
     (typeof options)[0] | null
   >(null);
   const [xp, setXp] = React.useState(0);
+  const [hasStarted, setHasStarted] = React.useState(false);
 
   const {
     isAlertOpen,
@@ -199,50 +196,36 @@ function QuestionsPage({ params }: Props) {
           </AlertTitle>
         </Alert>
       ) : isFinished ? (
-        <>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="flex gap-8 justify-center items-center text-2xl">
-              <div>Mascote</div>
-              <div className="flex flex-col">
-                <div className="mb-3">
-                  <ChatBubbleComponent content="Parabéns! Lição concluída!" />
-                </div>
-                <div className="inline-flex gap-6 font-bold">
-                  <div className="inline-flex gap-1 items-center">
-                    <TaskAltIcon /> {lessonQuestions.length - (5 - attempt)}/
-                    {lessonQuestions.length}
-                  </div>
-                  <div className="inline-flex gap-1 items-center">
-                    <ElectricBoltSharpIcon /> {xp} XP
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="text-end absolute bottom-24 right-24">
-            <Link href="/learn">
-              <Button variant="secondary">Continuar</Button>
-            </Link>
-          </div>
-        </>
+        <LessonFeedbackComponent
+          lessonQuestions={lessonQuestions}
+          xp={xp}
+          attempt={attempt}
+        />
       ) : (
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <QuestionComponent currentQuestion={currentQuestion} />
-          <OptionsComponent
-            options={options}
-            selectedOption={selectedOption}
-            handleSubmit={handleSubmit}
-            handleNextQuestion={handleNextQuestion}
-          />
-        </div>
+        <>
+          {hasStarted ? (
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <QuestionComponent currentQuestion={currentQuestion} />
+              <OptionsComponent
+                options={options}
+                selectedOption={selectedOption}
+                handleSubmit={handleSubmit}
+                handleNextQuestion={handleNextQuestion}
+              />
+            </div>
+          ) : (
+            <StartQuizComponent setHasStarted={setHasStarted} />
+          )}
+        </>
       )}
 
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <AlertDialogTrigger></AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Você perdeu!</AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogTitle className="text-xl">
+              Você perdeu!
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-lg">
               Infelizmente, não foi dessa vez. Você não tem mais tentativas.
             </AlertDialogDescription>
           </AlertDialogHeader>
