@@ -146,7 +146,7 @@ function QuestionsPage({ params }: Props) {
       )}
 
       <div className="flex items-center justify-between">
-        {!finished && (
+        {!finished ? (
           <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
             <AlertDialogContent className="max-w-2xl h-[620px] flex flex-col items-center justify-center">
               <AlertDialogHeader>
@@ -172,6 +172,8 @@ function QuestionsPage({ params }: Props) {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
+        ) : (
+          (isAlertOpen && handleExit()) || null
         )}
 
         <Progress
