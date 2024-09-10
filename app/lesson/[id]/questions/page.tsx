@@ -179,7 +179,7 @@ function QuestionsPage({ params }: Props) {
         )}
 
         <Progress
-          className="border-2 border-black/50 max-w-[1626px] h-[32px] mr-14"
+          className="border-2 border-black/50 h-[32px] mr-14"
           value={progress}
         />
         <div className="inline-flex gap-1 items-center text-lg">
