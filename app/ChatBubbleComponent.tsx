@@ -16,10 +16,11 @@ function parseContent(content: string) {
   while ((match = regex.exec(content)) !== null) {
     const beforeCode = content.slice(lastIndex, match.index);
     if (beforeCode) {
+      const sanitazedContent = DOMPurify.sanitize(beforeCode);
       elements.push(
         <div
           key={lastIndex}
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(beforeCode) }}
+          dangerouslySetInnerHTML={{ __html: sanitazedContent }}
           className="mb-3"
         />
       );
@@ -35,11 +36,12 @@ function parseContent(content: string) {
 
   const remainingContent = content.slice(lastIndex);
   if (remainingContent) {
+    const sanitazedContent = DOMPurify.sanitize(remainingContent);
     elements.push(
       <div
         key={lastIndex}
         dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(remainingContent),
+          __html: sanitazedContent,
         }}
       />
     );
