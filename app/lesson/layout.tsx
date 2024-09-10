@@ -5,6 +5,7 @@ import BreadcrumbComponent from "./BreadcrumbComponent";
 import { usePathname, useRouter } from "next/navigation";
 import { BreadcrumbProvider, useBreadcrumb } from "./BreadcrumbContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CloseIcon from "@mui/icons-material/Close";
 import api from "@/lib/axios";
 
 interface Props {
@@ -32,8 +33,13 @@ function LessonPageContent({ children }: Props) {
     }
   };
 
-  const { setIsAlertOpen, setBreadcrumbChangeTo, lessonLabel, setLessonLabel } =
-    useBreadcrumb();
+  const {
+    setIsAlertOpen,
+    setBreadcrumbChangeTo,
+    lessonLabel,
+    setLessonLabel,
+    isFinished,
+  } = useBreadcrumb();
 
   useEffect(() => {
     const fetchLesson = async () => {
@@ -94,7 +100,11 @@ function LessonPageContent({ children }: Props) {
       {lessonLabel && (
         <div className="flex items-center gap-5 mb-4">
           <div className="cursor-pointer" onClick={handleReturnTo}>
-            <ArrowBackIcon className="w-8 h-8" aria-label="Fechar" />
+            {activeHref === "/questions" && isFinished ? (
+              <CloseIcon className="w-8 h-8" aria-label="Fechar" />
+            ) : (
+              <ArrowBackIcon className="w-8 h-8" aria-label="Voltar" />
+            )}
           </div>
 
           <BreadcrumbComponent

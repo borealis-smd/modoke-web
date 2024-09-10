@@ -43,8 +43,15 @@ function QuestionsPage({ params }: Props) {
   const [selectedOption, setSelectedOption] = React.useState<
     (typeof options)[0] | null
   >(null);
-  const [finished, setFinished] = React.useState(false);
   const [xp, setXp] = React.useState(0);
+
+  const {
+    isAlertOpen,
+    setIsAlertOpen,
+    breadcrumbChangeTo,
+    isFinished,
+    setIsFinished,
+  } = useBreadcrumb();
 
   useEffect(() => {
     const fetchLessonQuestions = async () => {
@@ -81,7 +88,7 @@ function QuestionsPage({ params }: Props) {
       await api.put("/user/", { xp: data.xp + xp });
 
       // await api.put(`/lesson/finish?lesson_id=${params.id}`);
-      setFinished(true);
+      setIsFinished(true);
       setConfetti(true);
     } else {
       setCurrentQuestionIndex((prev) => prev + 1);
@@ -130,8 +137,6 @@ function QuestionsPage({ params }: Props) {
     return () => clearTimeout(timer);
   }, [confetti]);
 
-  const { isAlertOpen, setIsAlertOpen, breadcrumbChangeTo } = useBreadcrumb();
-
   return (
     <>
       {confetti && (
@@ -146,7 +151,7 @@ function QuestionsPage({ params }: Props) {
       )}
 
       <div className="flex items-center justify-between">
-        {!finished ? (
+        {!isFinished ? (
           <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
             <AlertDialogContent className="max-w-2xl h-[620px] flex flex-col items-center justify-center">
               <AlertDialogHeader>
@@ -193,7 +198,7 @@ function QuestionsPage({ params }: Props) {
             Essa não! Ocorreu um erro.
           </AlertTitle>
         </Alert>
-      ) : finished ? (
+      ) : isFinished ? (
         <>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div className="flex gap-8 justify-center items-center text-2xl">
