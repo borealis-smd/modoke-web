@@ -132,16 +132,19 @@ function QuizContent({ params }: Props) {
           <AlertDialogContent className="max-w-2xl h-[620px] flex flex-col items-center justify-center">
             <AlertDialogHeader>
               <AlertDialogTitle className="font-black text-center">
-                EII, NÃO SAIA!
+                EII, FIQUE AQUI!
               </AlertDialogTitle>
               <AlertDialogDescription className="text-center text-lg">
-                Você perderá seu progresso. Tem certeza que deseja sair?
+                Se você sair agora, perderá todo o progresso feito até aqui. Tem
+                certeza que deseja sair?
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter className="w-full sm:space-x-0 max-w-[480px]">
-              <AlertDialogCancel>Continuar</AlertDialogCancel>
+              <AlertDialogCancel className="bg-green-400 text-white hover:bg-green-300 hover:text-black/70">
+                Continuar
+              </AlertDialogCancel>
               <AlertDialogAction
-                className="bg-red-600 text-white hover:bg-red-400"
+                className="bg-red-300 text-white hover:bg-red-200 hover:text-black/70"
                 onClick={() =>
                   breadcrumbChangeTo
                     ? handleExit(breadcrumbChangeTo)
