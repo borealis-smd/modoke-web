@@ -100,7 +100,7 @@ function LessonPageContent({ children }: Props) {
   return (
     <div className="mx-24 py-14">
       {lessonLabel && (
-        <div className="flex items-center gap-5 mb-4">
+        <div className="flex items-center gap-14 mb-4">
           <div className="cursor-pointer" onClick={handleReturnTo}>
             {activeHref === "/feedback" && isFinished ? (
               <CloseIcon sx={{ width: 32, height: 32 }} aria-label="Fechar" />
@@ -111,6 +111,8 @@ function LessonPageContent({ children }: Props) {
               />
             )}
           </div>
+
+          <span className="text-lg font-semibold">{`Lição: ${lessonLabel}`}</span>
 
           <BreadcrumbComponent
             activeHref={activeHref}
