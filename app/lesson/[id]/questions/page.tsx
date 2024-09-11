@@ -178,10 +178,13 @@ function QuestionsPage({ params }: Props) {
           (isAlertOpen && handleExit()) || null
         )}
 
-        <Progress
-          className="border-2 border-black/50 h-[32px] mr-14"
-          value={progress}
-        />
+        <div className="mr-14 w-full flex items-center gap-4 text-lg">
+          <Progress
+            className="border-2 border-black/50 h-[32px]"
+            value={progress}
+          />
+          {`${currentQuestionIndex}/${lessonQuestions.length}`}
+        </div>
         <div className="inline-flex gap-1 items-center text-lg">
           <PetsIcon sx={{ width: 30, height: 28 }} aria-hidden="true" />
           {attempt}
