@@ -7,7 +7,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { useBreadcrumb } from "./BreadcrumbContext";
 
 interface Props {
   activeHref: string;
@@ -15,10 +14,8 @@ interface Props {
 }
 
 const BreadcrumbComponent = ({ activeHref, onData }: Props) => {
-  const { lessonLabel } = useBreadcrumb();
-
   let links = [
-    { href: "/definition", label: lessonLabel, active: false },
+    { href: "/definition", label: "Definição", active: false },
     { href: "/application", label: "Aplicação", active: false },
     { href: "/code", label: "Exemplo de código", active: false },
     { href: "/quiz", label: "Teste seus conhecimentos", active: false },
@@ -43,7 +40,7 @@ const BreadcrumbComponent = ({ activeHref, onData }: Props) => {
           <React.Fragment key={index}>
             <BreadcrumbItem className="text-lg">
               {link.active ? (
-                <BreadcrumbPage className="font-semibold">
+                <BreadcrumbPage className="underline">
                   {link.label}
                 </BreadcrumbPage>
               ) : index < activeIndex ? (
