@@ -1,5 +1,5 @@
 import React from "react";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 import CodeBlockComponent from "./lesson/CodeBlockComponent";
 
 interface Props {
