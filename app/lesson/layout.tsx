@@ -7,6 +7,7 @@ import { BreadcrumbProvider, useBreadcrumb } from "./BreadcrumbContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
 import api from "@/lib/axios";
+import { QuizProvider } from "./QuizContext";
 
 interface Props {
   children: React.ReactNode;
@@ -55,7 +56,7 @@ function LessonPageContent({ children }: Props) {
 
   const handleBreadcrumbPageChange = useCallback(
     (data: { activeLinkHref: string; changeTo: string }) => {
-      if (data.activeLinkHref === "/questions") {
+      if (data.activeLinkHref === "/quiz") {
         setIsAlertOpen(true);
         setBreadcrumbChangeTo(data.changeTo);
       } else {
@@ -70,20 +71,21 @@ function LessonPageContent({ children }: Props) {
       { href: "/definition" },
       { href: "/application" },
       { href: "/code" },
-      { href: "/questions" },
+      { href: "/quiz" },
     ];
 
     const activeIndex = links.findIndex((link) => link.href === activeHref);
     const previousIndex = activeIndex - 1;
 
-    if (links[activeIndex].href === "/questions") {
-      setIsAlertOpen(true);
-      setBreadcrumbChangeTo(links[previousIndex].href);
+    if (activeIndex === -1) {
+      router.push("/learn");
       return;
     }
 
-    if (activeIndex === -1) {
-      router.push("/learn");
+    if (links[activeIndex].href === "/quiz") {
+      setIsAlertOpen(true);
+      setBreadcrumbChangeTo(links[previousIndex].href);
+      return;
     }
 
     if (previousIndex < 0) {
@@ -100,7 +102,7 @@ function LessonPageContent({ children }: Props) {
       {lessonLabel && (
         <div className="flex items-center gap-5 mb-4">
           <div className="cursor-pointer" onClick={handleReturnTo}>
-            {activeHref === "/questions" && isFinished ? (
+            {activeHref === "/feedback" && isFinished ? (
               <CloseIcon sx={{ width: 32, height: 32 }} aria-label="Fechar" />
             ) : (
               <ArrowBackIcon
@@ -124,7 +126,9 @@ function LessonPageContent({ children }: Props) {
 function LessonPage({ children }: Props) {
   return (
     <BreadcrumbProvider>
-      <LessonPageContent>{children}</LessonPageContent>
+      <QuizProvider>
+        <LessonPageContent>{children}</LessonPageContent>
+      </QuizProvider>
     </BreadcrumbProvider>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Progress } from "@/components/ui/progress";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,28 +17,23 @@ import { Question, User } from "@/types/validators";
 import { useRouter, usePathname } from "next/navigation";
 import OptionsComponent from "./OptionsComponent";
 import QuestionComponent from "./QuestionComponent";
-import PetsIcon from "@mui/icons-material/Pets";
 import TerminalIcon from "@mui/icons-material/TerminalOutlined";
-import Confetti from "react-confetti";
-import { useWindowSize } from "react-use";
 import { useBreadcrumb } from "../../BreadcrumbContext";
-import LessonFeedbackComponent from "./LessonFeedbackComponent";
 import StartQuizComponent from "./StartQuizComponent";
+import { useQuiz } from "../../QuizContext";
 
 interface Props {
   params: { id: string };
 }
 
-function QuestionsPage({ params }: Props) {
+function QuizContent({ params }: Props) {
   const router = useRouter();
   const [lessonQuestions, setLessonQuestions] = React.useState<Question>([]);
   const [error, setError] = React.useState(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
-  const [progress, setProgress] = React.useState(0);
   const [selectedOption, setSelectedOption] = React.useState<
     (typeof options)[0] | null
   >(null);
-  const [xp, setXp] = React.useState(0);
   const [hasStarted, setHasStarted] = React.useState(false);
 
   const {
@@ -50,6 +44,17 @@ function QuestionsPage({ params }: Props) {
     setIsFinished,
   } = useBreadcrumb();
 
+  const {
+    xp,
+    attempt,
+    currentQuestionIndex,
+    setXp,
+    setAttempt,
+    setProgress,
+    setCurrentQuestionIndex,
+    setNumQuestions,
+  } = useQuiz();
+
   useEffect(() => {
     const fetchLessonQuestions = async () => {
       try {
@@ -57,6 +62,7 @@ function QuestionsPage({ params }: Props) {
           `/question/lesson?lesson_id=${params.id}`
         );
         setLessonQuestions(lessonQuestions);
+        setNumQuestions(lessonQuestions.length);
       } catch (err: any) {
         setError(err);
       }
@@ -65,9 +71,6 @@ function QuestionsPage({ params }: Props) {
     fetchLessonQuestions();
   }, [params.id]);
 
-  const [attempt, setAttempt] = React.useState(5);
-
-  const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
   const currentQuestion = lessonQuestions[currentQuestionIndex];
 
   const options = currentQuestion?.Options;
@@ -86,7 +89,7 @@ function QuestionsPage({ params }: Props) {
 
       // await api.put(`/lesson/finish?lesson_id=${params.id}`);
       setIsFinished(true);
-      setConfetti(true);
+      router.push(`/lesson/${params.id}/quiz/feedback`);
     } else {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
@@ -122,74 +125,37 @@ function QuestionsPage({ params }: Props) {
     }
   };
 
-  const { width, height } = useWindowSize();
-  const [confetti, setConfetti] = React.useState(false);
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (confetti) {
-      timer = setTimeout(() => {
-        setConfetti(false);
-      }, 3000);
-    }
-    return () => clearTimeout(timer);
-  }, [confetti]);
-
   return (
     <>
-      {confetti && (
-        <Confetti
-          width={width}
-          height={height}
-          numberOfPieces={400}
-          recycle={false}
-          initialVelocityX={0.01}
-          initialVelocityY={0.01}
-        />
+      {!isFinished ? (
+        <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+          <AlertDialogContent className="max-w-2xl h-[620px] flex flex-col items-center justify-center">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="font-black text-center">
+                EII, NÃO SAIA!
+              </AlertDialogTitle>
+              <AlertDialogDescription className="text-center text-lg">
+                Você perderá seu progresso. Tem certeza que deseja sair?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter className="w-full sm:space-x-0 max-w-[480px]">
+              <AlertDialogCancel>Continuar</AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-red-600 text-white hover:bg-red-400"
+                onClick={() =>
+                  breadcrumbChangeTo
+                    ? handleExit(breadcrumbChangeTo)
+                    : handleExit()
+                }
+              >
+                Sair
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      ) : (
+        (isAlertOpen && handleExit()) || null
       )}
-
-      <div className="flex items-center justify-between">
-        {!isFinished ? (
-          <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-            <AlertDialogContent className="max-w-2xl h-[620px] flex flex-col items-center justify-center">
-              <AlertDialogHeader>
-                <AlertDialogTitle className="font-black text-center">
-                  EII, NÃO SAIA!
-                </AlertDialogTitle>
-                <AlertDialogDescription className="text-center text-lg">
-                  Você perderá seu progresso. Tem certeza que deseja sair?
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter className="w-full sm:space-x-0 max-w-[480px]">
-                <AlertDialogCancel>Continuar</AlertDialogCancel>
-                <AlertDialogAction
-                  className="bg-red-600 text-white hover:bg-red-400"
-                  onClick={() =>
-                    breadcrumbChangeTo
-                      ? handleExit(breadcrumbChangeTo)
-                      : handleExit()
-                  }
-                >
-                  Sair
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        ) : (
-          (isAlertOpen && handleExit()) || null
-        )}
-
-        <div className="mr-14 w-full flex items-center gap-4 text-lg">
-          <Progress
-            className="border-2 border-black/50 h-[32px]"
-            value={progress}
-          />
-          {`${currentQuestionIndex}/${lessonQuestions.length}`}
-        </div>
-        <div className="inline-flex gap-1 items-center text-lg">
-          <PetsIcon sx={{ width: 30, height: 28 }} aria-hidden="true" />
-          {attempt}
-        </div>
-      </div>
 
       {error ? (
         <Alert className="bg-red-400 text-black mt-5 flex items-center">
@@ -198,12 +164,6 @@ function QuestionsPage({ params }: Props) {
             Essa não! Ocorreu um erro.
           </AlertTitle>
         </Alert>
-      ) : isFinished ? (
-        <LessonFeedbackComponent
-          lessonQuestions={lessonQuestions}
-          xp={xp}
-          attempt={attempt}
-        />
       ) : (
         <>
           {hasStarted ? (
@@ -246,4 +206,4 @@ function QuestionsPage({ params }: Props) {
   );
 }
 
-export default QuestionsPage;
+export default QuizContent;

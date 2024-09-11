@@ -49,7 +49,7 @@ function CodePage({ params }: Props) {
         )}
       </div>
       <div className="text-end absolute bottom-24 right-24">
-        <Link href={`/lesson/${params.id}/questions`}>
+        <Link href={`/lesson/${params.id}/quiz`}>
           <Button variant="secondary">Continuar</Button>
         </Link>
       </div>
