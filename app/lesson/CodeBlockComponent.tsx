@@ -23,7 +23,7 @@ function CodeBlockComponent({ code, language, lineNumbers = false }: Props) {
             {lineNumbers && (
               <CodeBlock.LineNumber className="table-cell pr-4 text-sm text-gray-500 text-right select-none" />
             )}
-            <CodeBlock.LineContent className="table-cell">
+            <CodeBlock.LineContent className="table-cell text-wrap">
               <CodeBlock.Token />
             </CodeBlock.LineContent>
           </div>

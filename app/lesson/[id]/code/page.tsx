@@ -3,6 +3,7 @@
 import ChatBubbleComponent from "@/app/ChatBubbleComponent";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/axios";
+import { parseTags } from "@/lib/parseTags";
 import { Explanation } from "@/types/validators";
 import Link from "next/link";
 import React, { useEffect } from "react";
@@ -21,9 +22,7 @@ function CodePage({ params }: Props) {
         const { data }: { data: Explanation[] } = await api.get(
           `/explanation?lesson_id=${params.id}&part=PART_3`
         );
-        const parts = data[0].content
-          .split(/(?=<p>|<CodeBlockComponent>)/)
-          .filter((part: string) => part.trim() !== "");
+        const parts = parseTags(data[0].content);
         setCodeInParts(parts);
       } catch (err: any) {
         setError(err);
