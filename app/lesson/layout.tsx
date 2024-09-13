@@ -6,8 +6,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { BreadcrumbProvider, useBreadcrumb } from "./BreadcrumbContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
+import PetsIcon from "@mui/icons-material/Pets";
 import api from "@/lib/axios";
-import { QuizProvider } from "./QuizContext";
+import { QuizProvider, useQuiz } from "./QuizContext";
 
 interface Props {
   children: React.ReactNode;
@@ -41,6 +42,8 @@ function LessonPageContent({ children }: Props) {
     setLessonLabel,
     isFinished,
   } = useBreadcrumb();
+
+  const { attempt } = useQuiz();
 
   useEffect(() => {
     const fetchLesson = async () => {
@@ -100,24 +103,31 @@ function LessonPageContent({ children }: Props) {
   return (
     <div className="mx-24 py-14">
       {lessonLabel && (
-        <div className="flex items-center gap-14 mb-4">
-          <div className="cursor-pointer" onClick={handleReturnTo}>
-            {activeHref === "/feedback" && isFinished ? (
-              <CloseIcon sx={{ width: 32, height: 32 }} aria-label="Fechar" />
-            ) : (
-              <ArrowBackIcon
-                sx={{ width: 32, height: 32 }}
-                aria-label="Voltar"
-              />
-            )}
+        <div className="flex items-center mb-4 justify-between">
+          <div className="flex items-center gap-14">
+            <div className="cursor-pointer" onClick={handleReturnTo}>
+              {activeHref === "/feedback" && isFinished ? (
+                <CloseIcon sx={{ width: 32, height: 32 }} aria-label="Fechar" />
+              ) : (
+                <ArrowBackIcon
+                  sx={{ width: 32, height: 32 }}
+                  aria-label="Voltar"
+                />
+              )}
+            </div>
+
+            <span className="text-lg font-semibold">{`Lição: ${lessonLabel}`}</span>
+
+            <BreadcrumbComponent
+              activeHref={activeHref}
+              onData={handleBreadcrumbPageChange}
+            />
           </div>
 
-          <span className="text-lg font-semibold">{`Lição: ${lessonLabel}`}</span>
-
-          <BreadcrumbComponent
-            activeHref={activeHref}
-            onData={handleBreadcrumbPageChange}
-          />
+          <div className="inline-flex gap-1 items-center text-lg">
+            <PetsIcon sx={{ width: 30, height: 28 }} aria-hidden="true" />
+            {attempt}
+          </div>
         </div>
       )}
       {children}
