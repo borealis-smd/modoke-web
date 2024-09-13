@@ -9,12 +9,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import PetsIcon from "@mui/icons-material/Pets";
 import api from "@/lib/axios";
 import { QuizProvider, useQuiz } from "./QuizContext";
+import { useSession } from "next-auth/react";
 
 interface Props {
   children: React.ReactNode;
 }
 
 function LessonPageContent({ children }: Props) {
+  const token = useSession().data?.user.jwt;
+
   const router = useRouter();
   const [activeHref, setActiveHref] = React.useState("");
 
@@ -44,13 +47,20 @@ function LessonPageContent({ children }: Props) {
     const fetchLesson = async () => {
       const lessonId = currentPath.split("/")[2];
       const { data: lesson } = await api.get(
-        `/lesson/id?lesson_id=${lessonId}`
+        `/lesson/id?lesson_id=${lessonId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setLessonLabel(lesson.lesson_title);
     };
 
-    fetchLesson();
-  }, [setLessonLabel]);
+    if (token) {
+      fetchLesson();
+    }
+  }, [setLessonLabel, token, currentPath]);
 
   const handleBreadcrumbPageChange = useCallback(
     (data: { activeLinkHref: string; changeTo: string }) => {

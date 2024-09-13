@@ -3,8 +3,9 @@
 import ChatBubbleComponent from "@/app/ChatBubbleComponent";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/axios";
-import { parseTags } from "@/lib/parseTags";
+import { parseTags } from "@/lib/parseTags";2
 import { Explanation } from "@/types/validators";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect } from "react";
 
@@ -13,6 +14,8 @@ interface Props {
 }
 
 function CodePage({ params }: Props) {
+  const token = useSession().data?.user.jwt;
+
   const [codeInParts, setCodeInParts] = React.useState<string[] | null>(null);
   const [error, setError] = React.useState(null);
 
@@ -20,7 +23,12 @@ function CodePage({ params }: Props) {
     const fetchCode = async () => {
       try {
         const { data }: { data: Explanation[] } = await api.get(
-          `/explanation?lesson_id=${params.id}&part=PART_3`
+          `/explanation?lesson_id=${params.id}&part=PART_3`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         const parts = parseTags(data[0].content);
         setCodeInParts(parts);
@@ -29,8 +37,10 @@ function CodePage({ params }: Props) {
       }
     };
 
-    fetchCode();
-  }, [params.id]);
+    if (token) {
+      fetchCode();
+    }
+  }, [params.id, token]);
 
   return (
     <>

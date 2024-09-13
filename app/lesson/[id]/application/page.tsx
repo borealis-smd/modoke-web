@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import api from "@/lib/axios";
 import { parseTags } from "@/lib/parseTags";
 import { Explanation } from "@/types/validators";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect } from "react";
 
@@ -13,6 +14,8 @@ interface Props {
 }
 
 function ApplicationPage({ params }: Props) {
+  const token = useSession().data?.user.jwt;
+
   const [applicationInParts, setApplicationInParts] = React.useState<
     string[] | null
   >(null);
@@ -22,7 +25,12 @@ function ApplicationPage({ params }: Props) {
     const fetchApplication = async () => {
       try {
         const { data }: { data: Explanation[] } = await api.get(
-          `/explanation?lesson_id=${params.id}&part=PART_2`
+          `/explanation?lesson_id=${params.id}&part=PART_2`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         const parts = parseTags(data[0].content);
         setApplicationInParts(parts);
@@ -31,8 +39,10 @@ function ApplicationPage({ params }: Props) {
       }
     };
 
-    fetchApplication();
-  }, [params.id]);
+    if (token) {
+      fetchApplication();
+    }
+  }, [params.id, token]);
 
   return (
     <>

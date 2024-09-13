@@ -21,12 +21,15 @@ import TerminalIcon from "@mui/icons-material/TerminalOutlined";
 import { useBreadcrumb } from "../../BreadcrumbContext";
 import StartQuizComponent from "./StartQuizComponent";
 import { useQuiz } from "../../QuizContext";
+import { useSession } from "next-auth/react";
 
 interface Props {
   params: { id: string };
 }
 
 function QuizContent({ params }: Props) {
+  const token = useSession().data?.user.jwt;
+
   const router = useRouter();
   const [lessonQuestions, setLessonQuestions] = React.useState<Question>([]);
   const [error, setError] = React.useState(null);
@@ -54,7 +57,12 @@ function QuizContent({ params }: Props) {
     const fetchLessonQuestions = async () => {
       try {
         const { data: lessonQuestions } = await api.get(
-          `/question/lesson?lesson_id=${params.id}`
+          `/question/lesson?lesson_id=${params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setLessonQuestions(lessonQuestions);
         setNumQuestions(lessonQuestions.length);
@@ -63,14 +71,18 @@ function QuizContent({ params }: Props) {
       }
     };
 
-    fetchLessonQuestions();
-  }, [params.id]);
+    if (token) {
+      fetchLessonQuestions();
+    }
+  }, [params.id, token]);
 
   const currentQuestion = lessonQuestions[currentQuestionIndex];
 
   const options = currentQuestion?.Options;
 
   const handleNextQuestion = async () => {
+    if (!token) return;
+
     setSelectedOption(null);
 
     if (attempt === 0) {
@@ -78,27 +90,79 @@ function QuizContent({ params }: Props) {
       return;
     }
 
-    if (currentQuestionIndex === lessonQuestions.length - 1) {
-      const { data }: { data: User } = await api.get("/user/");
-      await api.put("/user/", { xp: data.xp + xp });
-
-      // await api.put(`/lesson/finish?lesson_id=${params.id}`);
-      setIsFinished(true);
-      router.push(`/lesson/${params.id}/quiz/feedback`);
-    } else {
-      setCurrentQuestionIndex((prev) => prev + 1);
+    try {
+      if (currentQuestionIndex === lessonQuestions.length - 1) {
+        await finishLesson();
+      } else {
+        setCurrentQuestionIndex((prev) => prev + 1);
+      }
+    } catch (error: any) {
+      console.error("Error in handleNextQuestion:", error);
+      setError(error);
     }
   };
 
+  const finishLesson = async () => {
+    try {
+      const userData = await fetchUserData();
+      await updateUserXP(userData.xp + xp);
+      await markLessonAsFinished();
+      setIsFinished(true);
+      router.push(`/lesson/${params.id}/quiz/feedback`);
+    } catch (error: any) {
+      console.error("Error in finishLesson:", error);
+      setError(error);
+    }
+  };
+
+  const fetchUserData = async () => {
+    const { data }: { data: User } = await api.get("/user/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  };
+
+  const updateUserXP = async (newXP: number) => {
+    await api.put(
+      "/user/",
+      { xp: newXP },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  };
+
+  const markLessonAsFinished = async () => {
+    await api.put(`/lesson/finish?lesson_id=${params.id}`, null, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  };
+
   const handleSubmit = async (optionId: number) => {
+    if (!token) return;
+
     const selected =
       options.find((option) => option.option_id === optionId) || null;
     setSelectedOption(selected);
 
-    await api.post("/attempt", {
-      question_id: currentQuestion.question_id,
-      selected_option_id: optionId,
-    });
+    await api.post(
+      "/attempt",
+      {
+        question_id: currentQuestion.question_id,
+        selected_option_id: optionId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (selected?.is_correct) {
       setXp((prev) => prev + currentQuestion.xp);
