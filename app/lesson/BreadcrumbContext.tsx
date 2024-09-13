@@ -10,11 +10,9 @@ interface BreadcrumbContextType {
   isAlertOpen: boolean;
   breadcrumbChangeTo: string;
   lessonLabel: string;
-  isFinished: boolean;
   setIsAlertOpen: (value: boolean) => void;
   setBreadcrumbChangeTo: (path: string) => void;
   setLessonLabel: (label: string) => void;
-  setIsFinished: (value: boolean) => void;
 }
 
 export const BreadcrumbContext = createContext<
@@ -27,7 +25,6 @@ export const BreadcrumbProvider: FC<{ children: ReactNode }> = ({
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [breadcrumbChangeTo, setBreadcrumbChangeTo] = useState("");
   const [lessonLabel, setLessonLabel] = useState("");
-  const [isFinished, setIsFinished] = useState(false);
 
   return (
     <BreadcrumbContext.Provider
@@ -35,11 +32,9 @@ export const BreadcrumbProvider: FC<{ children: ReactNode }> = ({
         isAlertOpen,
         breadcrumbChangeTo,
         lessonLabel,
-        isFinished,
         setIsAlertOpen,
         setBreadcrumbChangeTo,
         setLessonLabel,
-        setIsFinished,
       }}
     >
       {children}

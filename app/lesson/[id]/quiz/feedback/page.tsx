@@ -8,13 +8,11 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useWindowSize } from "react-use";
 import Confetti from "react-confetti";
-import { useBreadcrumb } from "@/app/lesson/BreadcrumbContext";
 import { useRouter } from "next/navigation";
 import { useQuiz } from "@/app/lesson/QuizContext";
 
 function QuizFeedBackPage() {
-  const { isFinished } = useBreadcrumb();
-  const { numQuestions, xp, attempt } = useQuiz();
+  const { isFinished, numQuestions, xp, attempt } = useQuiz();
 
   const { width, height } = useWindowSize();
 

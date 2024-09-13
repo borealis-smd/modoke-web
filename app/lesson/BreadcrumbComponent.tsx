@@ -8,7 +8,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { useQuiz } from "./QuizContext";
-import { useBreadcrumb } from "./BreadcrumbContext";
 
 interface Props {
   activeHref: string;
@@ -16,8 +15,7 @@ interface Props {
 }
 
 const BreadcrumbComponent = ({ activeHref, onData }: Props) => {
-  const { currentQuestionIndex, numQuestions } = useQuiz();
-  const { isFinished } = useBreadcrumb();
+  const { currentQuestionIndex, numQuestions, isFinished } = useQuiz();
 
   let links = [
     { href: "/definition", label: "Definição", active: false },

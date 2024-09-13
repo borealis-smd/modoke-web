@@ -36,23 +36,18 @@ function QuizContent({ params }: Props) {
   >(null);
   const [hasStarted, setHasStarted] = React.useState(false);
 
-  const {
-    isAlertOpen,
-    setIsAlertOpen,
-    breadcrumbChangeTo,
-    isFinished,
-    setIsFinished,
-  } = useBreadcrumb();
+  const { isAlertOpen, setIsAlertOpen, breadcrumbChangeTo } = useBreadcrumb();
 
   const {
     xp,
     attempt,
     currentQuestionIndex,
+    isFinished,
     setXp,
     setAttempt,
-    setProgress,
     setCurrentQuestionIndex,
     setNumQuestions,
+    setIsFinished,
   } = useQuiz();
 
   useEffect(() => {
@@ -110,8 +105,6 @@ function QuizContent({ params }: Props) {
     } else {
       setAttempt((prev) => prev - 1);
     }
-
-    setProgress((prev) => prev + (1 / lessonQuestions.length) * 100);
   };
 
   const currentPath = usePathname();

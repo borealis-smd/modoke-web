@@ -10,13 +10,13 @@ interface QuizContextType {
   numQuestions: number;
   xp: number;
   attempt: number;
-  progress: number;
   currentQuestionIndex: number;
+  isFinished: boolean;
   setNumQuestions: React.Dispatch<React.SetStateAction<number>>;
   setXp: React.Dispatch<React.SetStateAction<number>>;
   setAttempt: React.Dispatch<React.SetStateAction<number>>;
-  setProgress: React.Dispatch<React.SetStateAction<number>>;
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
+  setIsFinished: (value: boolean) => void;
 }
 
 export const QuizContext = createContext<QuizContextType | undefined>(
@@ -27,8 +27,8 @@ export const QuizProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [numQuestions, setNumQuestions] = useState(0);
   const [xp, setXp] = useState(0);
   const [attempt, setAttempt] = useState(5);
-  const [progress, setProgress] = React.useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
+  const [isFinished, setIsFinished] = useState(false);
 
   return (
     <QuizContext.Provider
@@ -36,13 +36,13 @@ export const QuizProvider: FC<{ children: ReactNode }> = ({ children }) => {
         numQuestions,
         xp,
         attempt,
-        progress,
         currentQuestionIndex,
+        isFinished,
         setNumQuestions,
         setXp,
         setAttempt,
-        setProgress,
         setCurrentQuestionIndex,
+        setIsFinished,
       }}
     >
       {children}

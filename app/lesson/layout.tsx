@@ -35,15 +35,10 @@ function LessonPageContent({ children }: Props) {
     }
   };
 
-  const {
-    setIsAlertOpen,
-    setBreadcrumbChangeTo,
-    lessonLabel,
-    setLessonLabel,
-    isFinished,
-  } = useBreadcrumb();
+  const { setIsAlertOpen, setBreadcrumbChangeTo, lessonLabel, setLessonLabel } =
+    useBreadcrumb();
 
-  const { attempt } = useQuiz();
+  const { isFinished, attempt } = useQuiz();
 
   useEffect(() => {
     const fetchLesson = async () => {
