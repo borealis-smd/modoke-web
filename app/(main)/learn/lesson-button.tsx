@@ -7,7 +7,6 @@ type Props = {
   lesson_id: number;
   lesson_title: string;
   lesson_description: string;
-  lesson_principle: number;
   unit_id: number;
   is_completed: boolean;
   locked?: boolean;
