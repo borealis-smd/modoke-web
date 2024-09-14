@@ -22,8 +22,8 @@ export const Units = ({ lessons, lessonInProgress }: Props) => {
             <LessonButton
               lesson_id={lesson.lesson_id}
               lesson_title={lesson.lesson_title}
-              lesson_description={lesson.lesson_title}
-              unit_id={0}
+              lesson_description={lesson.lesson_description}
+              unit_id={lesson.unit_id}
               is_completed={
                 lessonInProgress.Lesson.lesson_id === lesson.lesson_id &&
                 lessonInProgress.completed_at !== null
