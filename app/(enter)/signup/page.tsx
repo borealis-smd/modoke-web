@@ -18,6 +18,8 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import GoogleIcon from "@mui/icons-material/Google";
+import { signIn } from "next-auth/react";
 
 const signupFormSchema = z.object({
   name: z
@@ -131,10 +133,24 @@ function SignUpPage() {
               </FormItem>
             )}
           />
-          <div className="mb-10">
+          <div className="flex flex-col justify-center gap-10">
             <Button type="submit" className="w-full">
               Criar conta
             </Button>
+            <div className="flex items-center justify-center gap-3">
+              <div className="h-[2px] max-w-[176px] w-full bg-gray-400"></div>
+              <p className="text-slate-500">Ou continue com</p>
+              <div className="h-[2px] max-w-[176px] w-full bg-gray-400"></div>
+            </div>
+            <div className="w-full text-center">
+              <Button
+                className="w-20 h-20 rounded-full p-5"
+                type="button"
+                onClick={() => signIn("google", { callbackUrl: "/learn" })}
+              >
+                <GoogleIcon sx={{ width: 46, height: 46 }} />
+              </Button>
+            </div>
           </div>
         </form>
       </Form>

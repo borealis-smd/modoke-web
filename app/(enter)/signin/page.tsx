@@ -17,15 +17,32 @@ import { Button } from "@/components/ui/button";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import GoogleIcon from "@mui/icons-material/Google";
+import { signIn } from "next-auth/react";
+import api from "@/lib/axios";
+import { useRouter } from "next/navigation";
 
 const signinFormSchema = z.object({
-  email: z.string().email("Endereço de e-mail inválido."),
+  email: z
+    .string({ message: "E-mail obrigatório." })
+    .email("Endereço de e-mail inválido."),
   password: z
     .string({ message: "Senha é obrigatória." })
-    .min(8, "Senha muito curta."),
+    .refine(
+      (value) =>
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+          value
+        ),
+      {
+        message:
+          "A senha deve conter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial.",
+      }
+    ),
 });
 
 function SignInPage() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof signinFormSchema>>({
     resolver: zodResolver(signinFormSchema),
     defaultValues: {
@@ -34,8 +51,22 @@ function SignInPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof signinFormSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof signinFormSchema>) {
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: values.email,
+        password: values.password,
+      });
+      
+      if (result?.error) {
+        console.error(result.error);
+      } else {
+        router.push("/learn");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -99,10 +130,24 @@ function SignInPage() {
               </FormItem>
             )}
           />
-          <div className="mb-10">
+          <div className="flex flex-col justify-center gap-10">
             <Button type="submit" className="w-full">
               Entrar
             </Button>
+            <div className="flex items-center justify-center gap-3">
+              <div className="h-[2px] max-w-[176px] w-full bg-gray-400"></div>
+              <p className="text-slate-500">Ou continue com</p>
+              <div className="h-[2px] max-w-[176px] w-full bg-gray-400"></div>
+            </div>
+            <div className="w-full text-center">
+              <Button
+                className="w-20 h-20 rounded-full p-5"
+                type="button"
+                onClick={() => signIn("google", { callbackUrl: "/learn" })}
+              >
+                <GoogleIcon sx={{ width: 46, height: 46 }} />
+              </Button>
+            </div>
           </div>
         </form>
       </Form>
