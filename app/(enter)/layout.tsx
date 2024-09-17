@@ -1,12 +1,23 @@
+"use client";
+
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 interface Props {
   children: React.ReactNode;
 }
 
 function EnterLayout({ children }: Props) {
+  const router = useRouter();
+
+  const token = useSession().data?.user.jwt;
+  if (token) {
+    router.push("/learn");
+  }
+
   return (
     <>
       <div className="w-full h-full flex">
