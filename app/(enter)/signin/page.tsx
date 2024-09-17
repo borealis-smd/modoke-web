@@ -19,7 +19,6 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
 import { signIn } from "next-auth/react";
-import api from "@/lib/axios";
 import { useRouter } from "next/navigation";
 
 const signinFormSchema = z.object({
@@ -58,7 +57,7 @@ function SignInPage() {
         email: values.email,
         password: values.password,
       });
-      
+
       if (result?.error) {
         console.error(result.error);
       } else {
