@@ -16,8 +16,8 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 interface Props {
-  options: Question[0]["Options"];
-  selectedOption: Question[0]["Options"][0] | null;
+  options: Question["Options"];
+  selectedOption: Question["Options"][0] | null;
   handleSubmit: (option_id: number) => void;
   handleNextQuestion: () => void;
 }

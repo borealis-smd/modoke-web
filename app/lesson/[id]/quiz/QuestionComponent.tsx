@@ -4,7 +4,7 @@ import { Question } from "@/types/validators";
 import ChatBubbleComponent from "@/app/ChatBubbleComponent";
 
 interface Props {
-  currentQuestion: Question[0];
+  currentQuestion: Question;
 }
 
 const QuestionComponent = ({ currentQuestion }: Props) => {

@@ -31,7 +31,7 @@ function QuizContent({ params }: Props) {
   const token = useSession().data?.user.jwt;
 
   const router = useRouter();
-  const [lessonQuestions, setLessonQuestions] = React.useState<Question>([]);
+  const [lessonQuestions, setLessonQuestions] = React.useState<Question[]>([]);
   const [error, setError] = React.useState(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [selectedOption, setSelectedOption] = React.useState<
