@@ -9,24 +9,25 @@ interface Props {
 function parseContent(content: string) {
   const elements: Array<JSX.Element> = [];
   let lastIndex = 0;
-
-  const regex = /<CodeBlockComponent code={`([\s\S]*?)`} language="(.*?)" \/>/g;
+  const regex = /<Code language="(.*?)">([\s\S]*?)<\/Code>/g;
   let match;
 
   while ((match = regex.exec(content)) !== null) {
     const beforeCode = content.slice(lastIndex, match.index);
+
     if (beforeCode) {
-      const sanitazedContent = DOMPurify.sanitize(beforeCode);
+      const sanitizedContent = DOMPurify.sanitize(beforeCode);
       elements.push(
         <div
           key={lastIndex}
-          dangerouslySetInnerHTML={{ __html: sanitazedContent }}
+          dangerouslySetInnerHTML={{ __html: sanitizedContent }}
           className="mb-3"
         />
       );
     }
-    const code = match[1].trim();
-    const language = match[2].trim();
+
+    const language = match[1].trim();
+    const code = match[2].trim();
     elements.push(
       <CodeBlockComponent key={match.index} code={code} language={language} />
     );
@@ -36,12 +37,12 @@ function parseContent(content: string) {
 
   const remainingContent = content.slice(lastIndex);
   if (remainingContent) {
-    const sanitazedContent = DOMPurify.sanitize(remainingContent);
+    const sanitizedContent = DOMPurify.sanitize(remainingContent);
     elements.push(
       <div
         key={lastIndex}
         dangerouslySetInnerHTML={{
-          __html: sanitazedContent,
+          __html: sanitizedContent,
         }}
       />
     );

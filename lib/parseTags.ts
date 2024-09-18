@@ -1,7 +1,7 @@
 export function parseTags(content: string): string[] {
   const parts: string[] = [];
   const tagRegex =
-    /(<balloon>[\s\S]*?<\/balloon>)|(<CodeBlockComponent[\s\S]*?\/>)/g;
+    /(<balloon>[\s\S]*?<\/balloon>)|(<Code ([\s\S]*?)<\/Code>)/g;
 
   let match: RegExpExecArray | null;
 
