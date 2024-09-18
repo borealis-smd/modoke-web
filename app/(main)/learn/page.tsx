@@ -74,7 +74,7 @@ const LearnPage = () => {
           <>
             <Header
               unit={unitInProgress?.Unit.unit_title}
-              section={sectionInProgress?.Section.section_title}
+              section={`Seção ${sectionInProgress?.Section.section_title}`}
               theme="Conteúdo"
             />
             <Units lessons={lessons} lessonInProgress={lessonInProgress} />
