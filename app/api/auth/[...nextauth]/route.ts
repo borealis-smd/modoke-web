@@ -50,7 +50,7 @@ const handler = NextAuth({
           const loginResponse = await api.post("/auth/google/login", { email });
 
           if (loginResponse.data) {
-            user.jwt = loginResponse.data;
+            user.token = loginResponse.data;
             return true;
           }
         } catch (error) {
