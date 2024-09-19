@@ -47,7 +47,7 @@ const OptionsComponent = ({
   }, [selectedOption]);
 
   return (
-    <div className="flex justify-center gap-10 mt-10 mx-8 sm:flex-wrap lg:flex-nowrap">
+    <div className="flex justify-center gap-10 mt-10 mx-8 flex-wrap">
       {options &&
         options.map((option) => (
           <Sheet key={option.option_id} open={isSheetOpen}>
@@ -63,7 +63,7 @@ const OptionsComponent = ({
                       selectedOption.option_id === option.option_id,
                     "bg-green-400": selectedOption && option.is_correct,
                   },
-                  "w-56 text-lg"
+                  "max-w-80 w-max p-4 h-max max-h-36 text-lg text-wrap"
                 )}
               >
                 {option.option_text}

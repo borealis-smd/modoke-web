@@ -1,21 +1,25 @@
 import React from "react";
-import CodeBlockComponent from "../../CodeBlockComponent"; // Deve permanecer
 import { Question } from "@/types/validators";
 import ChatBubbleComponent from "@/app/ChatBubbleComponent";
+import { parseTags } from "@/lib/parseTags";
 
 interface Props {
   currentQuestion: Question;
 }
 
 const QuestionComponent = ({ currentQuestion }: Props) => {
+  const parsedContent = parseTags(currentQuestion?.question_text);
   return (
     <>
       {currentQuestion && (
         <div className="flex gap-8 justify-center items-center text-lg">
           <div>Mascote</div>
-          {currentQuestion && (
-            <ChatBubbleComponent content={currentQuestion.question_text} />
-          )}
+          <div className="flex flex-col gap-5">
+            {currentQuestion &&
+              parsedContent.map((part: string, index: number) => (
+                <ChatBubbleComponent key={index} content={part} />
+              ))}
+          </div>
         </div>
       )}
     </>

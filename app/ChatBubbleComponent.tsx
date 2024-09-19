@@ -9,7 +9,7 @@ interface Props {
 function parseContent(content: string) {
   const elements: Array<JSX.Element> = [];
   let lastIndex = 0;
-  const regex = /<Code language="(.*?)">([\s\S]*?)<\/Code>/g;
+  const regex = /<Code language='(.*?)'>([\s\S]*?)<\/Code>/g;
   let match;
 
   while ((match = regex.exec(content)) !== null) {
