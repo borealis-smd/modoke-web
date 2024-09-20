@@ -26,7 +26,7 @@ export const QuizContext = createContext<QuizContextType | undefined>(
 export const QuizProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [numQuestions, setNumQuestions] = useState(0);
   const [xp, setXp] = useState(0);
-  const [attempt, setAttempt] = useState(5);
+  const [attempt, setAttempt] = useState(3); // determina o número de tentativas como 3
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
