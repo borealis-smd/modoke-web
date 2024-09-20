@@ -10,14 +10,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import classnames from "classnames";
-import { Lesson } from "@/types/validators";
+import { Question } from "@/types/validators";
 import { Button } from "@/components/ui/button";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 interface Props {
-  options: Lesson[0]["Options"];
-  selectedOption: Lesson[0]["Options"][0] | null;
+  options: Question["Options"];
+  selectedOption: Question["Options"][0] | null;
   handleSubmit: (option_id: number) => void;
   handleNextQuestion: () => void;
 }
@@ -47,7 +47,7 @@ const OptionsComponent = ({
   }, [selectedOption]);
 
   return (
-    <div className="flex justify-center flex-wrap gap-10 mt-10">
+    <div className="flex justify-center gap-10 mt-10 mx-8 flex-wrap">
       {options &&
         options.map((option) => (
           <Sheet key={option.option_id} open={isSheetOpen}>
@@ -63,7 +63,7 @@ const OptionsComponent = ({
                       selectedOption.option_id === option.option_id,
                     "bg-green-400": selectedOption && option.is_correct,
                   },
-                  "w-56"
+                  "max-w-80 w-max p-4 h-max max-h-36 text-lg text-wrap"
                 )}
               >
                 {option.option_text}
@@ -86,9 +86,9 @@ const OptionsComponent = ({
                   <SheetHeader className="flex flex-row items-center gap-9">
                     <div>
                       {option.is_correct ? (
-                        <TaskAltIcon className="w-20 h-20" />
+                        <TaskAltIcon sx={{ width: 80, height: 80 }} />
                       ) : (
-                        <HighlightOffIcon className="w-20 h-20" />
+                        <HighlightOffIcon sx={{ width: 80, height: 80 }} />
                       )}
                     </div>
                     <div>

@@ -7,7 +7,6 @@ type Props = {
   lesson_id: number;
   lesson_title: string;
   lesson_description: string;
-  lesson_principle: number;
   unit_id: number;
   is_completed: boolean;
   locked?: boolean;
@@ -43,7 +42,7 @@ export const LessonButton = ({
 
   // Definir o deslocamento `right` com base no tamanho da tela
   const rightPositionLg = indentationLevel * 120; // Para telas maiores
-  const rightPositionSm = indentationLevel * 40;  // Para telas menores
+  const rightPositionSm = indentationLevel * 40; // Para telas menores
 
   // Verificar se é o primeiro ou último botão
   const isFirst = index === 0;
@@ -55,18 +54,19 @@ export const LessonButton = ({
   // Escolher o ícone correto para a lição
   const Icon = isFirst
     ? Star
-    : isCompleted && !isLast || isCompleted && !isFirst
-      ? Check
-      : isLast
-        ? Flag
-        : locked
-          ? Lock
-          : isCompleted
-            ? Check
-            : Lock;
+    : (isCompleted && !isLast) || (isCompleted && !isFirst)
+    ? Check
+    : isLast
+    ? Flag
+    : locked
+    ? Lock
+    : isCompleted
+    ? Check
+    : Lock;
 
   // Definir o href com base se a lição foi completada ou não
-  const href = isCompleted ? `/lesson/${lesson_id}` : "/lesson";
+  const href =
+    current || isCompleted ? `/lesson/${lesson_id}/definition` : "/learn";
 
   return (
     <Link
@@ -101,8 +101,8 @@ export const LessonButton = ({
                     locked
                       ? "text-neutral-400 stroke-neutral-400" // Cor cinza escuro para o ícone bloqueado
                       : isCompleted
-                        ? "fill-none text-primary-foreground"     // Cor para quando completado
-                        : "text-neutral-400 stroke-neutral-400", // Cor padrão cinza escuro
+                      ? "fill-none text-primary-foreground" // Cor para quando completado
+                      : "text-neutral-400 stroke-neutral-400", // Cor padrão cinza escuro
                     isCompleted && "fill-none stroke-[4]" // Ajusta o stroke para lições completadas
                   )}
                 />

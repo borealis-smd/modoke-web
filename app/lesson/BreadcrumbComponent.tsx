@@ -7,6 +7,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { useQuiz } from "./QuizContext";
 
 interface Props {
   activeHref: string;
@@ -14,11 +15,13 @@ interface Props {
 }
 
 const BreadcrumbComponent = ({ activeHref, onData }: Props) => {
+  const { currentQuestionIndex, numQuestions, isFinished } = useQuiz();
+
   let links = [
-    { href: "/definition", label: "Atributo lang", active: false },
+    { href: "/definition", label: "Definição", active: false },
     { href: "/application", label: "Aplicação", active: false },
     { href: "/code", label: "Exemplo de código", active: false },
-    { href: "/test", label: "Teste seus conhecimentos", active: false },
+    { href: "/quiz", label: "Teste seus conhecimentos", active: false },
   ];
 
   links = links.map((link) => ({
@@ -34,36 +37,43 @@ const BreadcrumbComponent = ({ activeHref, onData }: Props) => {
   };
 
   return (
-    <>
-      <Breadcrumb className="mb-4">
-        <BreadcrumbList>
-          {links.map((link, index) => (
-            <React.Fragment key={index}>
-              <BreadcrumbItem>
-                {link.active ? (
-                  <BreadcrumbPage className="font-semibold">
+    <Breadcrumb className="flex items-center">
+      <BreadcrumbList>
+        {links.map((link, index) => (
+          <React.Fragment key={index}>
+            <BreadcrumbItem className="text-lg">
+              {link.active ? (
+                <>
+                  <BreadcrumbPage className="underline">
                     {link.label}
                   </BreadcrumbPage>
-                ) : index < activeIndex ? (
-                  <BreadcrumbLink
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      sendDataToParent(link.href);
-                    }}
-                  >
-                    {link.label}
-                  </BreadcrumbLink>
-                ) : (
-                  <span>{link.label}</span>
-                )}
-              </BreadcrumbItem>
-              {index < links.length - 1 && <BreadcrumbSeparator />}
-            </React.Fragment>
-          ))}
-        </BreadcrumbList>
-      </Breadcrumb>
-    </>
+                  {link.href === "/quiz" && (
+                    <span className="text-black ml-2">
+                      {isFinished
+                        ? `${currentQuestionIndex + 1}/${numQuestions}`
+                        : `${currentQuestionIndex}/${numQuestions}`}
+                    </span>
+                  )}
+                </>
+              ) : index < activeIndex ? (
+                <BreadcrumbLink
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    sendDataToParent(link.href);
+                  }}
+                >
+                  {link.label}
+                </BreadcrumbLink>
+              ) : (
+                <span>{link.label}</span>
+              )}
+            </BreadcrumbItem>
+            {index < links.length - 1 && <BreadcrumbSeparator />}
+          </React.Fragment>
+        ))}
+      </BreadcrumbList>
+    </Breadcrumb>
   );
 };
 
