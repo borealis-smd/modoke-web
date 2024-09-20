@@ -7,6 +7,7 @@ import { BreadcrumbProvider, useBreadcrumb } from "./BreadcrumbContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
 import PetsIcon from "@mui/icons-material/Pets";
+import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
 import api from "@/lib/axios";
 import { QuizProvider, useQuiz } from "./QuizContext";
 import { useSession } from "next-auth/react";
@@ -41,7 +42,7 @@ function LessonPageContent({ children }: Props) {
   const { setIsAlertOpen, setBreadcrumbChangeTo, lessonLabel, setLessonLabel } =
     useBreadcrumb();
 
-  const { isFinished, attempt } = useQuiz();
+  const { currentQuestionIndex, numQuestions, isFinished, attempt } = useQuiz();
 
   useEffect(() => {
     const fetchLesson = async () => {
@@ -129,9 +130,24 @@ function LessonPageContent({ children }: Props) {
             />
           </div>
 
-          <div className="inline-flex gap-1 items-center text-lg">
-            <PetsIcon sx={{ width: 30, height: 28 }} aria-hidden="true" />
-            {attempt}
+          <div className="flex items-center gap-4">
+            {activeHref === "/quiz" && (
+              <div className="inline-flex gap-1 items-center">
+                <QuizOutlinedIcon
+                  sx={{ width: 32, height: 32 }}
+                  aria-hidden="true"
+                />
+                <span className="text-black text-lg">
+                  {isFinished
+                    ? `${currentQuestionIndex + 1}/${numQuestions}`
+                    : `${currentQuestionIndex}/${numQuestions}`}
+                </span>
+              </div>
+            )}
+            <div className="inline-flex gap-1 items-center text-lg">
+              <PetsIcon sx={{ width: 30, height: 28 }} aria-hidden="true" />
+              {attempt}
+            </div>
           </div>
         </div>
       )}

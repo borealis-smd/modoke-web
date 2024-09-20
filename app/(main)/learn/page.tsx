@@ -12,9 +12,15 @@ import {
   UnitProgress,
 } from "@/types/validators";
 import { Units } from "./unit";
+import { useRouter } from "next/navigation";
 
 const LearnPage = () => {
   const token = useSession().data?.user.jwt;
+  const router = useRouter();
+  if (!token) {
+    router.push("/signin");
+  }
+
   const [sectionInProgress, setSectionInProgress] =
     useState<SectionProgess | null>(null);
   const [unitInProgress, setUnitInProgress] = useState<UnitProgress | null>(
@@ -73,7 +79,7 @@ const LearnPage = () => {
         {lessonInProgress && unitInProgress && sectionInProgress && lessons && (
           <>
             <Header
-              unit={unitInProgress?.Unit.unit_title}
+              unit={`Unidade ${unitInProgress?.Unit.unit_id}`}
               section={`Seção ${sectionInProgress?.Section.section_title}`}
               theme="Conteúdo"
             />
