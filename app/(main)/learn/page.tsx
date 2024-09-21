@@ -12,14 +12,10 @@ import {
   UnitProgress,
 } from "@/types/validators";
 import { Units } from "./unit";
-import { useRouter } from "next/navigation";
+import useAuth from "@/lib/hooks/useAuth";
 
 const LearnPage = () => {
-  const token = useSession().data?.user.jwt;
-  const router = useRouter();
-  if (!token) {
-    router.push("/signin");
-  }
+  const token = useAuth();
 
   const [sectionInProgress, setSectionInProgress] =
     useState<SectionProgess | null>(null);
@@ -31,6 +27,8 @@ const LearnPage = () => {
     useState<LessonProgress | null>(null);
 
   useEffect(() => {
+    if (!token) return;
+
     const fetchLessons = async () => {
       // pegar a seção atual
       const { data: section } = await api.get("/section/user", {
