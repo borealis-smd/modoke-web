@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import Logo from "./../assets/modoke.svg";
+import Logo from "@/public/assets/modoke.svg";
 
 import { cn } from "@/lib/utils";
 import { SidebarItem } from "./sidebar-item";
@@ -23,7 +23,7 @@ type Props = {
 export const Sidebar = ({ className }: Props) => {
    return (
       <div className={cn("flex h-full lg:w-[256px] lg:fixed left-0 top-0 px-4 border-r-2 flex-col", className)}>
-         <Link href="/">
+         <Link href="/learn">
             <div className="pt-12 pl-4 pb-7 flex items-center gap-x-3">
                <Image src={Logo} height={150} width={150} alt="Logo modoke"/>
             </div>
