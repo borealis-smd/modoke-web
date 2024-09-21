@@ -16,10 +16,10 @@ const Profile = () => {
                <article className="border-2 border-slate-300/40 p-6 lg:p-[1.125rem] rounded-md">
                   {/* Profile Header */}
                   <header className="flex flex-col lg:flex-row items-start lg:items-center gap-6 mb-4">
-                     <div className="w-full lg:w-[13.875rem] h-[13.6875rem] bg-gray-300 rounded-lg">
+                     <div className="w-full lg:w-[14.875rem] h-[13.6875rem] bg-gray-300 rounded-lg">
                         {/* Profile Image */}
                         <Image
-                           src="https://goldenjoy.com.br/wp-content/uploads/2022/08/fuca-2491995_1280-1024x768.jpg"
+                           src="/assets/default.png"
                            alt="Perfil de Modoken"
                            width={200}
                            height={220}
