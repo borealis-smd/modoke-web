@@ -17,9 +17,9 @@ import { Button } from "@/components/ui/button";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import GoogleIcon from "@mui/icons-material/Google";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const signinFormSchema = z.object({
   email: z
@@ -77,10 +77,10 @@ function SignInPage() {
   return (
     <>
       <div className="text-center mb-5">
-        <h1 className="text-5xl font-bold">Login</h1>
+        <h1 className="text-5xl font-bold text-primary">Login</h1>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="text-[#333333]">
           <FormField
             control={form.control}
             name="email"
@@ -129,22 +129,27 @@ function SignInPage() {
               </FormItem>
             )}
           />
-          <div className="flex flex-col justify-center gap-10">
-            <Button type="submit" className="w-full">
+          <div className="flex flex-col justify-center gap-8">
+            <Button type="submit" className="w-full" variant={"secondary"}>
               Entrar
             </Button>
             <div className="flex items-center justify-center gap-3">
-              <div className="h-[2px] max-w-[176px] w-full bg-gray-400"></div>
-              <p className="text-slate-500">Ou continue com</p>
-              <div className="h-[2px] max-w-[176px] w-full bg-gray-400"></div>
+              <div className="h-[2px] max-w-[176px] w-full bg-[#333333]"></div>
+              <p className="text-[#333333]">Ou continue com</p>
+              <div className="h-[2px] max-w-[176px] w-full bg-[#333333]"></div>
             </div>
             <div className="w-full text-center">
               <Button
-                className="w-20 h-20 rounded-full p-5"
+                className="w-20 h-20 rounded-full p-4 border-2 border-[#dbdbdb]"
                 type="button"
                 onClick={() => signIn("google", { callbackUrl: "/learn" })}
               >
-                <GoogleIcon sx={{ width: 46, height: 46 }} />
+                <Image
+                  src="/assets/google-icon.svg"
+                  alt="Logo do Google"
+                  width={40}
+                  height={40}
+                />
               </Button>
             </div>
           </div>

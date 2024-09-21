@@ -20,8 +20,7 @@ function EnterLayout({ children }: Props) {
 
   return (
     <>
-      <div className="w-full h-full flex">
-        <div className="w-1/2 bg-slate-300"></div>
+      <div className="w-full h-full flex items-center justify-center">
         <div className="w-1/2 flex flex-col items-center justify-center">
           <Link className="absolute top-16 right-16 cursor-pointer" href="/">
             <CloseIcon sx={{ width: 32, height: 32 }} aria-label="Fechar" />
