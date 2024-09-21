@@ -4,7 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const inputStyles =
-  "block w-full px-4 py-2 rounded-md text-md font-medium text-slate-500 bg-transparent border border-slate-300 focus:border-teal-500 focus:ring focus:ring-teal-500/25 focus:outline-none";
+  "block w-full px-4 py-2 rounded-md text-md font-medium text-slate-500 bg-transparent border border-slate-300 focus:border-primary/45 focus:ring focus:ring-primary/25 focus:outline-none";
 const containerStyles = "relative";
 
 export interface InputProps

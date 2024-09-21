@@ -8,7 +8,7 @@ type Props = {
 export const Banner = ({ title, variant }: Props) => {
    return (
       <div
-         className="bg-green-700 w-full h-[8rem] lg:h-[10.5rem] flex items-center text-white px-6 py-5 rounded-lg"
+         className="bg-primary w-full h-[8rem] lg:h-[10.5rem] flex items-center text-white px-6 py-5 rounded-lg"
          role="banner"
          aria-labelledby="section-header"
       >

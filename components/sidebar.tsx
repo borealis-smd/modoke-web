@@ -1,19 +1,21 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import Logo from "./../assets/modoke2.svg";
+import Logo from "./../assets/modoke.svg";
 
 import { cn } from "@/lib/utils";
 import { SidebarItem } from "./sidebar-item";
 import { Home, BookOpen, User, ShoppingBag, Settings } from "lucide-react"; // Importar todos os ícones
 
+
 const sidebarItems = [
    { label: "Início", href: "/learn", icon: <Home className="mr-5" width={24} height={24} /> },
-   { label: "Revisão", href: "/revision", icon: <BookOpen className="mr-5" width={24} height={24} /> },
+   { label: "Revisão", href: "/revision", icon: <BookOpen  className="mr-5" width={24} height={24} /> },
    { label: "Perfil", href: "/profile", icon: <User className="mr-5" width={24} height={24} /> },
-   { label: "Petshop", href: "/petshop", icon: <ShoppingBag className="mr-5" width={24} height={24} /> },
    { label: "Configurações", href: "/settings", icon: <Settings className="mr-5" width={24} height={24} /> },
 ];
+
+
 type Props = {
    className?: string;
 }
@@ -24,10 +26,6 @@ export const Sidebar = ({ className }: Props) => {
          <Link href="/">
             <div className="pt-12 pl-4 pb-7 flex items-center gap-x-3">
                <Image src={Logo} height={150} width={150} alt="Logo modoke"/>
-
-               {/*<h1 className="text-3xl font-extrabold text-green-800 tracking-wide">
-                  modoke
-               </h1>*/}
             </div>
          </Link>
 
