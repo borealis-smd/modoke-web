@@ -40,7 +40,7 @@ const UnitPage = () => {
                      <Link href={`/learn`} passHref>
                         <Button
                            variant="default"
-                           className="h-[9.6875rem] w-full flex justify-between items-center relative overflow-hidden group hover:bg-gray-100 border-2 border-slate-300/40 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50"
+                           className="h-[9.6875rem] w-full flex justify-between items-center relative overflow-hidden group hover:bg-secondary50/40 border-2 border-slate-300/40 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50"
                            aria-label={`Acessar a seção ${unit.session}, unidade ${unit.unit_title}`}
                            title={`Acessar a seção ${unit.session}, unidade ${unit.unit_title}`}
                         >
