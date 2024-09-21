@@ -53,6 +53,17 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        primaryYellow: "hsl(var(--primary-yellow))", 
+        
+        // Custom colors
+        secondary50: "hsl(var(--secondary-50))",
+        secondary100: "hsl(var(--secondary-100))",
+        secondary200: "hsl(var(--secondary-200))",
+        secondary300: "hsl(var(--secondary-300))",
+        secondary400: "hsl(var(--secondary-400))",
+        secondary500: "hsl(var(--secondary-500))",
+        secondary600: "hsl(var(--secondary-600))",
+        secondary700: "hsl(var(--secondary-700))",
       },
       borderRadius: {
         lg: "var(--radius)",
