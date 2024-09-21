@@ -45,6 +45,21 @@ const lessonSchema = z.object({
   updated_at: z.date(),
 });
 
+const OptionSchema = z.object({
+  option_id: z
+    .number()
+    .int({ message: "ID da opção deve ser um número inteiro." }),
+  option_text: z.string().min(1, "Texto da opção não deve ser vazio."),
+  is_correct: z.boolean({
+    message: "Status de opção correta deve ser um booleano.",
+  }),
+  question_id: z
+    .number()
+    .int({ message: "ID da pergunta deve ser um número inteiro." }),
+  created_at: z.date(),
+  updated_at: z.date(),
+});
+
 const QuestionSchema = z.object({
   question_id: z
     .number()
@@ -60,23 +75,9 @@ const QuestionSchema = z.object({
     .nullable(),
   created_at: z.date(),
   updated_at: z.date(),
-  Options: z.array(
-    z.object({
-      option_id: z
-        .number()
-        .int({ message: "ID da opção deve ser um número inteiro." }),
-      option_text: z.string().min(1, "Texto da opção não deve ser vazio."),
-      is_correct: z.boolean({
-        message: "Status de opção correta deve ser um booleano.",
-      }),
-      question_id: z
-        .number()
-        .int({ message: "ID da pergunta deve ser um número inteiro." }),
-      created_at: z.date(),
-      updated_at: z.date(),
-    })
-  ),
+  Options: OptionSchema.array(),
 });
+
 const UserSchema = z.object({
   first_name: z.string().min(1, "Nome não deve ser vazio."),
   last_name: z.string().min(1, "Sobrenome não deve ser vazio."),
@@ -102,5 +103,6 @@ export type UnitProgress = z.infer<typeof unitProgressSchema>;
 export type LessonProgress = z.infer<typeof lessonProgressSchema>;
 export type Lesson = z.infer<typeof lessonSchema>;
 export type Question = z.infer<typeof QuestionSchema>;
+export type Option = z.infer<typeof OptionSchema>;
 export type User = z.infer<typeof UserSchema>;
 export type Explanation = z.infer<typeof ExplanationSchema>;
