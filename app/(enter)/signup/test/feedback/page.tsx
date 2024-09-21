@@ -1,22 +1,19 @@
 "use client";
 
-import React, { useEffect } from "react";
-import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import ElectricBoltSharpIcon from "@mui/icons-material/ElectricBoltSharp";
+import { useTest } from "@/app/(enter)/TestContext";
+import React, { useEffect, useState } from "react";
+import { useWindowSize } from "react-use";
+import Confetti from "react-confetti";
 import ChatBubbleComponent from "@/app/ChatBubbleComponent";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useWindowSize } from "react-use";
-import Confetti from "react-confetti";
-import { useRouter } from "next/navigation";
-import { useQuiz } from "@/app/lesson/QuizContext";
 
-function QuizFeedBackPage() {
-  const { isFinished, numQuestions, xp, attempt } = useQuiz();
+function TestFeedbackPage() {
+  const { isFinished, level } = useTest();
 
   const { width, height } = useWindowSize();
 
-  const [confetti, setConfetti] = React.useState(isFinished);
+  const [confetti, setConfetti] = useState(isFinished);
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (isFinished) {
@@ -26,13 +23,6 @@ function QuizFeedBackPage() {
     }
     return () => clearTimeout(timer);
   }, [confetti]);
-
-  const router = useRouter();
-  useEffect(() => {
-    if (!isFinished) {
-      router.push("/learn");
-    }
-  }, [isFinished]);
 
   return (
     <>
@@ -55,19 +45,12 @@ function QuizFeedBackPage() {
               <div className="flex flex-col">
                 <div className="mb-3">
                   <ChatBubbleComponent
-                    content="Parabéns! Lição concluída!"
+                    content="Parabéns! Teste finalizado!"
                     variant="title"
                   />
                 </div>
-                <div className="inline-flex gap-6 font-bold">
-                  <div className="inline-flex gap-1 items-center">
-                    <TaskAltIcon sx={{ width: 33, height: 33 }} />{" "}
-                    {numQuestions - (5 - attempt)}/{numQuestions}
-                  </div>
-                  <div className="inline-flex gap-1 items-center">
-                    <ElectricBoltSharpIcon sx={{ width: 27, height: 33 }} />{" "}
-                    {xp} XP
-                  </div>
+                <div>
+                  <ChatBubbleComponent content={`Seu nível é <strong>${level}</strong>.`}/>
                 </div>
               </div>
             </div>
@@ -83,4 +66,4 @@ function QuizFeedBackPage() {
   );
 }
 
-export default QuizFeedBackPage;
+export default TestFeedbackPage;

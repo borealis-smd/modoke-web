@@ -1,9 +1,11 @@
 import React from "react";
 import DOMPurify from "isomorphic-dompurify";
 import CodeBlockComponent from "./lesson/CodeBlockComponent";
+import { cn } from "@/lib/utils";
 
 interface Props {
   content: string;
+  variant?: "text" | "title";
 }
 
 function parseContent(content: string) {
@@ -51,11 +53,16 @@ function parseContent(content: string) {
   return elements;
 }
 
-function ChatBubbleComponent({ content }: Props) {
+function ChatBubbleComponent({ content, variant = "text" }: Props) {
   const parsedContent = parseContent(content);
 
   return (
-    <div className="flex flex-col w-fit max-w-[750px] p-5 border-gray-200 bg-green-200 rounded-e-3xl rounded-es-3xl dark:bg-green-700">
+    <div
+      className={cn(
+        "flex flex-col w-fit max-w-[750px] p-5 bg-secondary50 rounded-e-3xl rounded-es-3xl",
+        variant === "title" && "text-2xl bg-secondary100"
+      )}
+    >
       {parsedContent}
     </div>
   );

@@ -15,13 +15,11 @@ function StartQuizComponent({ setHasStarted }: Props) {
         <div className="flex gap-8 justify-center items-center text-lg">
           <div>Mascote</div>
           <div className="flex flex-col gap-5">
-            <div className="text-2xl">
-              <ChatBubbleComponent content="<p>Vamos praticar?</p>" />
-            </div>
+            <ChatBubbleComponent content="Vamos praticar?" variant="title" />
             <ChatBubbleComponent
               content={`<p>Agora que você viu sobre <strong>${lessonLabel}</strong>, que tal testar seus conhecimentos com algumas questões?</p>`}
             />
-            <ChatBubbleComponent content="<p>Clique em 'Iniciar' para responder as perguntas.</p>" />
+            <ChatBubbleComponent content="Clique em 'Iniciar' para responder as perguntas." />
           </div>
         </div>
       </div>
