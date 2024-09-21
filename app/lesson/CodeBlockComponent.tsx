@@ -2,10 +2,10 @@ import React from "react";
 import { CodeBlock } from "react-code-block";
 import { useCopyToClipboard } from "react-use";
 
-import * as prettier from 'prettier/standalone';
-import * as htmlParser from 'prettier/parser-html';
-import * as babelParser from 'prettier/parser-babel';
-import * as cssParser from 'prettier/parser-postcss';
+import * as prettier from "prettier/standalone";
+import * as htmlParser from "prettier/parser-html";
+import * as babelParser from "prettier/parser-babel";
+import * as cssParser from "prettier/parser-postcss";
 
 interface Props {
   code: string;
@@ -13,8 +13,9 @@ interface Props {
   lineNumbers?: boolean;
 }
 
-async function CodeBlockComponent({ code, language, lineNumbers = false }: Props) {
+function CodeBlockComponent({ code, language, lineNumbers = false }: Props) {
   const [state, copyToClipboard] = useCopyToClipboard();
+  const [formattedCode, setFormattedCode] = React.useState<string>("");
 
   const copyCode = () => {
     copyToClipboard(code);
@@ -48,7 +49,14 @@ async function CodeBlockComponent({ code, language, lineNumbers = false }: Props
     }
   };
 
-  const formattedCode = await formatCode(code, language);
+  React.useEffect(() => {
+    const format = async () => {
+      const result = await formatCode(code, language);
+      setFormattedCode(result);
+    };
+
+    format();
+  }, [code, language]);
 
   return (
     <CodeBlock code={formattedCode} language={language}>
