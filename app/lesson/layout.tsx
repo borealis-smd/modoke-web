@@ -39,8 +39,13 @@ function LessonPageContent({ children }: Props) {
     }
   };
 
-  const { setIsAlertOpen, setBreadcrumbChangeTo, lessonLabel, setLessonLabel } =
-    useBreadcrumb();
+  const {
+    setIsAlertOpen,
+    setBreadcrumbChangeTo,
+    lessonLabel,
+    setLessonLabel,
+    setPastHref,
+  } = useBreadcrumb();
 
   const { currentQuestionIndex, numQuestions, isFinished, attempt } = useQuiz();
 
@@ -65,6 +70,7 @@ function LessonPageContent({ children }: Props) {
 
   const handleBreadcrumbPageChange = useCallback(
     (data: { activeLinkHref: string; changeTo: string }) => {
+      setPastHref(data.activeLinkHref);
       if (data.activeLinkHref === "/quiz") {
         setIsAlertOpen(true);
         setBreadcrumbChangeTo(data.changeTo);
@@ -72,7 +78,7 @@ function LessonPageContent({ children }: Props) {
         handleExit(data.changeTo);
       }
     },
-    [setBreadcrumbChangeTo, setIsAlertOpen]
+    [setBreadcrumbChangeTo, setIsAlertOpen, setPastHref]
   );
 
   const handleReturnTo = () => {

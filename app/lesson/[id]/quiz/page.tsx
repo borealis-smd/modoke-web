@@ -28,9 +28,12 @@ interface Props {
 }
 
 function QuizContent({ params }: Props) {
+  const router = useRouter();
+
   const token = useSession().data?.user.jwt;
 
-  const router = useRouter();
+  const { pastHref, setPastHref } = useBreadcrumb();
+
   const [lessonQuestions, setLessonQuestions] = React.useState<Question[]>([]);
   const [error, setError] = React.useState(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
@@ -54,6 +57,10 @@ function QuizContent({ params }: Props) {
   } = useQuiz();
 
   useEffect(() => {
+    if (pastHref !== "/code") {
+      router.push("/learn");
+    }
+
     const fetchLessonQuestions = async () => {
       try {
         const { data: lessonQuestions } = await api.get(
@@ -108,6 +115,7 @@ function QuizContent({ params }: Props) {
       await updateUserXP(userData.xp + xp);
       await markLessonAsFinished();
       setIsFinished(true);
+      setPastHref("/quiz");
       router.push(`/lesson/${params.id}/quiz/feedback`);
     } catch (error: any) {
       console.error("Error in finishLesson:", error);

@@ -8,12 +8,16 @@ import { Explanation } from "@/types/validators";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect } from "react";
+import { useBreadcrumb } from "../../BreadcrumbContext";
+import { useRouter } from "next/navigation";
 
 interface Props {
   params: { id: string };
 }
 
 function ApplicationPage({ params }: Props) {
+  const router = useRouter();
+
   const token = useSession().data?.user.jwt;
 
   const [applicationInParts, setApplicationInParts] = React.useState<
@@ -21,7 +25,13 @@ function ApplicationPage({ params }: Props) {
   >(null);
   const [error, setError] = React.useState(null);
 
+  const { pastHref, setPastHref } = useBreadcrumb();
+  
   useEffect(() => {
+    if (!["/definition", "/code", "/quiz"].includes(pastHref)) {
+      router.push("/learn");
+    }
+
     const fetchApplication = async () => {
       try {
         const { data }: { data: Explanation[] } = await api.get(
@@ -44,6 +54,8 @@ function ApplicationPage({ params }: Props) {
     }
   }, [params.id, token]);
 
+  const handleNextPage = () => setPastHref("/application");
+
   return (
     <>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -60,8 +72,10 @@ function ApplicationPage({ params }: Props) {
         )}
       </div>
       <div className="text-end absolute bottom-24 right-24">
-        <Link href={`/lesson/${params.id}/code`}>
-          <Button variant="secondary">Continuar</Button>
+        <Link href={`/lesson/${params.id}/code`} onClick={handleNextPage}>
+          <Button variant="secondary">
+            Continuar
+          </Button>
         </Link>
       </div>
     </>

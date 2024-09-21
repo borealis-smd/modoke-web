@@ -3,23 +3,33 @@
 import ChatBubbleComponent from "@/app/ChatBubbleComponent";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/axios";
-import { parseTags } from "@/lib/parseTags";2
+import { parseTags } from "@/lib/parseTags";
 import { Explanation } from "@/types/validators";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import { useBreadcrumb } from "../../BreadcrumbContext";
 
 interface Props {
   params: { id: string };
 }
 
 function CodePage({ params }: Props) {
+  const router = useRouter();
+
   const token = useSession().data?.user.jwt;
+
+  const { pastHref, setPastHref } = useBreadcrumb();
 
   const [codeInParts, setCodeInParts] = React.useState<string[] | null>(null);
   const [error, setError] = React.useState(null);
 
   useEffect(() => {
+    if (!["/application", "/quiz"].includes(pastHref)) {
+      router.push("/learn");
+    }
+
     const fetchCode = async () => {
       try {
         const { data }: { data: Explanation[] } = await api.get(
@@ -42,6 +52,8 @@ function CodePage({ params }: Props) {
     }
   }, [params.id, token]);
 
+  const handleNextPage = () => setPastHref("/code");
+
   return (
     <>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -59,7 +71,9 @@ function CodePage({ params }: Props) {
       </div>
       <div className="text-end absolute bottom-24 right-24">
         <Link href={`/lesson/${params.id}/quiz`}>
-          <Button variant="secondary">Continuar</Button>
+          <Button variant="secondary" onClick={handleNextPage}>
+            Continuar
+          </Button>
         </Link>
       </div>
     </>

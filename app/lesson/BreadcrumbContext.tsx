@@ -10,9 +10,11 @@ interface BreadcrumbContextType {
   isAlertOpen: boolean;
   breadcrumbChangeTo: string;
   lessonLabel: string;
-  setIsAlertOpen: (value: boolean) => void;
-  setBreadcrumbChangeTo: (path: string) => void;
-  setLessonLabel: (label: string) => void;
+  pastHref: string;
+  setIsAlertOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setBreadcrumbChangeTo: React.Dispatch<React.SetStateAction<string>>;
+  setLessonLabel: React.Dispatch<React.SetStateAction<string>>;
+  setPastHref: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const BreadcrumbContext = createContext<
@@ -25,6 +27,7 @@ export const BreadcrumbProvider: FC<{ children: ReactNode }> = ({
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [breadcrumbChangeTo, setBreadcrumbChangeTo] = useState("");
   const [lessonLabel, setLessonLabel] = useState("");
+  const [pastHref, setPastHref] = useState("");
 
   return (
     <BreadcrumbContext.Provider
@@ -32,9 +35,11 @@ export const BreadcrumbProvider: FC<{ children: ReactNode }> = ({
         isAlertOpen,
         breadcrumbChangeTo,
         lessonLabel,
+        pastHref,
         setIsAlertOpen,
         setBreadcrumbChangeTo,
         setLessonLabel,
+        setPastHref,
       }}
     >
       {children}
