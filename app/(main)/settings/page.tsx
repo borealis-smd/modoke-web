@@ -7,8 +7,6 @@ import React, { useState, useRef } from "react";
 import { EyeIcon, EyeOffIcon, LogOut, Edit2 } from "lucide-react";
 import Image from "next/image";
 
-import Default from "/assets/default.png";
-
 const Settings = () => {
    const [isOldPasswordVisible, setIsOldPasswordVisible] = useState(false);
    const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
@@ -46,7 +44,7 @@ const Settings = () => {
                      <div className="relative group w-[200px] h-[220px]">
                         <Image
                            src={previewImage}
-                           alt="Preview da Imagem"
+                           alt="Imagem de perfil do usuário"
                            width={200}
                            height={220}
                            className="w-full h-full object-cover rounded-lg cursor-pointer group-hover:ring-2 group-hover:ring-offset-2 group-hover:ring-primary"
