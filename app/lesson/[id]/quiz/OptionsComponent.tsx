@@ -10,14 +10,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import classnames from "classnames";
-import { Question } from "@/types/validators";
+import { Option, Question } from "@/types/validators";
 import { Button } from "@/components/ui/button";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 interface Props {
   options: Question["Options"];
-  selectedOption: Question["Options"][0] | null;
+  selectedOption: Option | null;
   handleSubmit: (option_id: number) => void;
   handleNextQuestion: () => void;
 }
@@ -99,9 +99,9 @@ const OptionsComponent = ({
                         <p>
                           {option.is_correct
                             ? "Você acertou! Continue aprendendo."
-                            : `Você errou! A resposta correta é ${
+                            : `Você errou! A resposta correta é "${
                                 options.find((o) => o.is_correct)?.option_text
-                              }.`}
+                              }".`}
                         </p>
                       </SheetDescription>
                     </div>

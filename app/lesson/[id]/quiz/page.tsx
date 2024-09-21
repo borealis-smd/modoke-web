@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import api from "@/lib/axios";
-import { Question, User } from "@/types/validators";
+import { Option, Question, User } from "@/types/validators";
 import { useRouter, usePathname } from "next/navigation";
 import OptionsComponent from "./OptionsComponent";
 import QuestionComponent from "./QuestionComponent";
@@ -37,9 +37,9 @@ function QuizContent({ params }: Props) {
   const [lessonQuestions, setLessonQuestions] = React.useState<Question[]>([]);
   const [error, setError] = React.useState(null);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
-  const [selectedOption, setSelectedOption] = React.useState<
-    (typeof options)[0] | null
-  >(null);
+  const [selectedOption, setSelectedOption] = React.useState<Option | null>(
+    null
+  );
   const [hasStarted, setHasStarted] = React.useState(false);
 
   const { isAlertOpen, setIsAlertOpen, breadcrumbChangeTo } = useBreadcrumb();
