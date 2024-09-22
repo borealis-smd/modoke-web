@@ -9,8 +9,10 @@ import React, {
 interface TestContextType {
   isFinished: boolean;
   level: string;
+  isAlertOpen: boolean;
   setLevel: React.Dispatch<React.SetStateAction<string>>;
   setIsFinished: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsAlertOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const TestContext = createContext<TestContextType | undefined>(
@@ -20,14 +22,17 @@ export const TestContext = createContext<TestContextType | undefined>(
 export const TestProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [isFinished, setIsFinished] = useState(false);
   const [level, setLevel] = useState("A"); // por padrão, nível A
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   return (
     <TestContext.Provider
       value={{
         isFinished,
         level,
+        isAlertOpen,
         setIsFinished,
         setLevel,
+        setIsAlertOpen,
       }}
     >
       {children}

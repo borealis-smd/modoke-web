@@ -7,9 +7,27 @@ import Confetti from "react-confetti";
 import ChatBubbleComponent from "@/app/ChatBubbleComponent";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import CloseAlertComponent from "@/app/lesson/CloseAlertComponent";
+import { useRouter } from "next/navigation";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 function TestFeedbackPage() {
-  const { isFinished, level } = useTest();
+  const router = useRouter();
+
+  const levels = [
+    { level: "A", description: "Iniciante" },
+    { level: "AA", description: "Intermediário" },
+    { level: "AAA", description: "Avançado" },
+  ];
+
+  const { isFinished, level, isAlertOpen, setIsAlertOpen } = useTest();
 
   const { width, height } = useWindowSize();
 
@@ -24,8 +42,21 @@ function TestFeedbackPage() {
     return () => clearTimeout(timer);
   }, [confetti]);
 
+  const handleExit = () => {
+    setIsAlertOpen(false);
+    router.push("/");
+  };
+
+  const [isSheetOpen, setIsSheetOpen] = useState(isFinished);
+
   return (
     <>
+      <CloseAlertComponent
+        open={isAlertOpen}
+        onOpenChange={setIsAlertOpen}
+        onClick={() => handleExit()}
+      />
+
       {confetti && (
         <Confetti
           width={width}
@@ -49,9 +80,14 @@ function TestFeedbackPage() {
                     variant="title"
                   />
                 </div>
-                <div>
-                  <ChatBubbleComponent content={`Seu nível é <strong>${level}</strong>.`}/>
+                <div className="mb-3">
+                  <ChatBubbleComponent
+                    content={`Seu nível é <strong>${level} - ${
+                      levels.find((l) => l.level === level)!.description
+                    }</strong>.`}
+                  />
                 </div>
+                <ChatBubbleComponent content="Lembre-se que este é apenas um teste de familiaridade. Continue aprendendo!" variant="disclaimer" />
               </div>
             </div>
           </div>
@@ -60,6 +96,33 @@ function TestFeedbackPage() {
               <Button variant="secondary">Continuar</Button>
             </Link>
           </div>
+
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetContent
+              side="bottom"
+              showOverlay={false}
+              className="bg-primary flex flex-row items-center justify-between py-12 px-36 rounded-ss-3xl rounded-se-3xl"
+            >
+              <SheetHeader>
+                <SheetTitle className="text-primary-foreground text-4xl">
+                  Aprenda mais com o Modoke!
+                </SheetTitle>
+                <SheetDescription className="text-primary-foreground text-xl w-full flex justify-between">
+                  Crie sua conta e tenha acesso a todo o conteúdo do Modoke.
+                </SheetDescription>
+              </SheetHeader>
+              <SheetFooter>
+                <div className="flex gap-6">
+                  <Link href="/signup">
+                    <Button variant="secondary">Criar conta</Button>
+                  </Link>
+                  <Link href="/signin">
+                    <Button>Entrar</Button>
+                  </Link>
+                </div>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
         </>
       )}
     </>

@@ -2,17 +2,15 @@
 
 import React, { useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { TestProvider } from "./TestContext";
-import { cn } from "@/lib/utils";
+import { TestProvider, useTest } from "./TestContext";
 
 interface Props {
   children: React.ReactNode;
 }
 
-function EnterLayout({ children }: Props) {
+function EnterLayoutContent({ children }: Props) {
   const router = useRouter();
 
   const token = useSession().data?.user.jwt;
@@ -27,29 +25,36 @@ function EnterLayout({ children }: Props) {
     setActiveHref(path);
   }, [currentPath]);
 
+  const { setIsAlertOpen } = useTest();
+
+  const handleExit = () => {
+    if (activeHref === "/test" || activeHref === "/feedback") {
+      setIsAlertOpen(true);
+      return;
+    }
+    router.push("/");
+  };
+
   return (
-    <>
-      <TestProvider>
-        <div className="w-full h-full flex items-center justify-center">
-          <div className="w-1/2 flex flex-col items-center justify-center">
-            <Link
-              className={cn(
-                "absolute top-16 cursor-pointer",
-                activeHref === "/test" ||
-                  (activeHref === "/feedback" && "left-16"),
-                activeHref !== "/test" &&
-                  activeHref !== "/feedback" &&
-                  "right-16"
-              )}
-              href="/"
-            >
-              <CloseIcon sx={{ width: 32, height: 32 }} aria-label="Fechar" />
-            </Link>
-            <div className="max-w-[536px] w-full text-lg">{children}</div>
-          </div>
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-1/2 flex flex-col items-center justify-center">
+        <div
+          className="absolute top-16 left-16 cursor-pointer"
+          onClick={() => handleExit()}
+        >
+          <CloseIcon sx={{ width: 32, height: 32 }} aria-label="Fechar" />
         </div>
-      </TestProvider>
-    </>
+        <div className="max-w-[536px] w-full text-lg">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+function EnterLayout({ children }: Props) {
+  return (
+    <TestProvider>
+      <EnterLayoutContent>{children}</EnterLayoutContent>
+    </TestProvider>
   );
 }
 
