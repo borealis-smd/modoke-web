@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -22,6 +21,7 @@ import { useBreadcrumb } from "../../BreadcrumbContext";
 import StartQuizComponent from "./StartQuizComponent";
 import { useQuiz } from "../../QuizContext";
 import { useSession } from "next-auth/react";
+import CloseAlertComponent from "../../CloseAlertComponent";
 
 interface Props {
   params: { id: string };
@@ -193,34 +193,13 @@ function QuizContent({ params }: Props) {
   return (
     <>
       {!isFinished ? (
-        <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-          <AlertDialogContent className="max-w-2xl h-[620px] flex flex-col items-center justify-center">
-            <AlertDialogHeader>
-              <AlertDialogTitle className="font-black text-center">
-                EII, FIQUE AQUI!
-              </AlertDialogTitle>
-              <AlertDialogDescription className="text-center text-lg">
-                Se você sair agora, perderá todo o progresso feito até aqui. Tem
-                certeza que deseja sair?
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter className="w-full sm:space-x-0 max-w-[480px]">
-              <AlertDialogCancel className="bg-green-400 text-white hover:bg-green-300 hover:text-black/70">
-                Continuar
-              </AlertDialogCancel>
-              <AlertDialogAction
-                className="bg-red-300 text-white hover:bg-red-200 hover:text-black/70"
-                onClick={() =>
-                  breadcrumbChangeTo
-                    ? handleExit(breadcrumbChangeTo)
-                    : handleExit()
-                }
-              >
-                Sair
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <CloseAlertComponent
+          open={isAlertOpen}
+          onOpenChange={setIsAlertOpen}
+          onClick={() =>
+            breadcrumbChangeTo ? handleExit(breadcrumbChangeTo) : handleExit()
+          }
+        />
       ) : (
         (isAlertOpen && handleExit()) || null
       )}

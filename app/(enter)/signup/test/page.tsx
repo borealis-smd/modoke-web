@@ -10,6 +10,7 @@ import OptionsComponent from "@/app/lesson/[id]/quiz/OptionsComponent";
 import QuestionComponent from "@/app/lesson/[id]/quiz/QuestionComponent";
 import { useTest } from "../../TestContext";
 import { useRouter } from "next/navigation";
+import CloseAlertComponent from "@/app/lesson/CloseAlertComponent";
 
 function EntranceTestPage() {
   const router = useRouter();
@@ -19,7 +20,7 @@ function EntranceTestPage() {
   const [hasStarted, setHasStarted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { setLevel, setIsFinished } = useTest();
+  const { setLevel, setIsFinished, isAlertOpen, setIsAlertOpen } = useTest();
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -82,8 +83,19 @@ function EntranceTestPage() {
     }
   };
 
+  const handleExit = () => {
+    setIsAlertOpen(false);
+    router.push("/");
+  };
+
   return (
     <>
+      <CloseAlertComponent
+        open={isAlertOpen}
+        onOpenChange={setIsAlertOpen}
+        onClick={() => handleExit()}
+      />
+
       {error ? (
         <Alert className="bg-red-400 text-black mt-5 flex items-center">
           <AlertTitle className="inline-flex gap-2 items-center">
