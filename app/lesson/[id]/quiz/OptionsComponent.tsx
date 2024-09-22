@@ -14,10 +14,12 @@ import { Option, Question } from "@/types/validators";
 import { Button } from "@/components/ui/button";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { cn } from "@/lib/utils";
 
 interface Props {
   options: Question["Options"];
   selectedOption: Option | null;
+  showOverlay?: boolean;
   handleSubmit: (option_id: number) => void;
   handleNextQuestion: () => void;
 }
@@ -25,6 +27,7 @@ interface Props {
 const OptionsComponent = ({
   options,
   selectedOption,
+  showOverlay = true,
   handleSubmit,
   handleNextQuestion,
 }: Props) => {
@@ -58,10 +61,10 @@ const OptionsComponent = ({
                 role="button"
                 className={classnames(
                   {
-                    "bg-red-400":
+                    "bg-[#FCC6C9]":
                       selectedOption &&
                       selectedOption.option_id === option.option_id,
-                    "bg-green-400": selectedOption && option.is_correct,
+                    "bg-[#44A28A]": selectedOption && option.is_correct,
                   },
                   "max-w-80 w-max p-4 h-max max-h-36 text-lg text-wrap"
                 )}
@@ -73,13 +76,12 @@ const OptionsComponent = ({
               selectedOption.option_id === option.option_id && (
                 <SheetContent
                   side="bottom"
-                  className={classnames(
-                    {
-                      "bg-green-400": option.is_correct,
-                      "bg-red-400": !option.is_correct,
-                      "ease-in-out animate-out duration-300 slide-out-to-bottom transition-opacity opacity-0":
-                        isClosing,
-                    },
+                  showOverlay={showOverlay}
+                  className={cn(
+                    option.is_correct && "bg-success",
+                    !option.is_correct && "bg-error text-primary-foreground",
+                    isClosing &&
+                      "ease-in-out animate-out duration-300 slide-out-to-bottom transition-opacity opacity-0",
                     "flex flex-row items-center justify-between py-12 px-36 rounded-ss-3xl rounded-se-3xl"
                   )}
                 >
@@ -92,10 +94,20 @@ const OptionsComponent = ({
                       )}
                     </div>
                     <div>
-                      <SheetTitle className="text-4xl">
+                      <SheetTitle
+                        className={cn(
+                          !option.is_correct && "text-primary-foreground",
+                          "text-4xl"
+                        )}
+                      >
                         {option.is_correct ? "Parabéns!" : "Oops!"}
                       </SheetTitle>
-                      <SheetDescription className="text-black text-xl">
+                      <SheetDescription
+                        className={cn(
+                          "text-xl text-black",
+                          !option.is_correct && "text-primary-foreground"
+                        )}
+                      >
                         <p>
                           {option.is_correct
                             ? "Você acertou! Continue aprendendo."
