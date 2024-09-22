@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   FormControl,
@@ -20,6 +20,8 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
+import { useTest } from "../TestContext";
+import { useRouter } from "next/navigation";
 
 const signupFormSchema = z.object({
   name: z
@@ -41,6 +43,8 @@ const signupFormSchema = z.object({
 });
 
 function SignUpPage() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
     defaultValues: {
@@ -58,6 +62,33 @@ function SignUpPage() {
 
   const handleIconClick = () => {
     setIsPasswordVisible(!isPasswordVisible);
+  };
+
+  const { level } = useTest();
+
+  useEffect(() => {
+    if (!level) {
+      router.push("/signup/test");
+    }
+  }, [level]);
+
+  const levels = [
+    { level: "A", description: "Iniciante" },
+    { level: "AA", description: "Intermediário" },
+    { level: "AAA", description: "Avançado" },
+  ];
+
+  const handleSignUp = () => {
+    const index = levels.findIndex((item) => item.level === level) + 1;
+
+    const expires = new Date(Date.now() + 60 * 1000).toUTCString();
+    document.cookie = `level=${index};path=/;expires=${expires}`;
+
+    try {
+      signIn("google", { callbackUrl: `/learn` });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -146,7 +177,7 @@ function SignUpPage() {
               <Button
                 className="w-20 h-20 rounded-full p-4 border-2 border-[#dbdbdb]"
                 type="button"
-                onClick={() => signIn("google", { callbackUrl: "/learn" })}
+                onClick={() => handleSignUp()}
               >
                 <Image
                   src="/assets/google-icon.svg"
