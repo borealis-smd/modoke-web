@@ -53,8 +53,11 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        primaryYellow: "hsl(var(--primary-yellow))", 
-        
+        primaryYellow: "hsl(var(--primary-yellow))",
+
+        success: "hsl(var(--success))",
+        error: "hsl(var(--error))",
+
         // Custom colors
         secondary50: "hsl(var(--secondary-50))",
         secondary100: "hsl(var(--secondary-100))",
