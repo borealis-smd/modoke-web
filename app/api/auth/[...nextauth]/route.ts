@@ -50,6 +50,7 @@ function authOptions(req: NextRequest, res: NextResponse): NextAuthOptions {
       async jwt({ token, user }) {
         if (user) {
           token.accessToken = (user as any).token;
+          token.googleUser = (user as any).googleUser;
         }
         return token;
       },
@@ -61,6 +62,7 @@ function authOptions(req: NextRequest, res: NextResponse): NextAuthOptions {
           name: token.name as string,
           image: token.picture as string,
           jwt: token.accessToken as string,
+          googleUser: token.googleUser as boolean,
         };
         return session;
       },
@@ -87,6 +89,7 @@ async function handleSignIn({
 
       if (loginResponse.data) {
         user.token = loginResponse.data;
+        user.googleUser = true;
         return true;
       }
     } catch (error) {
@@ -136,6 +139,7 @@ async function registerUser({
 
     if (registerResponse.data) {
       user.jwt = registerResponse.data;
+      user.googleUser = true;
       return true;
     }
     return false;

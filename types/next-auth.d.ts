@@ -8,6 +8,7 @@ declare module "next-auth" {
       image: string;
       name: string;
       jwt: string;
+      googleUser?: boolean;
     };
   }
 }
