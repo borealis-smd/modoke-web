@@ -82,6 +82,7 @@ const QuestionSchema = z.object({
 const UserSchema = z.object({
   first_name: z.string().min(1, "Nome não deve ser vazio."),
   last_name: z.string().min(1, "Sobrenome não deve ser vazio."),
+  avatar_url: z.string().url({ message: "URL do foto de perfil inválida." }),
   xp: z.number().int({ message: "XP deve ser um número inteiro." }),
   level_id: z
     .number()
@@ -99,6 +100,33 @@ const ExplanationSchema = z.object({
   updated_at: z.date(),
 });
 
+const BadgeSchema = z.object({
+  badge_id: z.number().int(),
+  badge_name: z.string(),
+  badge_image_url: z.string().url(),
+  unit_id: z.number().int(),
+  acquired_at: z.date(),
+  Unit: unitSchema.omit({ unit_sequence: true }),
+});
+
+const UserHasBadgeSchema = z.object({
+  user_has_badge_id: z.string(),
+  badge_id: z.number().int(),
+  acquired_at: z.date(),
+  Badges: BadgeSchema.omit({ badge_id: true }),
+});
+
+const CertificateSchema = z.object({
+  certificate_id: z.number().int(),
+  certificate_text: z.string(),
+  section_id: z.number().int(),
+});
+
+const UserHasCertificateSchema = z.object({
+  acquired_at: z.date(),
+  Certificates: CertificateSchema,
+});
+
 export type SectionProgess = z.infer<typeof sectionProgressSchema>;
 export type UnitProgress = z.infer<typeof unitProgressSchema>;
 export type LessonProgress = z.infer<typeof lessonProgressSchema>;
@@ -107,3 +135,5 @@ export type Question = z.infer<typeof QuestionSchema>;
 export type Option = z.infer<typeof OptionSchema>;
 export type User = z.infer<typeof UserSchema>;
 export type Explanation = z.infer<typeof ExplanationSchema>;
+export type Badge = z.infer<typeof BadgeSchema>;
+export type Certificate = z.infer<typeof CertificateSchema>;
