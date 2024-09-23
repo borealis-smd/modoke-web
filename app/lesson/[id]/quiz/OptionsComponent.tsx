@@ -100,7 +100,7 @@ const OptionsComponent = ({
                           "text-4xl"
                         )}
                       >
-                        {option.is_correct ? "Parabéns!" : "Oops!"}
+                        {option.is_correct ? "Parabéns! Você acertou! Continue aprendendo." : "Oops... você errou!"}
                       </SheetTitle>
                       <SheetDescription
                         className={cn(
@@ -109,11 +109,9 @@ const OptionsComponent = ({
                         )}
                       >
                         <p>
-                          {option.is_correct
-                            ? "Você acertou! Continue aprendendo."
-                            : `Você errou! A resposta correta é "${
+                          {!option.is_correct && `Resposta: ${
                                 options.find((o) => o.is_correct)?.option_text
-                              }".`}
+                              }`}
                         </p>
                       </SheetDescription>
                     </div>
