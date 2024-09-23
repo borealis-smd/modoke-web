@@ -1,48 +1,49 @@
 import { z } from "zod";
 
+const sectionSchema = z.object({
+  section_id: z.number().int(),
+  section_title: z.string(),
+  section_description: z.string(),
+  level_id: z.number().int(),
+});
+
 const sectionProgressSchema = z.object({
   in_progress: z.boolean(),
   is_locked: z.boolean(),
   completed_at: z.date().nullable(),
-  Section: z.object({
-    section_id: z.number().int(),
-    section_title: z.string(),
-    section_description: z.string(),
-    level_id: z.number().int(),
-  }),
+  Section: sectionSchema,
+});
+
+const unitSchema = z.object({
+  unit_id: z.number().int(),
+  unit_sequence: z.number().int(),
+  unit_title: z.string(),
+  unit_description: z.string(),
+  level_id: z.number().int(),
 });
 
 const unitProgressSchema = z.object({
   in_progress: z.boolean(),
   is_locked: z.boolean(),
   completed_at: z.date().nullable(),
-  Unit: z.object({
-    unit_id: z.number().int(),
-    unit_title: z.string(),
-    unit_description: z.string(),
-    level_id: z.number().int(),
-  }),
+  Unit: unitSchema,
+});
+
+const lessonSchema = z.object({
+  lesson_id: z.number().int(),
+  lesson_sequence: z.number().int(),
+  lesson_title: z.string(),
+  lesson_description: z.string(),
+  unit_id: z.number().int(),
+  created_at: z.date(),
+  updated_at: z.date(),
 });
 
 const lessonProgressSchema = z.object({
   in_progress: z.boolean(),
   is_locked: z.boolean(),
   completed_at: z.date().nullable(),
-  Lesson: z.object({
-    lesson_id: z.number().int(),
-    lesson_title: z.string(),
-    lesson_description: z.string(),
-    unit_id: z.number().int(),
-  }),
-});
-
-const lessonSchema = z.object({
-  lesson_id: z.number().int(),
-  lesson_title: z.string(),
-  lesson_description: z.string(),
-  unit_id: z.number().int(),
-  created_at: z.date(),
-  updated_at: z.date(),
+  Lesson: lessonSchema.omit({ created_at: true, updated_at: true }),
 });
 
 const OptionSchema = z.object({

@@ -4,7 +4,6 @@ import { FeedWrapper } from "@/components/feed-wrapper";
 import { Header } from "./header";
 import { useEffect, useState } from "react";
 import api from "@/lib/axios";
-import { useSession } from "next-auth/react";
 import {
   Lesson,
   LessonProgress,
@@ -77,9 +76,9 @@ const LearnPage = () => {
         {lessonInProgress && unitInProgress && sectionInProgress && lessons && (
           <>
             <Header
-              unit={`Unidade ${unitInProgress?.Unit.unit_id}`}
-              section={`Seção ${sectionInProgress?.Section.section_title}`}
-              theme="Conteúdo"
+              section={`Seção ${sectionInProgress?.Section.section_id}`}
+              unit={`Unidade ${unitInProgress?.Unit.unit_sequence}`}
+              theme={unitInProgress?.Unit.unit_title}
             />
             <Units lessons={lessons} lessonInProgress={lessonInProgress} />
           </>
