@@ -1,7 +1,7 @@
 type Props = {
    title: string;
    subtitle?: string;
-   variant: "session" | "revision";
+   variant: "section" | "revision";
    //image: string;
 }
 
@@ -12,7 +12,7 @@ export const Banner = ({ title, variant }: Props) => {
          role="banner"
          aria-labelledby="section-header"
       >
-         {variant === "session" ? (
+         {variant === "section" ? (
             <h1 id="section-header" className="text-2xl lg:text-4xl font-semibold">
                {title}
             </h1>

@@ -127,6 +127,7 @@ const UserHasCertificateSchema = z.object({
   Certificates: CertificateSchema,
 });
 
+export type Section = z.infer<typeof sectionSchema>;
 export type SectionProgess = z.infer<typeof sectionProgressSchema>;
 export type UnitProgress = z.infer<typeof unitProgressSchema>;
 export type LessonProgress = z.infer<typeof lessonProgressSchema>;
