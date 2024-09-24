@@ -14,21 +14,6 @@ const sectionProgressSchema = z.object({
   Section: sectionSchema,
 });
 
-const unitSchema = z.object({
-  unit_id: z.number().int(),
-  unit_sequence: z.number().int(),
-  unit_title: z.string(),
-  unit_description: z.string(),
-  level_id: z.number().int(),
-});
-
-const unitProgressSchema = z.object({
-  in_progress: z.boolean(),
-  is_locked: z.boolean(),
-  completed_at: z.date().nullable(),
-  Unit: unitSchema,
-});
-
 const lessonSchema = z.object({
   lesson_id: z.number().int(),
   lesson_sequence: z.number().int(),
@@ -44,6 +29,27 @@ const lessonProgressSchema = z.object({
   is_locked: z.boolean(),
   completed_at: z.date().nullable(),
   Lesson: lessonSchema.omit({ created_at: true, updated_at: true }),
+});
+
+const unitSchema = z.object({
+  unit_id: z.number().int(),
+  unit_sequence: z.number().int(),
+  unit_title: z.string(),
+  unit_description: z.string(),
+  level_id: z.number().int(),
+  section_id: z.number().int(),
+  Lessons: z
+    .object({
+      LessonProgresses: lessonProgressSchema.omit({ Lesson: true }).array(),
+    })
+    .array(),
+});
+
+const unitProgressSchema = z.object({
+  in_progress: z.boolean(),
+  is_locked: z.boolean(),
+  completed_at: z.date().nullable(),
+  Unit: unitSchema,
 });
 
 const OptionSchema = z.object({
@@ -129,6 +135,7 @@ const UserHasCertificateSchema = z.object({
 
 export type Section = z.infer<typeof sectionSchema>;
 export type SectionProgess = z.infer<typeof sectionProgressSchema>;
+export type Unit = z.infer<typeof unitSchema>;
 export type UnitProgress = z.infer<typeof unitProgressSchema>;
 export type LessonProgress = z.infer<typeof lessonProgressSchema>;
 export type Lesson = z.infer<typeof lessonSchema>;
