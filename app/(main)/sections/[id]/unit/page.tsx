@@ -26,7 +26,7 @@ const UnitPage = () => {
    return (
       <div className="flex flex-row-reverse gap-[48px] px-6">
          <FeedWrapper>
-            <Link href="/sessions" passHref>
+            <Link href="/sections" passHref>
                <Button variant="secondary" className="flex" aria-label="Voltar para a página de sessões">
                   <ArrowBack className="mr-2" />
                   Voltar
