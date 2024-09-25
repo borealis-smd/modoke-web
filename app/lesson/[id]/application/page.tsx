@@ -58,24 +58,26 @@ function ApplicationPage({ params }: Props) {
 
   return (
     <>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        {applicationInParts && (
-          <div className="flex gap-8 justify-center items-center text-2xl">
-            <div>Mascote</div>
-            <div className="flex flex-col gap-5">
-              {applicationInParts &&
-                applicationInParts.map((part: string, index: number) => (
-                  <ChatBubbleComponent key={index} content={part} />
-                ))}
+      {applicationInParts && (
+        <>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="flex gap-8 justify-center items-center text-2xl">
+              <div>Mascote</div>
+              <div className="flex flex-col gap-5">
+                {applicationInParts &&
+                  applicationInParts.map((part: string, index: number) => (
+                    <ChatBubbleComponent key={index} content={part} />
+                  ))}
+              </div>
             </div>
           </div>
-        )}
-      </div>
-      <div className="text-end absolute bottom-24 right-24">
-        <Link href={`/lesson/${params.id}/code`} onClick={handleNextPage}>
-          <Button variant="secondary">Continuar</Button>
-        </Link>
-      </div>
+          <div className="text-end absolute bottom-24 right-24">
+            <Link href={`/lesson/${params.id}/code`} onClick={handleNextPage}>
+              <Button variant="secondary">Continuar</Button>
+            </Link>
+          </div>
+        </>
+      )}
     </>
   );
 }
