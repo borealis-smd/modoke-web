@@ -6,11 +6,13 @@ import { Button } from "@/components/ui/button";
 import api from "@/lib/axios";
 import useAuth from "@/lib/hooks/useAuth";
 import { Section } from "@/types/validators";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const SectionsPage = () => {
   const token = useAuth();
+  const userName = useSession().data?.user?.name;
 
   const [sections, setSections] = useState<Section[]>([]);
 
@@ -29,7 +31,7 @@ const SectionsPage = () => {
     <div className="flex flex-row-reverse gap-[48px] px-6">
       <FeedWrapper>
         <div className="pt-5">
-          <Banner title="Seções" variant="section" />
+          <Banner title="Vamos revisar?" variant="revision" name={userName} />
 
           <div className="mt-6">
             {sections &&

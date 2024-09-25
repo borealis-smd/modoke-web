@@ -13,9 +13,11 @@ import api from "@/lib/axios";
 import { Unit } from "@/types/validators";
 import * as Icons from "lucide-react";
 import _ from "lodash";
+import { useSession } from "next-auth/react";
 
 const RevisionUnit = () => {
   const token = useAuth();
+  const userName = useSession().data?.user?.name;
 
   const [initialUnits, setInitialUnits] = useState<Unit[]>([]);
   const [units, setUnits] = useState<Unit[]>([]);
@@ -86,7 +88,7 @@ const RevisionUnit = () => {
   return (
     <div className="flex flex-row-reverse gap-12 px-6">
       <FeedWrapper>
-        <Banner title="Vamos revisar?" variant="revision" />
+        <Banner title="Vamos revisar?" variant="revision" name={userName} />
 
         <div className="flex flex-col lg:flex-row justify-between mt-8 space-y-2 lg:space-y-0">
           <div className="w-full mr-5">
