@@ -6,12 +6,10 @@ import { Button } from "@/components/ui/button";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
-import SearchIcon from "@mui/icons-material/Search";
-import CodeIcon from "@mui/icons-material/Code";
-import Keyboard from "@mui/icons-material/Keyboard";
 import { Unit } from "@/types/validators";
 import api from "@/lib/axios";
 import { useSession } from "next-auth/react";
+import * as Icons from "@mui/icons-material";
 
 interface Props {
   params: {
@@ -64,6 +62,19 @@ const UnitPage = ({ params }: Props) => {
     setProgresses(progress);
   };
 
+  const renderIcon = (iconName: string) => {
+    const IconComponent = Icons[
+      iconName as keyof typeof Icons
+    ] as React.ElementType;
+    if (!IconComponent) return null;
+    return (
+      <IconComponent
+        className="text-secondary/45 lg:text-secondary400 transition-opacity duration-300"
+        style={{ fontSize: "17rem" }}
+      />
+    );
+  };
+
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
       <FeedWrapper>
@@ -77,7 +88,6 @@ const UnitPage = ({ params }: Props) => {
             Voltar
           </Button>
         </Link>
-
         <div className="mt-8">
           <h1 className="text-3xl font-semibold mb-4">Unidades</h1>
           {units.length > 0 &&
@@ -119,11 +129,7 @@ const UnitPage = ({ params }: Props) => {
                     </div>
 
                     <span className="absolute -bottom-9 lg:-bottom-24 right-0 hidden lg:block lg:text-[11rem] font-bold leading-none opacity-20 transition-opacity duration-300 group-hover:opacity-100 tracking-tight">
-                      {/* {React.cloneElement(unit.icon as React.ReactElement, {
-                        className:
-                          "text-secondary/45 lg:text-secondary400 transition-opacity duration-300",
-                        style: { fontSize: "17rem" },
-                      })} */}
+                      {unit.unit_icon && renderIcon(unit.unit_icon)}
                     </span>
                   </Button>
                 </Link>

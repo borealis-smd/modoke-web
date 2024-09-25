@@ -33,6 +33,7 @@ const lessonProgressSchema = z.object({
 
 const unitSchema = z.object({
   unit_id: z.number().int(),
+  unit_icon: z.string().nullable(),
   unit_sequence: z.number().int(),
   unit_title: z.string(),
   unit_description: z.string(),
