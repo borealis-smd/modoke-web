@@ -107,6 +107,17 @@ const ExplanationSchema = z.object({
   updated_at: z.date(),
 });
 
+const LessonExplanationSchema = z.object({
+  lesson_id: z.number().int(),
+  lesson_sequence: z.number().int(),
+  lesson_title: z.string(),
+  lesson_description: z.string(),
+  unit_id: z.number().int(),
+  created_at: z.date(),
+  updated_at: z.date(),
+  Explanations: ExplanationSchema.array(),
+});
+
 const BadgeSchema = z.object({
   badge_id: z.number().int(),
   badge_name: z.string(),
@@ -144,5 +155,6 @@ export type Question = z.infer<typeof QuestionSchema>;
 export type Option = z.infer<typeof OptionSchema>;
 export type User = z.infer<typeof UserSchema>;
 export type Explanation = z.infer<typeof ExplanationSchema>;
+export type LessonExplanation = z.infer<typeof LessonExplanationSchema>;
 export type Badge = z.infer<typeof BadgeSchema>;
 export type Certificate = z.infer<typeof CertificateSchema>;
