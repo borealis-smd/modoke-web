@@ -11,9 +11,9 @@ import { Button } from "@/components/ui/button";
 import useAuth from "@/lib/hooks/useAuth";
 import api from "@/lib/axios";
 import { Unit } from "@/types/validators";
-import * as Icons from "lucide-react";
 import _ from "lodash";
 import { useSession } from "next-auth/react";
+import { renderIcon } from "./RenderIcon";
 
 const RevisionUnit = () => {
   const token = useAuth();
@@ -43,19 +43,6 @@ const RevisionUnit = () => {
 
     fetchUnits();
   }, [token]);
-
-  const renderIcon = (iconName: string) => {
-    const IconComponent = Icons[
-      iconName as keyof typeof Icons
-    ] as React.ElementType;
-    if (!IconComponent) return null;
-    return (
-      <IconComponent
-        className="text-secondary/45 hover:text-secondary400 transition-opacity duration-300"
-        size={"17rem"}
-      />
-    );
-  };
 
   const debouncedSearch = useCallback(
     _.debounce((term) => {

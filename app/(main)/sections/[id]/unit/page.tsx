@@ -8,8 +8,8 @@ import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
 import { Unit } from "@/types/validators";
 import api from "@/lib/axios";
-import * as Icons from "lucide-react";
 import useAuth from "@/lib/hooks/useAuth";
+import { renderIcon } from "@/app/(main)/revision/RenderIcon";
 
 interface Props {
   params: {
@@ -60,19 +60,6 @@ const UnitPage = ({ params }: Props) => {
     });
 
     setProgresses(progress);
-  };
-
-  const renderIcon = (iconName: string) => {
-    const IconComponent = Icons[
-      iconName as keyof typeof Icons
-    ] as React.ElementType;
-    if (!IconComponent) return null;
-    return (
-      <IconComponent
-        className="text-secondary/45 hover:text-secondary400 transition-opacity duration-300"
-        size={"17rem"}
-      />
-    );
   };
 
   return (
