@@ -8,8 +8,8 @@ import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
 import { Unit } from "@/types/validators";
 import api from "@/lib/axios";
-import { useSession } from "next-auth/react";
-import * as Icons from "@mui/icons-material";
+import * as Icons from "lucide-react";
+import useAuth from "@/lib/hooks/useAuth";
 
 interface Props {
   params: {
@@ -23,7 +23,7 @@ interface Progress {
 }
 
 const UnitPage = ({ params }: Props) => {
-  const token = useSession().data?.user.jwt;
+  const token = useAuth();
 
   const [units, setUnits] = useState<Unit[]>([]);
   const [progresses, setProgresses] = useState<Progress[]>([]);
@@ -69,8 +69,8 @@ const UnitPage = ({ params }: Props) => {
     if (!IconComponent) return null;
     return (
       <IconComponent
-        className="text-secondary/45 lg:text-secondary400 transition-opacity duration-300"
-        style={{ fontSize: "17rem" }}
+        className="text-secondary/45 hover:text-secondary400 transition-opacity duration-300"
+        size={"17rem"}
       />
     );
   };
@@ -86,6 +86,7 @@ const UnitPage = ({ params }: Props) => {
           >
             <ArrowBack className="mr-2" />
             Voltar
+            <Icons.Image />
           </Button>
         </Link>
         <div className="mt-8">
@@ -127,7 +128,6 @@ const UnitPage = ({ params }: Props) => {
                         />
                       </div>
                     </div>
-
                     <span className="absolute -bottom-9 lg:-bottom-24 right-0 hidden lg:block lg:text-[11rem] font-bold leading-none opacity-20 transition-opacity duration-300 group-hover:opacity-100 tracking-tight">
                       {unit.unit_icon && renderIcon(unit.unit_icon)}
                     </span>
