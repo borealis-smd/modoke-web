@@ -20,8 +20,8 @@ import TerminalIcon from "@mui/icons-material/TerminalOutlined";
 import { useBreadcrumb } from "../../BreadcrumbContext";
 import StartQuizComponent from "./StartQuizComponent";
 import { useQuiz } from "../../QuizContext";
-import { useSession } from "next-auth/react";
 import CloseAlertComponent from "../../CloseAlertComponent";
+import useAuth from "@/lib/hooks/useAuth";
 
 interface Props {
   params: { id: string };
@@ -30,7 +30,7 @@ interface Props {
 function QuizContent({ params }: Props) {
   const router = useRouter();
 
-  const token = useSession().data?.user.jwt;
+  const token = useAuth();
 
   const { pastHref, setPastHref } = useBreadcrumb();
 
@@ -57,6 +57,8 @@ function QuizContent({ params }: Props) {
   } = useQuiz();
 
   useEffect(() => {
+    if (!token) return;
+
     if (pastHref !== "/code") {
       router.push("/learn");
     }
@@ -78,9 +80,7 @@ function QuizContent({ params }: Props) {
       }
     };
 
-    if (token) {
-      fetchLessonQuestions();
-    }
+    fetchLessonQuestions();
   }, [params.id, token]);
 
   const currentQuestion = lessonQuestions[currentQuestionIndex];

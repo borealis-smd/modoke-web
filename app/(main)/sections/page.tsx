@@ -4,21 +4,26 @@ import { Banner } from "@/components/banner";
 import { FeedWrapper } from "@/components/feed-wrapper";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/axios";
+import useAuth from "@/lib/hooks/useAuth";
 import { Section } from "@/types/validators";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const SectionsPage = () => {
+  const token = useAuth();
+
   const [sections, setSections] = useState<Section[]>([]);
 
   useEffect(() => {
+    if (!token) return;
+
     const fetchSections = async () => {
       const { data: sections } = await api.get("/section/");
       setSections(sections);
     };
 
     fetchSections();
-  }, []);
+  }, [token]);
 
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">

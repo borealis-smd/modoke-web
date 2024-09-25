@@ -10,14 +10,14 @@ import PetsIcon from "@mui/icons-material/Pets";
 import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
 import api from "@/lib/axios";
 import { QuizProvider, useQuiz } from "./QuizContext";
-import { useSession } from "next-auth/react";
+import useAuth from "@/lib/hooks/useAuth";
 
 interface Props {
   children: React.ReactNode;
 }
 
 function LessonPageContent({ children }: Props) {
-  const token = useSession().data?.user.jwt;
+  const token = useAuth();
 
   const router = useRouter();
   const [activeHref, setActiveHref] = React.useState("");
@@ -50,6 +50,8 @@ function LessonPageContent({ children }: Props) {
   const { currentQuestionIndex, numQuestions, isFinished, attempt } = useQuiz();
 
   useEffect(() => {
+    if (!token) return;
+
     const fetchLesson = async () => {
       const lessonId = currentPath.split("/")[2];
       const { data: lesson } = await api.get(
@@ -63,9 +65,7 @@ function LessonPageContent({ children }: Props) {
       setLessonLabel(lesson.lesson_title);
     };
 
-    if (token) {
-      fetchLesson();
-    }
+    fetchLesson();
   }, [setLessonLabel, token, currentPath]);
 
   const handleBreadcrumbPageChange = useCallback(

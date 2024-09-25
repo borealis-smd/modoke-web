@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import api from "@/lib/axios";
 import { parseTags } from "@/lib/parseTags";
 import { Explanation } from "@/types/validators";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useBreadcrumb } from "../../BreadcrumbContext";
+import useAuth from "@/lib/hooks/useAuth";
 
 interface Props {
   params: { id: string };
@@ -18,7 +18,7 @@ interface Props {
 function CodePage({ params }: Props) {
   const router = useRouter();
 
-  const token = useSession().data?.user.jwt;
+  const token = useAuth();
 
   const { pastHref, setPastHref } = useBreadcrumb();
 
@@ -26,6 +26,8 @@ function CodePage({ params }: Props) {
   const [error, setError] = React.useState(null);
 
   useEffect(() => {
+    if (!token) return;
+
     if (!["/application", "/quiz"].includes(pastHref)) {
       router.push("/learn");
     }
@@ -47,9 +49,7 @@ function CodePage({ params }: Props) {
       }
     };
 
-    if (token) {
-      fetchCode();
-    }
+    fetchCode();
   }, [params.id, token]);
 
   const handleNextPage = () => setPastHref("/code");

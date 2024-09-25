@@ -5,17 +5,17 @@ import { Button } from "@/components/ui/button";
 import api from "@/lib/axios";
 import { parseTags } from "@/lib/parseTags";
 import { Explanation } from "@/types/validators";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { useBreadcrumb } from "../../BreadcrumbContext";
+import useAuth from "@/lib/hooks/useAuth";
 
 interface Props {
   params: { id: string };
 }
 
 function DefinitionPage({ params }: Props) {
-  const token = useSession().data?.user.jwt;
+  const token = useAuth();
 
   const [definitionInParts, setDefinitionInParts] = React.useState<
     string[] | null
@@ -23,6 +23,8 @@ function DefinitionPage({ params }: Props) {
   const [error, setError] = React.useState(null);
 
   useEffect(() => {
+    if (!token) return;
+    
     const fetchDefinition = async () => {
       try {
         const { data }: { data: Explanation[] } = await api.get(
@@ -41,9 +43,7 @@ function DefinitionPage({ params }: Props) {
       }
     };
 
-    if (token) {
-      fetchDefinition();
-    }
+    fetchDefinition();
   }, [params.id, token]);
 
   const { setPastHref } = useBreadcrumb();
