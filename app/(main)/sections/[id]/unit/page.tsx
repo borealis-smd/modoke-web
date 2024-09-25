@@ -86,7 +86,6 @@ const UnitPage = ({ params }: Props) => {
           >
             <ArrowBack className="mr-2" />
             Voltar
-            <Icons.Image />
           </Button>
         </Link>
         <div className="mt-8">
