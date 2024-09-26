@@ -25,6 +25,23 @@ const lessonSchema = z.object({
 });
 
 const lessonProgressSchema = z.object({
+  lesson_id: z.number().int(),
+  lesson_sequence: z.number().int(),
+  lesson_title: z.string(),
+  lesson_description: z.string(),
+  unit_id: z.number().int(),
+  created_at: z.date(),
+  updated_at: z.date(),
+  LessonProgresses: z
+    .object({
+      in_progress: z.boolean(),
+      is_locked: z.boolean(),
+      completed_at: z.date().nullable(),
+    })
+    .array(),
+});
+
+const progressLessonSchema = z.object({
   in_progress: z.boolean(),
   is_locked: z.boolean(),
   completed_at: z.date().nullable(),
@@ -41,7 +58,7 @@ const unitSchema = z.object({
   section_id: z.number().int(),
   Lessons: z
     .object({
-      LessonProgresses: lessonProgressSchema.omit({ Lesson: true }).array(),
+      LessonProgresses: progressLessonSchema.omit({ Lesson: true }).array(),
     })
     .array(),
 });
@@ -149,8 +166,9 @@ export type Section = z.infer<typeof sectionSchema>;
 export type SectionProgess = z.infer<typeof sectionProgressSchema>;
 export type Unit = z.infer<typeof unitSchema>;
 export type UnitProgress = z.infer<typeof unitProgressSchema>;
-export type LessonProgress = z.infer<typeof lessonProgressSchema>;
+export type ProgressLesson = z.infer<typeof progressLessonSchema>;
 export type Lesson = z.infer<typeof lessonSchema>;
+export type LessonProgress = z.infer<typeof lessonProgressSchema>;
 export type Question = z.infer<typeof QuestionSchema>;
 export type Option = z.infer<typeof OptionSchema>;
 export type User = z.infer<typeof UserSchema>;
