@@ -13,14 +13,16 @@ import badge6 from "@/public/assets/badge-web4all.png";
 import badge7 from "@/public/assets/badge-AA.png";
 
 import badge8 from "@/public/assets/badge-WCAG.png";
+import badge9 from "@/public/assets/badge-midia.png";
+import badge10 from "@/public/assets/badge-som.png";
 
 import modoke from "@/public/assets/modokeDog/Oi.png";
 import modokeEmblema from "@/public/assets/modokeDog/Ilustração Teste de Familiaridade - Início - Ajustado.png";
 
 const sessions = [
-  { label: "A", sub: "Essencial", p: "O nível A provê o básico de acessibilidade e pode limitar usuários" },
-  { label: "AA", sub: "Ideal", p: "O nível AA é o mais recomendado para aplicações" },
-  { label: "AAA", sub: "Especializado", p: "Pela sua complexidade, nem sempre é possível cumprir o nível AAA" },
+  { label: "A", sub: "Iniciante", p: "O nível A provê o básico de acessibilidade e pode limitar usuários" },
+  { label: "AA", sub: "Intermediário", p: "O nível AA é o mais recomendado para aplicações" },
+  { label: "AAA", sub: "Avançado", p: "Pela sua complexidade, nem sempre é possível cumprir o nível AAA" },
 ];
 
 export default function Home() {
@@ -85,7 +87,7 @@ export default function Home() {
             className="absolute top-0 right-0 w-50 h-50 transform translate-x-14 rotate-12"
           />
           <Image
-            src={badge3}
+            src={badge9}
             alt=""
             className="absolute bottom-10 left-0 w-50 h-50 transform -translate-x-10 -rotate-12"
           />
@@ -151,7 +153,7 @@ export default function Home() {
             className="absolute top-0 right-0 w-50 h-50 transform translate-x-14 rotate-12"
           />
           <Image
-            src={badge2}
+            src={badge10}
             alt=""
             className="absolute bottom-10 left-0 w-50 h-50 transform -translate-x-10 -rotate-12"
           />
@@ -187,7 +189,7 @@ export default function Home() {
       {/* Sessões*/}
       <section className="relative flex w-full justify-center items-center">
         <div className="space-y-9 my-36 w-[57.9375rem] flex flex-col justify-center items-center">
-          <h1 className="font-bold text-primary text-5xl">Progresso em sessões</h1>
+          <h1 className="font-bold text-primary text-5xl">Progresso em seções</h1>
 
           <div className="flex gap-5">
             {sessions.map((session) => (
@@ -254,7 +256,7 @@ export default function Home() {
             ].map((categoria) => (
               <div
                 key={categoria}
-                className="flex justify-center items-center bg-primary text-primary-foreground font-medium h-20 rounded-md"
+                className="flex justify-center items-center bg-primary text-primary-foreground font-medium h-20 rounded-md hover:bg-primary/90"
                 tabIndex={0}
               >
                 {categoria}
@@ -266,7 +268,7 @@ export default function Home() {
 
       {/* Certificados */}
       <section className="flex w-full justify-center items-center">
-        <div className="space-y-9 my-36 w-[57.9375rem] flex flex-col justify-center items-center">
+        <div className="space-y-9 my-28 w-[57.9375rem] flex flex-col justify-center items-center">
           <h1 className="font-bold text-primary text-5xl text-center">Ganhe emblemas colecionáveis!</h1>
 
           <div className="flex justify-center items-center w-full" aria-hidden="true">
