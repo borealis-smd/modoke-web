@@ -47,7 +47,14 @@ function LessonPageContent({ children }: Props) {
     setPastHref,
   } = useBreadcrumb();
 
-  const { currentQuestionIndex, numQuestions, isFinished, attempt } = useQuiz();
+  const {
+    currentQuestionIndex,
+    numQuestions,
+    isFinished,
+    attempt,
+    setSequence,
+    setUnitId,
+  } = useQuiz();
 
   useEffect(() => {
     if (!token) return;
@@ -63,6 +70,8 @@ function LessonPageContent({ children }: Props) {
         }
       );
       setLessonLabel(lesson.lesson_title);
+      setSequence(lesson.lesson_sequence);
+      setUnitId(lesson.unit_id);
     };
 
     fetchLesson();
@@ -138,22 +147,24 @@ function LessonPageContent({ children }: Props) {
 
           <div className="flex items-center gap-4">
             {activeHref === "/quiz" && (
-              <div className="inline-flex gap-1 items-center">
-                <QuizOutlinedIcon
-                  sx={{ width: 32, height: 32 }}
-                  aria-hidden="true"
-                />
-                <span className="text-black text-lg">
-                  {isFinished
-                    ? `${currentQuestionIndex + 1}/${numQuestions}`
-                    : `${currentQuestionIndex}/${numQuestions}`}
-                </span>
-              </div>
+              <>
+                <div className="inline-flex gap-1 items-center">
+                  <QuizOutlinedIcon
+                    sx={{ width: 32, height: 32 }}
+                    aria-hidden="true"
+                  />
+                  <span className="text-black text-lg">
+                    {isFinished
+                      ? `${currentQuestionIndex + 1}/${numQuestions}`
+                      : `${currentQuestionIndex}/${numQuestions}`}
+                  </span>
+                </div>
+                <div className="inline-flex gap-1 items-center text-lg">
+                  <PetsIcon sx={{ width: 30, height: 28 }} aria-hidden="true" />
+                  {attempt}
+                </div>
+              </>
             )}
-            <div className="inline-flex gap-1 items-center text-lg">
-              <PetsIcon sx={{ width: 30, height: 28 }} aria-hidden="true" />
-              {attempt}
-            </div>
           </div>
         </div>
       )}

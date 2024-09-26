@@ -12,11 +12,15 @@ interface QuizContextType {
   attempt: number;
   currentQuestionIndex: number;
   isFinished: boolean;
+  sequence: number;
+  unitId: number;
   setNumQuestions: React.Dispatch<React.SetStateAction<number>>;
   setXp: React.Dispatch<React.SetStateAction<number>>;
   setAttempt: React.Dispatch<React.SetStateAction<number>>;
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
   setIsFinished: (value: boolean) => void;
+  setSequence: React.Dispatch<React.SetStateAction<number>>;
+  setUnitId: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const QuizContext = createContext<QuizContextType | undefined>(
@@ -29,6 +33,8 @@ export const QuizProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [attempt, setAttempt] = useState(3); // determina o número de tentativas como 3
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  const [sequence, setSequence] = React.useState(0);
+  const [unitId, setUnitId] = React.useState(0);
 
   return (
     <QuizContext.Provider
@@ -38,11 +44,15 @@ export const QuizProvider: FC<{ children: ReactNode }> = ({ children }) => {
         attempt,
         currentQuestionIndex,
         isFinished,
+        sequence,
+        unitId,
         setNumQuestions,
         setXp,
         setAttempt,
         setCurrentQuestionIndex,
         setIsFinished,
+        setSequence,
+        setUnitId,
       }}
     >
       {children}
