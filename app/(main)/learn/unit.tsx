@@ -1,9 +1,9 @@
-import { Lesson, LessonProgress } from "@/types/validators";
+import { LessonProgress, ProgressLesson } from "@/types/validators";
 import { LessonButton } from "./lesson-button";
 
 interface Props {
-  lessons: Lesson[];
-  lessonInProgress: LessonProgress;
+  lessons: LessonProgress[];
+  lessonInProgress?: ProgressLesson | null;
 }
 
 export const Units = ({ lessons, lessonInProgress }: Props) => {
@@ -25,10 +25,10 @@ export const Units = ({ lessons, lessonInProgress }: Props) => {
               lesson_description={lesson.lesson_description}
               unit_id={lesson.unit_id}
               is_completed={
-                lessonInProgress.Lesson.lesson_id === lesson.lesson_id &&
-                lessonInProgress.completed_at !== null
+                lessons.find((l) => l.lesson_id === lesson.lesson_id)
+                  ?.LessonProgresses[0].completed_at !== null
               }
-              current={lessonInProgress.Lesson.lesson_id === lesson.lesson_id}
+              current={lessonInProgress?.Lesson.lesson_id === lesson.lesson_id}
               index={index} // index passado para o LessonButton para controle dos estados
               totalCount={0}
             />

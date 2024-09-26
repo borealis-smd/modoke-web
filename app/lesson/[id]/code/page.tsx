@@ -42,6 +42,13 @@ function CodePage({ params }: Props) {
             },
           }
         );
+
+        if (!data || data.length === 0) {
+          handleNextPage();
+          router.push(`/lesson/${params.id}/quiz`);
+          return;
+        }
+
         const parts = parseTags(data[0].content);
         setCodeInParts(parts);
       } catch (err: any) {

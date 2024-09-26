@@ -46,6 +46,7 @@ function EnterLayoutContent({ children }: Props) {
         </div>
         <div className="min-w-[39.75rem] text-lg -mt-5">{children}</div>
       </div>
+      <div className="max-w-[536px] w-full text-lg">{children}</div>
     </div>
   );
 }

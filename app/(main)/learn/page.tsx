@@ -5,8 +5,8 @@ import { Header } from "./header";
 import { useEffect, useState } from "react";
 import api from "@/lib/axios";
 import {
-  Lesson,
   LessonProgress,
+  ProgressLesson,
   SectionProgess,
   UnitProgress,
 } from "@/types/validators";
@@ -21,9 +21,9 @@ const LearnPage = () => {
   const [unitInProgress, setUnitInProgress] = useState<UnitProgress | null>(
     null
   );
-  const [lessons, setLessons] = useState<Lesson[]>([]);
+  const [lessons, setLessons] = useState<LessonProgress[]>([]);
   const [lessonInProgress, setLessonInProgress] =
-    useState<LessonProgress | null>(null);
+    useState<ProgressLesson | null>(null);
 
   useEffect(() => {
     if (!token) return;
@@ -46,7 +46,7 @@ const LearnPage = () => {
       setUnitInProgress(unit);
 
       // pegar as lições de uma unidade
-      const { data: lessons } = await api.get(
+      const { data: dbLessons } = await api.get(
         `/lesson/unit?unit_id=${unit.Unit.unit_id}`,
         {
           headers: {
@@ -54,7 +54,8 @@ const LearnPage = () => {
           },
         }
       );
-      setLessons(lessons);
+      console.log(dbLessons);
+      setLessons(dbLessons);
 
       // pegar a lição atual
       const { data: lesson } = await api.get("/lesson/user", {
@@ -73,11 +74,11 @@ const LearnPage = () => {
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
       <FeedWrapper>
-        {lessonInProgress && unitInProgress && sectionInProgress && lessons && (
+        {unitInProgress && sectionInProgress && lessons && (
           <>
             <Header
-              section={`Seção ${sectionInProgress?.Section.section_id}`}
-              unit={`Unidade ${unitInProgress?.Unit.unit_sequence}`}
+              section={`Seção ${sectionInProgress?.Section.section_id}`} // mudar para opção selecionada no guia
+              unit={`Unidade ${unitInProgress?.Unit.unit_sequence}`} // mudar para opção selecionada no guia
               theme={unitInProgress?.Unit.unit_title}
             />
             <Units lessons={lessons} lessonInProgress={lessonInProgress} />

@@ -225,7 +225,7 @@ const Settings = () => {
         <Button
           variant="dangerOutline"
           className="w-[10rem] justify-start hover:bg-red-50"
-          onClick={() => signOut()}
+          onClick={() => signOut({ redirect: true, callbackUrl: "/" })}
         >
           <LogOut className="mr-2" />
           Sair

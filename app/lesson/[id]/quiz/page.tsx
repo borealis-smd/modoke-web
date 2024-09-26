@@ -49,6 +49,8 @@ function QuizContent({ params }: Props) {
     attempt,
     currentQuestionIndex,
     isFinished,
+    sequence,
+    unitId,
     setXp,
     setAttempt,
     setCurrentQuestionIndex,
@@ -116,9 +118,8 @@ function QuizContent({ params }: Props) {
       await markLessonAsFinished();
       setIsFinished(true);
       setPastHref("/quiz");
-      router.push(`/lesson/${params.id}/quiz/feedback`);
+      // router.push(`/lesson/${params.id}/quiz/feedback`);
     } catch (error: any) {
-      console.error("Error in finishLesson:", error);
       setError(error);
     }
   };
@@ -145,11 +146,61 @@ function QuizContent({ params }: Props) {
   };
 
   const markLessonAsFinished = async () => {
-    await api.put(`/lesson/finish?lesson_id=${params.id}`, null, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const finishResponse = await api.put(
+      `/lesson/finish?lesson_id=${params.id}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (finishResponse.status === 200) {
+      unlockNextLesson();
+    }
+  };
+
+  const unlockNextLesson = async () => {
+    try {
+      // tenta desbloquear a próxima lição
+      await api.put(
+        `/lesson/unlock?lesson_sequence=${Number(sequence) + 1}&unit_id=${unitId}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error: any) {
+      if (
+        error.response.status === 400 &&
+        error.response.data.message === "Lição não encontrada."
+      ) {
+        // se não houver mais lições, não tenta desbloquar a próxima unidade
+        unlockNextUnit();
+      }
+    }
+  };
+
+  const unlockNextUnit = async () => {
+    try {
+      // tenta desbloquear a próxima unidade
+      await api.put(`/unit/unlock?unit_id=${unitId}`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error: any) {
+      if (
+        error.response.status === 400 &&
+        error.response.data.message === "Não há unidade seguinte."
+      ) {
+        // se não houver mais unidades, tenta desbloquar a próxima seção
+        console.log(error.response.data.message);
+      }
+    }
   };
 
   const handleSubmit = async (optionId: number) => {
@@ -230,18 +281,22 @@ function QuizContent({ params }: Props) {
       )}
 
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="max-w-2xl h-[620px] flex flex-col items-center justify-center">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-xl">
-              Você perdeu!
+            <AlertDialogTitle className="font-black text-2xl text-center">
+              Poxa... você perdeu!
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-lg">
-              Infelizmente, não foi dessa vez. Você não tem mais tentativas.
+            <AlertDialogDescription className="text-lg text-center px-10">
+              Infelizmente, não foi dessa vez. Você não tem mais tentativas, mas
+              você pode refazer este teste se quiser.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
+          <AlertDialogFooter className="w-full sm:space-x-0 max-w-[480px]">
+            <AlertDialogAction className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
+              Refazer
+            </AlertDialogAction>
             <AlertDialogAction
-              className="bg-red-600 text-white hover:bg-red-400"
+              className="bg-white text-secondary-foreground hover:bg-secondary/20"
               onClick={() => handleExit()}
             >
               Continuar

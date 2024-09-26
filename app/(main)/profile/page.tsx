@@ -8,7 +8,7 @@ import Bolt from "@mui/icons-material/Bolt";
 import Check from "@mui/icons-material/Check";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/lib/hooks/useAuth";
-import { Badge, Certificate, LessonProgress, User } from "@/types/validators";
+import { Badge, Certificate, ProgressLesson, User } from "@/types/validators";
 import api from "@/lib/axios";
 
 const Profile = () => {
@@ -59,7 +59,7 @@ const Profile = () => {
       });
 
       const completedLessons = lessons.filter(
-        (lesson: LessonProgress) => lesson.completed_at !== null
+        (lesson: ProgressLesson) => lesson.completed_at !== null
       );
       setLessonNumber(completedLessons.length);
     };
