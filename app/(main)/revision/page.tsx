@@ -25,6 +25,8 @@ const RevisionUnit = () => {
   const [selectedSection, setSelectedSection] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
+  const sections = [{ label: "A" }, { label: "AA" }, { label: "AAA" }];
+
   useEffect(() => {
     if (!token) return;
 
@@ -111,7 +113,7 @@ const RevisionUnit = () => {
                           Sessão:
                         </span>
                         <span className="text-secondary-foreground text-2xl font-semibold">
-                          {unit.section_id}
+                          {sections[unit.section_id - 1].label}
                         </span>
                         <span className="text-secondary-foreground text-sm font-medium">
                           Unidade:
@@ -120,7 +122,7 @@ const RevisionUnit = () => {
                           {unit.unit_title}
                         </span>
                       </div>
-                      <span className="absolute -bottom-9 lg:-bottom-8 right-0 lg:text-[11rem] font-bold leading-none opacity-20 transition-opacity duration-300 group-hover:opacity-100 tracking-tight">
+                      <span className="absolute -bottom-9 lg:-bottom-8 right-0 group-hover:z-0 lg:text-[11rem] font-bold leading-none opacity-20 transition-opacity duration-300 group-hover:opacity-100 tracking-tight">
                         {unit.unit_icon && renderIcon(unit.unit_icon)}
                       </span>
                     </Button>
