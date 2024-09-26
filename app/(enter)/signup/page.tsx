@@ -25,7 +25,10 @@ import { useRouter } from "next/navigation";
 import api from "@/lib/axios";
 
 const signupFormSchema = z.object({
-  name: z
+  first_name: z
+    .string({ message: "Nome é obrigatório." })
+    .min(2, "Nome muito curto."),
+  last_name: z
     .string({ message: "Nome é obrigatório." })
     .min(2, "Nome muito curto."),
   email: z.string().email("Endereço de e-mail inválido."),
@@ -50,7 +53,8 @@ function SignUpPage() {
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
     defaultValues: {
-      name: "",
+      first_name: "",
+      last_name: "",
       email: "",
       password: "",
     },
@@ -81,7 +85,8 @@ function SignUpPage() {
     try {
       const response = await api.post("/user/", {
         user: {
-          first_name: values.name,
+          first_name: values.first_name,
+          last_name: values.last_name,
           avatar_url:
             "https://projeto-modoke.s3.us-east-2.amazonaws.com/default.png",
           level_id: levelId,
@@ -129,24 +134,44 @@ function SignUpPage() {
           onSubmit={form.handleSubmit(handleSignUp)}
           className="text-[#333333]"
         >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem className="mb-9 w-full">
-                <FormLabel>Nome</FormLabel>
-                <FormControl>
-                  <Input
-                    icon={<PersonOutlineOutlinedIcon />}
-                    type="text"
-                    placeholder="Digite seu nome..."
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex flex-wrap gap-x-8">
+            <FormField
+              control={form.control}
+              name="first_name"
+              render={({ field }) => (
+                <FormItem className="mb-9 w-full">
+                  <FormLabel>Nome</FormLabel>
+                  <FormControl>
+                    <Input
+                      icon={<PersonOutlineOutlinedIcon />}
+                      type="text"
+                      placeholder="Digite seu nome..."
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="last_name"
+              render={({ field }) => (
+                <FormItem className="mb-9 w-full">
+                  <FormLabel>Sobrenome</FormLabel>
+                  <FormControl>
+                    <Input
+                      icon={<PersonOutlineOutlinedIcon />}
+                      type="text"
+                      placeholder="Digite seu sobrenome..."
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
             name="email"
