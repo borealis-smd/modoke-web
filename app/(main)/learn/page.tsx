@@ -46,7 +46,7 @@ const LearnPage = () => {
       setUnitInProgress(unit);
 
       // pegar as lições de uma unidade
-      const { data: lessons } = await api.get(
+      const { data: dbLessons } = await api.get(
         `/lesson/unit?unit_id=${unit.Unit.unit_id}`,
         {
           headers: {
@@ -54,7 +54,8 @@ const LearnPage = () => {
           },
         }
       );
-      setLessons(lessons);
+      console.log(dbLessons);
+      setLessons(dbLessons);
 
       // pegar a lição atual
       const { data: lesson } = await api.get("/lesson/user", {
