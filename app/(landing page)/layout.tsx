@@ -9,7 +9,7 @@ const LandingPageLayout = ({ children }: Props) => {
    return (
       <div className="min-h-screen flex flex-col">
          <Header />
-         <main className="flex-1 flex flex-col items-center justify-center">
+         <main className="flex-1 flex flex-col py-[1rem] px-2 lg:px-[5.9375rem]">
             {children}
          </main>
          <Footer />
