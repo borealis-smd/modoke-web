@@ -22,6 +22,7 @@ import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useTest } from "../TestContext";
 import { useRouter } from "next/navigation";
+import api from "@/lib/axios";
 
 const signupFormSchema = z.object({
   name: z
@@ -44,6 +45,7 @@ const signupFormSchema = z.object({
 
 function SignUpPage() {
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
@@ -54,17 +56,13 @@ function SignUpPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof signupFormSchema>) {
-    console.log(values);
-  }
-
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleIconClick = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const { level } = useTest();
+  const { level, setLevel } = useTest();
 
   useEffect(() => {
     if (!level) {
@@ -78,7 +76,37 @@ function SignUpPage() {
     { level: "AAA", description: "Avançado" },
   ];
 
-  const handleSignUp = () => {
+  const handleSignUp = async (values: z.infer<typeof signupFormSchema>) => {
+    const levelId = levels.findIndex((item) => item.level === level) + 1;
+    try {
+      const response = await api.post("/user/", {
+        user: {
+          first_name: values.name,
+          avatar_url:
+            "https://projeto-modoke.s3.us-east-2.amazonaws.com/default.png",
+          level_id: levelId,
+        },
+        login: {
+          email: values.email,
+          password: values.password,
+        },
+      });
+
+      if (response.status === 201) {
+        router.push("/signin");
+        return;
+      }
+
+      setLevel("");
+    } catch (error) {
+      setError(
+        "Infelizmente não foi possível criar sua conta agora. Tente novamente."
+      );
+      console.error(error);
+    }
+  };
+
+  const handleGoogleSignUp = () => {
     const index = levels.findIndex((item) => item.level === level) + 1;
 
     const expires = new Date(Date.now() + 60 * 1000).toUTCString();
@@ -97,7 +125,10 @@ function SignUpPage() {
         <h1 className="text-5xl font-bold text-primary">Cadastro</h1>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="text-[#333333]">
+        <form
+          onSubmit={form.handleSubmit(handleSignUp)}
+          className="text-[#333333]"
+        >
           <FormField
             control={form.control}
             name="name"
@@ -161,6 +192,7 @@ function SignUpPage() {
                   />
                 </FormControl>
                 <FormMessage />
+                {error && <p className="text-destructive">{error}</p>}
               </FormItem>
             )}
           />
@@ -177,7 +209,7 @@ function SignUpPage() {
               <Button
                 className="w-20 h-20 rounded-full p-4 border-2 border-[#dbdbdb]"
                 type="button"
-                onClick={() => handleSignUp()}
+                onClick={() => handleGoogleSignUp()}
               >
                 <Image
                   src="/assets/google-icon.svg"
