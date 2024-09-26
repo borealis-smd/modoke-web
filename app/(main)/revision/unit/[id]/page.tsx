@@ -26,7 +26,7 @@ const RevisionUnit = ({ params }: Props) => {
     const fetchContent = async () => {
       try {
         const { data: lessons } = await api.get(
-          `/lesson/section?section_id=${params.id}`,
+          `/lesson/unit?unit_id=${params.id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
