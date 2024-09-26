@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const headerLinks = [
-   { label: "Home", href: "#home" },
-   { label: "Acessibilidade", href: "#acessibility" },
-   { label: "Projeto", href: "#modoke" },
+   { label: "Home", href: "/#home" },
+   { label: "Acessibilidade", href: "/#acessibility" },
+   { label: "Projeto", href: "/#modoke" },
 ];
 
 export const Header = () => {
