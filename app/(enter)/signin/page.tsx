@@ -77,7 +77,7 @@ function SignInPage() {
 
   return (
     <>
-      <div className="text-center mt-12 mb-5">
+      <div className="text-center mt-8 mb-5">
         <h1 className="text-5xl font-bold text-primary">Login</h1>
       </div>
       <Form {...form}>

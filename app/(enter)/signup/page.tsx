@@ -22,10 +22,11 @@ import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useTest } from "../TestContext";
 import { useRouter } from "next/navigation";
+import api from "@/lib/axios";
 import Link from "next/link";
 
 const signupFormSchema = z.object({
-  name: z
+  first_name: z
     .string({ message: "Nome é obrigatório." })
     .min(2, "Nome muito curto."),
   last_name: z
@@ -48,20 +49,17 @@ const signupFormSchema = z.object({
 
 function SignUpPage() {
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
     defaultValues: {
-      name: "",
+      first_name: "",
       last_name: "",
       email: "",
       password: "",
     },
   });
-
-  function onSubmit(values: z.infer<typeof signupFormSchema>) {
-    console.log(values);
-  }
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -69,7 +67,7 @@ function SignUpPage() {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const { level } = useTest();
+  const { level, setLevel } = useTest();
 
   useEffect(() => {
     if (!level) {
@@ -83,7 +81,38 @@ function SignUpPage() {
     { level: "AAA", description: "Avançado" },
   ];
 
-  const handleSignUp = () => {
+  const handleSignUp = async (values: z.infer<typeof signupFormSchema>) => {
+    const levelId = levels.findIndex((item) => item.level === level) + 1;
+    try {
+      const response = await api.post("/user/", {
+        user: {
+          first_name: values.first_name,
+          last_name: values.last_name,
+          avatar_url:
+            "https://projeto-modoke.s3.us-east-2.amazonaws.com/default.png",
+          level_id: levelId,
+        },
+        login: {
+          email: values.email,
+          password: values.password,
+        },
+      });
+
+      if (response.status === 201) {
+        router.push("/signin");
+        return;
+      }
+
+      setLevel("");
+    } catch (error) {
+      setError(
+        "Infelizmente não foi possível criar sua conta agora. Tente novamente."
+      );
+      console.error(error);
+    }
+  };
+
+  const handleGoogleSignUp = () => {
     const index = levels.findIndex((item) => item.level === level) + 1;
 
     const expires = new Date(Date.now() + 60 * 1000).toUTCString();
@@ -97,16 +126,19 @@ function SignUpPage() {
   };
 
   return (
-    <div className="h-[30rem] mt-12">
+    <div className="h-[30rem] mt-8">
       <div className="text-center mb-5">
         <h1 className="text-5xl font-bold text-primary">Cadastro</h1>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="text-[#333333]">
+        <form
+          onSubmit={form.handleSubmit(handleSignUp)}
+          className="text-[#333333]"
+        >
           <div className="flex gap-2">
             <FormField
               control={form.control}
-              name="name"
+              name="first_name"
               render={({ field }) => (
                 <FormItem className="mb-2 w-full">
                   <FormLabel>Nome</FormLabel>
@@ -188,6 +220,7 @@ function SignUpPage() {
                   />
                 </FormControl>
                 <FormMessage />
+                {error && <p className="text-destructive">{error}</p>}
               </FormItem>
             )}
           />
@@ -209,7 +242,7 @@ function SignUpPage() {
               <Button
                 className="w-16 h-16 rounded-full p-4 border-2 border-[#dbdbdb]"
                 type="button"
-                onClick={() => handleSignUp()}
+                onClick={() => handleGoogleSignUp()}
               >
                 <Image
                   src="/assets/google-icon.svg"
