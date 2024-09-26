@@ -13,14 +13,16 @@ import badge6 from "@/public/assets/badge-web4all.png";
 import badge7 from "@/public/assets/badge-AA.png";
 
 import badge8 from "@/public/assets/badge-WCAG.png";
+import badge9 from "@/public/assets/badge-midia.png";
+import badge10 from "@/public/assets/badge-som.png";
 
 import modoke from "@/public/assets/modokeDog/Oi.png";
 import modokeEmblema from "@/public/assets/modokeDog/Ilustração Teste de Familiaridade - Início - Ajustado.png";
 
 const sessions = [
-  { label: "A", sub: "Essencial", p: "O nível A provê o básico de acessibilidade e pode limitar usuários" },
-  { label: "AA", sub: "Ideal", p: "O nível AA é o mais recomendado para aplicações" },
-  { label: "AAA", sub: "Especializado", p: "Pela sua complexidade, nem sempre é possível cumprir o nível AAA" },
+  { label: "A", sub: "Iniciante", p: "Básico e essencial, mas ainda exclui alguns usuários." },
+  { label: "AA", sub: "Intermediário", p: "Recomendado, equilibrado entre inclusão e facilidade de implementação." },
+  { label: "AAA", sub: "Avançado", p: "Mais inclusivo, porém complexo e não obrigatório." },
 ];
 
 export default function Home() {
@@ -36,21 +38,23 @@ export default function Home() {
             </span>
           </h1>
           <p className="text-xl">Dê seus primeiros passos no desenvolvimento web acessível com modoke.</p>
-          <Button
-            type="button"
-            variant="secondary"
-            className="text-secondary-foreground font-medium w-[13.8125rem] h-[3.125rem]"
-          >
-            Comece agora
-          </Button>
+          <Link href="/signup/teste">
+            <Button
+              type="button"
+              variant="secondary"
+              className="text-secondary-foreground font-medium w-[13.8125rem] h-[3.125rem] mt-4"
+            >
+              Comece agora
+            </Button>
+          </Link>
         </div>
 
         <div className="hidden 2xl:w-full lg:flex justify-end w-6/12" aria-hidden="true">
           <Image src={modokePC} alt="Person working on a computer with accessibility features" width={822} height={822} />
         </div>
       </section>
-  
-        {/* O que é acessibilidade? */}
+
+      {/* O que é acessibilidade? */}
       <section className="relative flex w-full justify-center items-center" id="acessibility">
         <div className="space-y-9 mt-60 my-48 w-[57.9375rem] flex flex-col justify-center items-center">
           <h1 className="font-bold text-primary text-3xl lg:text-7xl" tabIndex={0}>
@@ -63,13 +67,15 @@ export default function Home() {
           <p className="text-xl text-center">
             No desenvolvimento web, acessibilidade envolve criar aplicações que sejam o mais inclusivas possível, independentemente das capacidades físicas e cognitivas do usuário final e da maneira como ele acessa a web.
           </p>
-          <Button
-            type="button"
-            variant="secondary"
-            className="text-secondary-foreground font-medium h-[3.125rem]"
-          >
-            Teste seu conhecimento
-          </Button>
+          <Link href="/signup/teste">
+            <Button
+              type="button"
+              variant="secondary"
+              className="text-secondary-foreground font-medium h-[3.125rem] mt-2"
+            >
+              Teste seu conhecimento
+            </Button>
+          </Link>
         </div>
 
         {/* Emblemas flutuantes */}
@@ -85,7 +91,7 @@ export default function Home() {
             className="absolute top-0 right-0 w-50 h-50 transform translate-x-14 rotate-12"
           />
           <Image
-            src={badge3}
+            src={badge9}
             alt=""
             className="absolute bottom-10 left-0 w-50 h-50 transform -translate-x-10 -rotate-12"
           />
@@ -140,7 +146,7 @@ export default function Home() {
 
         {/* Emblemas flutuantes */}
         <div className="absolute inset-0 pointer-events-none">
-        <Image
+          <Image
             src={badge5}
             alt=""
             className="absolute top-10 -left-20 w-50 h-50 transform -translate-x-20 -translate-y-15 -rotate-12"
@@ -151,7 +157,7 @@ export default function Home() {
             className="absolute top-0 right-0 w-50 h-50 transform translate-x-14 rotate-12"
           />
           <Image
-            src={badge2}
+            src={badge10}
             alt=""
             className="absolute bottom-10 left-0 w-50 h-50 transform -translate-x-10 -rotate-12"
           />
@@ -187,7 +193,7 @@ export default function Home() {
       {/* Sessões*/}
       <section className="relative flex w-full justify-center items-center">
         <div className="space-y-9 my-36 w-[57.9375rem] flex flex-col justify-center items-center">
-          <h1 className="font-bold text-primary text-5xl">Progresso em sessões</h1>
+          <h1 className="font-bold text-primary text-5xl">Progresso em seções</h1>
 
           <div className="flex gap-5">
             {sessions.map((session) => (
@@ -199,7 +205,7 @@ export default function Home() {
               >
                 <h1 className="font-semibold text-8xl">{session.label}</h1>
                 <span className="mt-1 text-lg">{session.sub}</span>
-                <p className="mt-2 text-lg">{session.p}</p>
+                <p className="mt-2 text-lg leading-9">{session.p}</p>
               </div>
             ))}
           </div>
@@ -207,7 +213,7 @@ export default function Home() {
 
         {/* Emblemas flutuantes */}
         <div className="absolute inset-0 pointer-events-none">
-        <Image
+          <Image
             src={badge5}
             alt=""
             className="absolute -top-56 -left-10 w-50 h-50 transform -translate-x-50 -translate-y-15 -rotate-12"
@@ -254,7 +260,7 @@ export default function Home() {
             ].map((categoria) => (
               <div
                 key={categoria}
-                className="flex justify-center items-center bg-primary text-primary-foreground font-medium h-20 rounded-md"
+                className="flex justify-center items-center bg-primary text-primary-foreground font-medium h-20 rounded-md hover:bg-primary/90"
                 tabIndex={0}
               >
                 {categoria}
@@ -266,7 +272,7 @@ export default function Home() {
 
       {/* Certificados */}
       <section className="flex w-full justify-center items-center">
-        <div className="space-y-9 my-36 w-[57.9375rem] flex flex-col justify-center items-center">
+        <div className="space-y-9 my-28 w-[57.9375rem] flex flex-col justify-center items-center">
           <h1 className="font-bold text-primary text-5xl text-center">Ganhe emblemas colecionáveis!</h1>
 
           <div className="flex justify-center items-center w-full" aria-hidden="true">
