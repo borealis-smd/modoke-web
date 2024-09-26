@@ -36,15 +36,15 @@ function EnterLayoutContent({ children }: Props) {
   };
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
-      <div className="w-1/2 flex flex-col items-center justify-center">
+    <div className="w-full h-full flex justify-center">
+      <div className="flex flex-col items-center justify-center">
         <div
           className="absolute top-16 left-16 cursor-pointer"
           onClick={() => handleExit()}
         >
           <CloseIcon sx={{ width: 32, height: 32 }} aria-label="Fechar" />
         </div>
-        <div className="max-w-[536px] w-full text-lg">{children}</div>
+        <div className="min-w-[39.75rem] text-lg -mt-5">{children}</div>
       </div>
     </div>
   );

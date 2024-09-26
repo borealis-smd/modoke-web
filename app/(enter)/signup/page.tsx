@@ -22,9 +22,13 @@ import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { useTest } from "../TestContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const signupFormSchema = z.object({
   name: z
+    .string({ message: "Nome é obrigatório." })
+    .min(2, "Nome muito curto."),
+  last_name: z
     .string({ message: "Nome é obrigatório." })
     .min(2, "Nome muito curto."),
   email: z.string().email("Endereço de e-mail inválido."),
@@ -49,6 +53,7 @@ function SignUpPage() {
     resolver: zodResolver(signupFormSchema),
     defaultValues: {
       name: "",
+      last_name: "",
       email: "",
       password: "",
     },
@@ -92,35 +97,57 @@ function SignUpPage() {
   };
 
   return (
-    <>
+    <div className="h-[30rem] mt-12">
       <div className="text-center mb-5">
         <h1 className="text-5xl font-bold text-primary">Cadastro</h1>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="text-[#333333]">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem className="mb-9 w-full">
-                <FormLabel>Nome</FormLabel>
-                <FormControl>
-                  <Input
-                    icon={<PersonOutlineOutlinedIcon />}
-                    type="text"
-                    placeholder="Digite seu nome..."
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex gap-2">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="mb-2 w-full">
+                  <FormLabel>Nome</FormLabel>
+                  <FormControl>
+                    <Input
+                      icon={<PersonOutlineOutlinedIcon />}
+                      type="text"
+                      placeholder="Digite seu nome..."
+                      {...field}
+                      className="h-[3rem]"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="last_name"
+              render={({ field }) => (
+                <FormItem className="mb-2 w-full">
+                  <FormLabel>Sobrenome</FormLabel>
+                  <FormControl>
+                    <Input
+                      icon={<PersonOutlineOutlinedIcon />}
+                      type="text"
+                      placeholder="Digite seu sobrenome..."
+                      {...field}
+                      className="h-[3rem]"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="mb-9">
+              <FormItem className="mb-2">
                 <FormLabel>E-mail</FormLabel>
                 <FormControl>
                   <Input
@@ -138,7 +165,7 @@ function SignUpPage() {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className="mb-10">
+              <FormItem className="mb-2">
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
                   <Input
@@ -164,33 +191,38 @@ function SignUpPage() {
               </FormItem>
             )}
           />
+          <div className="flex justify-end align-end mb-6">
+            <Link href="/signin">
+              <span className="text-[#858484] underline hover:text-secondary-foreground text-sm text-end right-0">Já possui conta? Clique aqui</span>
+            </Link>
+          </div>
           <div className="flex flex-col justify-center gap-8">
             <Button type="submit" className="w-full" variant={"secondary"}>
               Criar conta
             </Button>
             <div className="flex items-center justify-center gap-3">
-              <div className="h-[2px] max-w-[176px] w-full bg-[#333333]"></div>
-              <p className="text-[#333333]">Ou continue com</p>
-              <div className="h-[2px] max-w-[176px] w-full bg-[#333333]"></div>
+              <div className="h-[2px] max-w-[176px] w-full bg-[#33333394]"></div>
+              <p className="text-[#33333394]">Ou continue com</p>
+              <div className="h-[2px] max-w-[176px] w-full bg-[#33333394]"></div>
             </div>
-            <div className="w-full text-center">
+            <div className="w-full text-center -mt-5">
               <Button
-                className="w-20 h-20 rounded-full p-4 border-2 border-[#dbdbdb]"
+                className="w-16 h-16 rounded-full p-4 border-2 border-[#dbdbdb]"
                 type="button"
                 onClick={() => handleSignUp()}
               >
                 <Image
                   src="/assets/google-icon.svg"
                   alt="Logo do Google"
-                  width={40}
-                  height={40}
+                  width={30}
+                  height={30}
                 />
               </Button>
             </div>
           </div>
         </form>
       </Form>
-    </>
+    </div>
   );
 }
 

@@ -20,6 +20,7 @@ import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 const signinFormSchema = z.object({
   email: z
@@ -76,7 +77,7 @@ function SignInPage() {
 
   return (
     <>
-      <div className="text-center mb-5">
+      <div className="text-center mt-12 mb-5">
         <h1 className="text-5xl font-bold text-primary">Login</h1>
       </div>
       <Form {...form}>
@@ -85,7 +86,7 @@ function SignInPage() {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="mb-9">
+              <FormItem className="mb-2">
                 <FormLabel>E-mail</FormLabel>
                 <FormControl>
                   <Input
@@ -103,7 +104,7 @@ function SignInPage() {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className="mb-10">
+              <FormItem className="mb-2">
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
                   <Input
@@ -129,26 +130,31 @@ function SignInPage() {
               </FormItem>
             )}
           />
+          <div className="flex justify-end align-end mb-6">
+            <Link href="/signup">
+              <span className="text-[#858484] underline hover:text-secondary-foreground text-sm text-end right-0">Não possui conta? Clique aqui</span>
+            </Link>
+          </div>
           <div className="flex flex-col justify-center gap-8">
             <Button type="submit" className="w-full" variant={"secondary"}>
               Entrar
             </Button>
             <div className="flex items-center justify-center gap-3">
-              <div className="h-[2px] max-w-[176px] w-full bg-[#333333]"></div>
-              <p className="text-[#333333]">Ou continue com</p>
-              <div className="h-[2px] max-w-[176px] w-full bg-[#333333]"></div>
+              <div className="h-[2px] max-w-[176px] w-full bg-[#33333394]"></div>
+              <p className="text-[#33333394]">Ou continue com</p>
+              <div className="h-[2px] max-w-[176px] w-full bg-[#33333394]"></div>
             </div>
-            <div className="w-full text-center">
+            <div className="w-full text-center -mt-5">
               <Button
-                className="w-20 h-20 rounded-full p-4 border-2 border-[#dbdbdb]"
+                className="w-16 h-16 rounded-full p-4 border-2 border-[#dbdbdb]"
                 type="button"
                 onClick={() => signIn("google", { callbackUrl: "/learn" })}
               >
                 <Image
                   src="/assets/google-icon.svg"
                   alt="Logo do Google"
-                  width={40}
-                  height={40}
+                  width={30}
+                  height={30}
                 />
               </Button>
             </div>
