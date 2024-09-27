@@ -53,7 +53,6 @@ const UnitPage = ({ params }: Props) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUserUnit(userUnit);
-      console.log(userUnit);
     };
 
     fetchUnits();
