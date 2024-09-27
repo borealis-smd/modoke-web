@@ -1,13 +1,13 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -18,6 +18,7 @@ const config = {
       },
     },
     extend: {
+      fontSize: { base: "18px" },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -52,6 +53,20 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        primaryYellow: "hsl(var(--primary-yellow))",
+
+        success: "hsl(var(--success))",
+        error: "hsl(var(--error))",
+
+        // Custom colors
+        secondary50: "hsl(var(--secondary-50))",
+        secondary100: "hsl(var(--secondary-100))",
+        secondary200: "hsl(var(--secondary-200))",
+        secondary300: "hsl(var(--secondary-300))",
+        secondary400: "hsl(var(--secondary-400))",
+        secondary500: "hsl(var(--secondary-500))",
+        secondary600: "hsl(var(--secondary-600))",
+        secondary700: "hsl(var(--secondary-700))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -75,6 +90,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;

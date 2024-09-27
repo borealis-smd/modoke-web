@@ -8,16 +8,15 @@ html, body, :root {
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 164 100% 17%; /*116 71% 26%; */
     --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 37 92% 64%; /*210 40% 96.1%;*/ /*amarelo*/
+    --secondary-foreground: 0 0 13%; /*222.2 47.4% 11.2%;*/
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
     --accent: 210 40% 96.1%;
@@ -33,6 +32,18 @@ html, body, :root {
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+
+    --success: 120 39% 54%;
+    --error: 4 100% 64%;
+
+    --secondary-50: 36 71% 93%;
+    --secondary-100: 36 92% 85%;
+    --secondary-200: 34 95% 75%;
+    --secondary-300: 35 95% 65%;
+    --secondary-400: 34 96% 58%;
+    --secondary-500: 37 92% 64%;
+    --secondary-600: 34 98% 53%;
+    --secondary-700: 32 94% 51%;
   }
 
   .dark {
@@ -44,8 +55,8 @@ html, body, :root {
     --popover-foreground: 210 40% 98%;
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 37 92% 64%; /*217.2 32.6% 17.5%;*/
+    --secondary-foreground: 0 0 13%; /*210 40% 98%;*/
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
     --accent: 217.2 32.6% 17.5%;
@@ -60,6 +71,15 @@ html, body, :root {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    --secondary-50: 36 71% 93%;
+    --secondary-100: 36 92% 85%;
+    --secondary-200: 34 95% 75%;
+    --secondary-300: 35 95% 65%;
+    --secondary-400: 34 96% 58%;
+    --secondary-500: 37 92% 64%;
+    --secondary-600: 34 98% 53%;
+    --secondary-700: 32 94% 51%;
   }
 }
 
