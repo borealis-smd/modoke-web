@@ -196,42 +196,6 @@ const Profile = () => {
                   </div>
                 </div>
               </article>
-
-              {/* Certificates */}
-              <article
-                className="bg-white border-2 border-slate-100 rounded-md flex-1"
-                role="region"
-                aria-labelledby="certificates-title"
-              >
-                <h2
-                  id="certificates-title"
-                  className="mb-4 text-lg font-medium bg-primary p-4 rounded-t-md text-white"
-                >
-                  Certificados
-                </h2>
-                <div className="p-4 lg:p-[1.125rem]">
-                  <div className="flex flex-col items-center w-full">
-                    {certificates.length > 0 ? (
-                      <div className="flex flex-col lg:flex-row gap-2 lg:gap-4 overflow-x-auto">
-                        {[...Array(3)].map((_, i) => (
-                          <Button
-                            variant="default"
-                            key={i}
-                            className="w-72 h-32 lg:w-32 lg:h-20 bg-gray-300 rounded-md hover:bg-gray-400"
-                            aria-label={`Certificado ${i + 1}`}
-                          >
-                            Certificado {i + 1}
-                          </Button>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-gray-500 text-center">
-                        Nenhum certificado conquistado
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </article>
             </section>
           </section>
         </FeedWrapper>

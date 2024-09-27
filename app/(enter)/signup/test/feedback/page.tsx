@@ -18,6 +18,9 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 
+import Image from "next/image";
+import modokeQuestion from "@/public/assets/modokeDog/Ilustração Pontuação - Teste de Familiaridade - Ajustado.png";
+
 function TestFeedbackPage() {
   const router = useRouter();
 
@@ -72,7 +75,12 @@ function TestFeedbackPage() {
         <>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div className="flex gap-8 justify-center items-center text-2xl">
-              <div>Mascote</div>
+              <Image
+                src={modokeQuestion}
+                width={350}
+                height={350}
+                alt="Ilustração de um cachorro feliz."
+              />
               <div className="flex flex-col">
                 <div className="mb-3">
                   <ChatBubbleComponent
@@ -87,7 +95,10 @@ function TestFeedbackPage() {
                     }</strong>.`}
                   />
                 </div>
-                <ChatBubbleComponent content="Lembre-se que este é apenas um teste de familiaridade. Continue aprendendo!" variant="disclaimer" />
+                <ChatBubbleComponent
+                  content="Lembre-se que este é apenas um teste de familiaridade. Continue aprendendo!"
+                  variant="disclaimer"
+                />
               </div>
             </div>
           </div>

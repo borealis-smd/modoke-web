@@ -10,7 +10,9 @@ import { useWindowSize } from "react-use";
 import Confetti from "react-confetti";
 import { useRouter } from "next/navigation";
 import { useQuiz } from "@/app/lesson/QuizContext";
+
 import Image from "next/image";
+import modokeQuestion from "@/public/assets/modokeDog/Ilustração Pontuação - Teste de Familiaridade - Ajustado.png";
 
 function QuizFeedBackPage() {
   const { isFinished, numQuestions, xp, attempt } = useQuiz();
@@ -56,7 +58,12 @@ function QuizFeedBackPage() {
         <>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div className="flex gap-8 justify-center items-center text-2xl">
-              <div>Mascote</div>
+            <Image
+                  src={modokeQuestion}
+                  width={350}
+                  height={350}
+                  alt="Ilustração de um cachorro."
+                />
               <div className="flex flex-col">
                 <div className="mb-3">
                   <ChatBubbleComponent
@@ -75,11 +82,6 @@ function QuizFeedBackPage() {
                     {xp} XP
                   </div>
                 </div>
-                {badge && (
-                  <div className="">
-                    <Image src="../" alt="" />
-                  </div>
-                )}
               </div>
             </div>
           </div>

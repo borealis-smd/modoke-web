@@ -10,8 +10,9 @@ import React, { useEffect } from "react";
 import { useBreadcrumb } from "../../BreadcrumbContext";
 import { useRouter } from "next/navigation";
 import useAuth from "@/lib/hooks/useAuth";
+
 import Image from "next/image";
-// import modokeQuestion from "@/public/assets/modokeDog/Ilustração A";
+import modokeQuestion from "@/public/assets/modokeDog/Aplicação.png";
 
 interface Props {
   params: { id: string };
@@ -64,7 +65,12 @@ function ApplicationPage({ params }: Props) {
         <>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div className="flex gap-8 justify-center items-center text-2xl">
-              <div>Mascote</div>
+              <Image
+                src={modokeQuestion}
+                width={300}
+                height={300}
+                alt="Ilustração de um cachorro olhando para você."
+              />
               <div className="flex flex-col gap-5">
                 {applicationInParts &&
                   applicationInParts.map((part: string, index: number) => (

@@ -23,6 +23,9 @@ import { useQuiz } from "../../QuizContext";
 import CloseAlertComponent from "../../CloseAlertComponent";
 import useAuth from "@/lib/hooks/useAuth";
 
+import Image from "next/image";
+import modokeQuestion from "@/public/assets/modokeDog/Ilustração Doguinho chorando - Pop up.png";
+
 interface Props {
   params: { id: string };
 }
@@ -237,7 +240,7 @@ function QuizContent({ params }: Props) {
       ) : (
         <>
           {hasStarted ? (
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="my-32">
               <QuestionComponent currentQuestion={currentQuestion} />
               <OptionsComponent
                 options={options}
@@ -255,7 +258,13 @@ function QuizContent({ params }: Props) {
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <AlertDialogContent className="max-w-2xl h-[620px] flex flex-col items-center justify-center">
           <AlertDialogHeader>
-            <AlertDialogTitle className="font-black text-2xl text-center">
+            <AlertDialogTitle className="flex flex-col items-center justify-center font-black text-2xl text-center">
+                <Image
+                  src={modokeQuestion}
+                  width={350}
+                  height={350}
+                  alt="Ilustração de um cachorro chorando."
+                />
               Poxa... você perdeu!
             </AlertDialogTitle>
             <AlertDialogDescription className="text-lg text-center px-10">
