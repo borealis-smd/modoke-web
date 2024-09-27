@@ -28,6 +28,7 @@ function EntranceTestPage() {
         const { data: questions } = await api.get(`/question/entranceTest`);
         setQuestions(questions);
       } catch (err: any) {
+        console.error(err);
         setError(err.message);
       }
     };

@@ -8,7 +8,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import Image from "next/image";
 import React from "react";
+
+import modokeQuestion from "@/public/assets/modokeDog/Ilustração Doguinho chorando - Pop up.png";
 
 interface Props {
   open: boolean;
@@ -22,7 +25,13 @@ function CloseAlertComponent({ open, onOpenChange, onClick }: Props) {
       <AlertDialog open={open} onOpenChange={onOpenChange}>
         <AlertDialogContent className="max-w-2xl h-[620px] flex flex-col items-center justify-center">
           <AlertDialogHeader>
-            <AlertDialogTitle className="font-black text-center">
+            <AlertDialogTitle className="font-black text-center flex flex-col items-center justify-center">
+              <Image
+                src={modokeQuestion}
+                width={300}
+                height={300}
+                alt="Ilustração de um cachorro chorando."
+              />
               EII, FIQUE AQUI!
             </AlertDialogTitle>
             <AlertDialogDescription className="text-center text-lg">

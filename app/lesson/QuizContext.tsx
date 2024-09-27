@@ -1,3 +1,4 @@
+import { Badge } from "@/types/validators";
 import React, {
   createContext,
   useContext,
@@ -14,6 +15,7 @@ interface QuizContextType {
   isFinished: boolean;
   sequence: number;
   unitId: number;
+  badge: Partial<Badge>;
   setNumQuestions: React.Dispatch<React.SetStateAction<number>>;
   setXp: React.Dispatch<React.SetStateAction<number>>;
   setAttempt: React.Dispatch<React.SetStateAction<number>>;
@@ -21,6 +23,7 @@ interface QuizContextType {
   setIsFinished: (value: boolean) => void;
   setSequence: React.Dispatch<React.SetStateAction<number>>;
   setUnitId: React.Dispatch<React.SetStateAction<number>>;
+  setBadge: React.Dispatch<React.SetStateAction<Partial<Badge>>>;
 }
 
 export const QuizContext = createContext<QuizContextType | undefined>(
@@ -35,6 +38,7 @@ export const QuizProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [isFinished, setIsFinished] = useState(false);
   const [sequence, setSequence] = React.useState(0);
   const [unitId, setUnitId] = React.useState(0);
+  const [badge, setBadge] = React.useState<Partial<Badge>>({});
 
   return (
     <QuizContext.Provider
@@ -46,6 +50,7 @@ export const QuizProvider: FC<{ children: ReactNode }> = ({ children }) => {
         isFinished,
         sequence,
         unitId,
+        badge,
         setNumQuestions,
         setXp,
         setAttempt,
@@ -53,6 +58,7 @@ export const QuizProvider: FC<{ children: ReactNode }> = ({ children }) => {
         setIsFinished,
         setSequence,
         setUnitId,
+        setBadge,
       }}
     >
       {children}

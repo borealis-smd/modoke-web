@@ -85,7 +85,12 @@ const RevisionUnit = () => {
   return (
     <div className="flex flex-row-reverse gap-12 px-6">
       <FeedWrapper>
-        <Banner title="Vamos revisar?" variant="revision" name={userName} image={modokeLendo} />
+        <Banner
+          title="Vamos revisar?"
+          variant="revision"
+          name={userName}
+          image={modokeLendo}
+        />
 
         <div className="flex flex-col lg:flex-row justify-between mt-8 space-y-2 lg:space-y-0">
           <div className="w-full mr-5">
@@ -110,6 +115,8 @@ const RevisionUnit = () => {
             {units.length > 0 &&
               units.map((unit) => (
                 <div key={unit.unit_id} className="mb-4">
+                  {unit.unit_sequence > userUnit?.Unit.unit_sequence! ||
+                  unit.section_id > userUnit?.Unit.section_id! ? (
                     <Button
                       variant="default"
                       className="group h-[21.25rem] w-full flex justify-between items-center relative overflow-hidden hover:bg-secondary50/40 border-2 border-slate-300/40 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50"

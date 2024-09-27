@@ -55,24 +55,27 @@ const RevisionUnit = ({ params }: Props) => {
         </Link>
 
         {contents.length > 0 &&
-          contents.map((content) => (
-            <article
-              key={content.lesson_id}
-              className="mt-8 bg-white p-4 lg:p-8 border-2 border-slate-300/50 rounded-lg"
-            >
-              <h1 className="text-xl lg:text-2xl font-semibold mb-4 text-primary">
-                Lição {content.lesson_sequence}: {content.lesson_title}
-              </h1>
-              {content.Explanations.map((explanation) => (
-                <p
-                  className="text-sm lg:text-base pb-2"
-                  key={explanation.explanation_id}
+          contents.map(
+            (content) =>
+              content.Explanations.length > 0 && (
+                <article
+                  key={content.lesson_id}
+                  className="mt-8 bg-white p-4 lg:p-8 border-2 border-slate-300/50 rounded-lg"
                 >
-                  {parseContent(explanation.content)}
-                </p>
-              ))}
-            </article>
-          ))}
+                  <h1 className="text-xl lg:text-2xl font-semibold mb-4 text-primary">
+                    Lição {content.lesson_sequence}: {content.lesson_title}
+                  </h1>
+                  {content.Explanations.map((explanation) => (
+                    <p
+                      className="text-sm lg:text-base pb-2"
+                      key={explanation.explanation_id}
+                    >
+                      {parseContent(explanation.content)}
+                    </p>
+                  ))}
+                </article>
+              )
+          )}
       </FeedWrapper>
     </div>
   );

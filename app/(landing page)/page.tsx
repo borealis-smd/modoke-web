@@ -38,7 +38,7 @@ export default function Home() {
             </span>
           </h1>
           <p className="text-xl">Dê seus primeiros passos no desenvolvimento web acessível com modoke.</p>
-          <Link href="/signup/teste">
+          <Link href="/signup/test">
             <Button
               type="button"
               variant="secondary"
@@ -67,7 +67,7 @@ export default function Home() {
           <p className="text-xl text-center">
             No desenvolvimento web, acessibilidade envolve criar aplicações que sejam o mais inclusivas possível, independentemente das capacidades físicas e cognitivas do usuário final e da maneira como ele acessa a web.
           </p>
-          <Link href="/signup/teste">
+          <Link href="/signup/test">
             <Button
               type="button"
               variant="secondary"

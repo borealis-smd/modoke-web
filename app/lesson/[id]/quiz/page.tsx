@@ -49,13 +49,12 @@ function QuizContent({ params }: Props) {
     attempt,
     currentQuestionIndex,
     isFinished,
-    sequence,
-    unitId,
     setXp,
     setAttempt,
     setCurrentQuestionIndex,
     setNumQuestions,
     setIsFinished,
+    setBadge,
   } = useQuiz();
 
   useEffect(() => {
@@ -147,11 +146,19 @@ function QuizContent({ params }: Props) {
 
   const markLessonAsFinished = async () => {
     try {
-      await api.put(`/lesson/finish?lesson_id=${params.id}`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const { data: response } = await api.put(
+        `/lesson/finish?lesson_id=${params.id}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.badge) {
+        setBadge(response.badge);
+      }
     } catch (error: any) {
       console.error(error);
       setError(error);

@@ -10,9 +10,14 @@ import { useWindowSize } from "react-use";
 import Confetti from "react-confetti";
 import { useRouter } from "next/navigation";
 import { useQuiz } from "@/app/lesson/QuizContext";
+import Image from "next/image";
 
 function QuizFeedBackPage() {
   const { isFinished, numQuestions, xp, attempt } = useQuiz();
+
+  const badge = {
+    description: "Badge description",
+  };
 
   const { width, height } = useWindowSize();
 
@@ -70,6 +75,11 @@ function QuizFeedBackPage() {
                     {xp} XP
                   </div>
                 </div>
+                {badge && (
+                  <div className="">
+                    <Image src="../" alt="" />
+                  </div>
+                )}
               </div>
             </div>
           </div>

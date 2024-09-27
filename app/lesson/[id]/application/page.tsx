@@ -10,6 +10,8 @@ import React, { useEffect } from "react";
 import { useBreadcrumb } from "../../BreadcrumbContext";
 import { useRouter } from "next/navigation";
 import useAuth from "@/lib/hooks/useAuth";
+import Image from "next/image";
+// import modokeQuestion from "@/public/assets/modokeDog/Ilustração A";
 
 interface Props {
   params: { id: string };
