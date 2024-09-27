@@ -64,7 +64,7 @@ function EntranceTestPage() {
   const defineUserLevel = (answers: Option[]) => {
     const levelA = answers.slice(0, 4);
     const levelAA = answers.slice(4, 7);
-    const levelAAA = answers.slice(7, 10);
+    const levelAAA = answers.slice(7, 9);
 
     const correctA = levelA.filter((answer) => answer.is_correct).length;
     const correctAA = levelAA.filter((answer) => answer.is_correct).length;

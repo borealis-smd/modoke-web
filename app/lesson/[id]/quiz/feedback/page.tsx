@@ -62,7 +62,8 @@ function QuizFeedBackPage() {
                 <div className="inline-flex gap-6 font-bold">
                   <div className="inline-flex gap-1 items-center">
                     <TaskAltIcon sx={{ width: 33, height: 33 }} />{" "}
-                    {numQuestions - (5 - attempt)}/{numQuestions}
+                    {attempt === 3 ? numQuestions : numQuestions - attempt}/
+                    {numQuestions}
                   </div>
                   <div className="inline-flex gap-1 items-center">
                     <ElectricBoltSharpIcon sx={{ width: 27, height: 33 }} />{" "}

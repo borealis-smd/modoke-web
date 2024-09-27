@@ -55,14 +55,14 @@ export const LessonButton = ({
   const Icon = isFirst
     ? Star
     : (isCompleted && !isLast) || (isCompleted && !isFirst)
-    ? Check
-    : isLast
-    ? Flag
-    : locked
-    ? Lock
-    : isCompleted
-    ? Check
-    : Lock;
+      ? Check
+      : isLast
+        ? Flag
+        : locked
+          ? Lock
+          : isCompleted
+            ? Check
+            : Lock;
 
   // Definir o href com base se a lição foi completada ou não
   const href =
@@ -77,7 +77,7 @@ export const LessonButton = ({
       <div
         className="relative flex flex-col items-center justify-center"
         style={{
-          marginTop: index === 0 && !isCompleted ? 60 : 24, // Ajustar o espaçamento superior para o primeiro item
+          marginTop: index === 0 && !isCompleted ? 60 : 70, // Ajustar o espaçamento superior para o primeiro item
           zIndex: 10,
           right: `clamp(${rightPositionSm}px, 5vw, ${rightPositionLg}px)`, // deslocamento right de acordo com o tamanho da tela
         }}
@@ -87,12 +87,12 @@ export const LessonButton = ({
             {!isFirst ? (
               <Button
                 size="rounded"
-                variant={!isCompleted ? "locked" : "lesson"}
+                variant={!isCompleted && !current ? "locked" : "lesson"}
                 className={cn(
                   "h-[140px] w-[140px] border-b-8",
                   index === 0 && !isCompleted && "border",
                   !isCompleted && "bg-neutral-200",
-                  isCompleted && "bg-green-500"
+                  (isCompleted || current) && "bg-green-500"
                 )}
               >
                 <Icon
@@ -101,9 +101,10 @@ export const LessonButton = ({
                     locked
                       ? "text-neutral-400 stroke-neutral-400" // Cor cinza escuro para o ícone bloqueado
                       : isCompleted
-                      ? "fill-none text-primary-foreground" // Cor para quando completado
-                      : "text-neutral-400 stroke-neutral-400", // Cor padrão cinza escuro
-                    isCompleted && "fill-none stroke-[4]" // Ajusta o stroke para lições completadas
+                        ? "fill-none text-primary-foreground" // Cor para quando completado
+                        : "text-neutral-400 stroke-neutral-400", // Cor padrão cinza escuro
+                    current && "stroke-white",
+                    (isCompleted || current) && "fill-none stroke-[4]" // Ajusta o stroke para lições completadas
                   )}
                 />
               </Button>

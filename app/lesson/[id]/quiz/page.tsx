@@ -118,7 +118,7 @@ function QuizContent({ params }: Props) {
       await markLessonAsFinished();
       setIsFinished(true);
       setPastHref("/quiz");
-      // router.push(`/lesson/${params.id}/quiz/feedback`);
+      router.push(`/lesson/${params.id}/quiz/feedback`);
     } catch (error: any) {
       setError(error);
     }
@@ -146,60 +146,15 @@ function QuizContent({ params }: Props) {
   };
 
   const markLessonAsFinished = async () => {
-    const finishResponse = await api.put(
-      `/lesson/finish?lesson_id=${params.id}`,
-      null,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    if (finishResponse.status === 200) {
-      unlockNextLesson();
-    }
-  };
-
-  const unlockNextLesson = async () => {
     try {
-      // tenta desbloquear a próxima lição
-      await api.put(
-        `/lesson/unlock?lesson_sequence=${Number(sequence) + 1}&unit_id=${unitId}`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-    } catch (error: any) {
-      if (
-        error.response.status === 400 &&
-        error.response.data.message === "Lição não encontrada."
-      ) {
-        // se não houver mais lições, não tenta desbloquar a próxima unidade
-        unlockNextUnit();
-      }
-    }
-  };
-
-  const unlockNextUnit = async () => {
-    try {
-      // tenta desbloquear a próxima unidade
-      await api.put(`/unit/unlock?unit_id=${unitId}`, null, {
+      await api.put(`/lesson/finish?lesson_id=${params.id}`, null, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
     } catch (error: any) {
-      if (
-        error.response.status === 400 &&
-        error.response.data.message === "Não há unidade seguinte."
-      ) {
-        // se não houver mais unidades, tenta desbloquar a próxima seção
-        console.log(error.response.data.message);
-      }
+      console.error(error);
+      setError(error);
     }
   };
 
@@ -239,6 +194,16 @@ function QuizContent({ params }: Props) {
       const newPath = `${basePath}/${path}`;
       router.push(newPath);
     }
+  };
+
+  const handleRetakeTest = () => {
+    setHasStarted(false);
+    setAttempt(3);
+    setCurrentQuestionIndex(0);
+    setXp(0);
+    setIsFinished(false);
+    setIsDialogOpen(false);
+    return;
   };
 
   return (
@@ -292,7 +257,10 @@ function QuizContent({ params }: Props) {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="w-full sm:space-x-0 max-w-[480px]">
-            <AlertDialogAction className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
+            <AlertDialogAction
+              className="bg-secondary text-secondary-foreground hover:bg-secondary/90"
+              onClick={() => handleRetakeTest()}
+            >
               Refazer
             </AlertDialogAction>
             <AlertDialogAction

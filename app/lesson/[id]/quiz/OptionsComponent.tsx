@@ -64,7 +64,9 @@ const OptionsComponent = ({
                     "bg-[#FCC6C9]":
                       selectedOption &&
                       selectedOption.option_id === option.option_id,
-                    "bg-[#44A28A]": selectedOption && option.is_correct,
+                    "bg-[#44A28A]":
+                      selectedOption?.option_id === option.option_id &&
+                      option.is_correct,
                   },
                   "max-w-80 w-max p-4 h-max max-h-36 text-lg text-wrap"
                 )}

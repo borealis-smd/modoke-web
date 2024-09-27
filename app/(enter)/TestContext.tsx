@@ -21,7 +21,7 @@ export const TestContext = createContext<TestContextType | undefined>(
 
 export const TestProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [isFinished, setIsFinished] = useState(false);
-  const [level, setLevel] = useState("A"); // por padrão, nível A
+  const [level, setLevel] = useState(""); // por padrão, nível A
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   return (

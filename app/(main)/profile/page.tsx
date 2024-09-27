@@ -24,7 +24,7 @@ const Profile = () => {
   const [level, setLevel] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const [lessonNumber, setLessonNumber] = useState(null);
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState<number | null>(null);
   const [badges, setBadges] = useState<Badge[]>([]);
   const [certificates, setCertificates] = useState<Certificate[]>([]);
 
@@ -47,7 +47,7 @@ const Profile = () => {
       const picture = dbUser.avatar_url;
       setProfilePicture(picture);
 
-      const userProgress = dbUser.xp / 20; // divide por 2000 e multiplica por 100
+      const userProgress = (dbUser.xp % 2000) / 20; // divide por 2000 e multiplica por 100
       setProgress(userProgress);
     };
 
@@ -92,7 +92,7 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col-reverse lg:flex-row-reverse gap-12 lg:gap-48 ">
-      {user && level && progress && (
+      {user && level && progress !== null && (
         <FeedWrapper>
           <section className="flex-1 p-4 lg:p-8">
             <article className="border-2 border-slate-300/40 p-6 lg:p-[1.125rem] rounded-md">
