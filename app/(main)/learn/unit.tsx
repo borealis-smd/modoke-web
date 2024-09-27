@@ -25,12 +25,15 @@ export const Units = ({ lessons, lessonInProgress }: Props) => {
               lesson_description={lesson.lesson_description}
               unit_id={lesson.unit_id}
               is_completed={
-                lessons.find((l) => l.lesson_id === lesson.lesson_id)
-                  ?.LessonProgresses[0].completed_at !== null
+                lesson?.LessonProgresses[0]
+                  ? lesson?.LessonProgresses[0].completed_at !== null
+                  : false
               }
-              current={lessonInProgress?.Lesson.lesson_id === lesson.lesson_id}
+              current={
+                lessonInProgress?.Lesson.lesson_id === lesson.lesson_id || false
+              }
               index={index} // index passado para o LessonButton para controle dos estados
-              totalCount={0}
+              totalCount={lessons.length}
             />
           </div>
         ))}
