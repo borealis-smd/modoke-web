@@ -73,7 +73,9 @@ function SignUpPage() {
     if (!level) {
       router.push("/signup/test");
     }
-  }, [level]);
+  });
+
+  console.log(level);
 
   const levels = [
     { level: "A", description: "Iniciante" },
