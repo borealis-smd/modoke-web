@@ -12,21 +12,42 @@ import {
 } from "@/types/validators";
 import { Units } from "./unit";
 import useAuth from "@/lib/hooks/useAuth";
+import { useMain } from "../MainContext";
 
 const LearnPage = () => {
   const token = useAuth();
 
   const [sectionInProgress, setSectionInProgress] =
     useState<SectionProgess | null>(null);
+  const [section, setSection] = useState<string>("");
   const [unitInProgress, setUnitInProgress] = useState<UnitProgress | null>(
     null
   );
+  const [unit, setUnit] = useState<number>(0);
   const [lessons, setLessons] = useState<LessonProgress[]>([]);
   const [lessonInProgress, setLessonInProgress] =
     useState<ProgressLesson | null>(null);
 
+  const { section: sectionCtx, unit: unitCtx } = useMain();
+
   useEffect(() => {
     if (!token) return;
+
+    const fetchFromGuide = async () => {
+      setSection(sectionCtx);
+      setUnit(unitCtx);
+
+      const { data: dbLessons } = await api.get(
+        `/lesson/unit?unit_id=${unitCtx}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setLessons(dbLessons);
+      console.log(dbLessons);
+    };
 
     const fetchLessons = async () => {
       // pegar a seção atual
@@ -54,7 +75,6 @@ const LearnPage = () => {
           },
         }
       );
-      console.log(dbLessons);
       setLessons(dbLessons);
 
       // pegar a lição atual
@@ -66,10 +86,12 @@ const LearnPage = () => {
       setLessonInProgress(lesson);
     };
 
-    if (token) {
-      fetchLessons();
+    fetchLessons();
+
+    if (sectionCtx && unitCtx) {
+      fetchFromGuide();
     }
-  }, [token]);
+  }, [token, sectionCtx, unitCtx]);
 
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
@@ -77,9 +99,9 @@ const LearnPage = () => {
         {unitInProgress && sectionInProgress && lessons && (
           <>
             <Header
-              section={`Seção ${sectionInProgress?.Section.section_id}`} // mudar para opção selecionada no guia
-              unit={`Unidade ${unitInProgress?.Unit.unit_sequence}`} // mudar para opção selecionada no guia
-              theme={unitInProgress?.Unit.unit_title}
+              section={`Seção ${section ? section : sectionInProgress.Section.section_id}`}
+              unit={`Unidade ${unit ? unit : unitInProgress.Unit.unit_sequence}`}
+              theme={(unitInProgress as UnitProgress)?.Unit.unit_title}
             />
             <Units lessons={lessons} lessonInProgress={lessonInProgress} />
           </>
