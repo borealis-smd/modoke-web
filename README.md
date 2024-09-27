@@ -60,12 +60,7 @@ yarn dev
 ```bash
 pnpm dev
 ```
-#### ou
 
-
-```bash
-pnpm dev
-```
 
 ## Funcionalidades do Sistema
 
