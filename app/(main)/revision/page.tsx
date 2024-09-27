@@ -15,6 +15,8 @@ import _ from "lodash";
 import { useSession } from "next-auth/react";
 import { renderIcon } from "./RenderIcon";
 
+import modokeLendo from "../../../public/assets/modokeDog/livro.png";
+
 const RevisionUnit = () => {
   const token = useAuth();
   const userName = useSession().data?.user?.name;
@@ -83,7 +85,7 @@ const RevisionUnit = () => {
   return (
     <div className="flex flex-row-reverse gap-12 px-6">
       <FeedWrapper>
-        <Banner title="Vamos revisar?" variant="revision" name={userName} />
+        <Banner title="Vamos revisar?" variant="revision" name={userName} image={modokeLendo} />
 
         <div className="flex flex-col lg:flex-row justify-between mt-8 space-y-2 lg:space-y-0">
           <div className="w-full mr-5">
@@ -108,15 +110,13 @@ const RevisionUnit = () => {
             {units.length > 0 &&
               units.map((unit) => (
                 <div key={unit.unit_id} className="mb-4">
-                  {unit.unit_sequence > userUnit?.Unit.unit_sequence! ||
-                  unit.section_id > userUnit?.Unit.section_id! ? (
                     <Button
                       variant="default"
-                      className="h-[21.25rem] w-full flex justify-between items-center relative overflow-hidden group hover:bg-secondary50/40 border-2 border-slate-300/40 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50"
+                      className="group h-[21.25rem] w-full flex justify-between items-center relative overflow-hidden hover:bg-secondary50/40 border-2 border-slate-300/40 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50"
                       aria-label={`Acessar a revisão ${unit.unit_title}, do nível ${unit.section_id}`}
                       disabled
                     >
-                      <div className="absolute top-6 flex flex-col items-start justify-start space-y-2">
+                      <div className="absolute top-6 flex flex-col items-start justify-start space-y-2 z-10">
                         <span className="text-secondary-foreground text-sm font-medium">
                           Sessão:
                         </span>
@@ -130,7 +130,7 @@ const RevisionUnit = () => {
                           {unit.unit_title}
                         </span>
                       </div>
-                      <span className="absolute -bottom-9 lg:-bottom-8 right-0 group-hover:z-0 lg:text-[11rem] font-bold leading-none opacity-20 transition-opacity duration-300 group-hover:opacity-100 tracking-tight">
+                      <span className="absolute -bottom-9 lg:-bottom-[80px] right-0 group-hover:z-0 lg:text-[11rem] font-bold leading-none opacity-45 transition-opacity duration-300 group-hover:opacity-100 tracking-tight">
                         {unit.unit_icon && renderIcon(unit.unit_icon)}
                       </span>
                     </Button>
