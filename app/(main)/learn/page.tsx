@@ -99,7 +99,7 @@ const LearnPage = () => {
         {unitInProgress && sectionInProgress && lessons && (
           <>
             <Header
-              section={`Seção ${section ? section : sectionInProgress.Section.section_id}`}
+              section={`Seção ${section ? section : sectionInProgress.Section.section_title}`}
               unit={`Unidade ${unit ? unit : unitInProgress.Unit.unit_sequence}`}
               theme={(unitInProgress as UnitProgress)?.Unit.unit_title}
             />
