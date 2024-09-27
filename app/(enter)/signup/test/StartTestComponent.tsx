@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 
 import Image from "next/image";
-import modokeQuestion from "@/public/assets/modokeDog/Oi.png";
 interface Props {
   setHasStarted: (value: boolean) => void;
 }
@@ -14,7 +13,9 @@ function StartTestComponent({ setHasStarted }: Props) {
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div className="flex gap-8 justify-center items-center text-lg">
           <Image
-            src={modokeQuestion}
+            src={
+              "https://projeto-modoke.s3.us-east-2.amazonaws.com/modoke/Oi.png"
+            }
             width={350}
             height={350}
             alt="Ilustração de um cachorro olhando para você."

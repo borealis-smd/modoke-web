@@ -10,9 +10,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import Image from "next/image";
 import React from "react";
-
-import modokeQuestion from "@/public/assets/modokeDog/Ilustração Doguinho chorando - Pop up.png";
-
 interface Props {
   open: boolean;
   onOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,7 +24,9 @@ function CloseAlertComponent({ open, onOpenChange, onClick }: Props) {
           <AlertDialogHeader>
             <AlertDialogTitle className="font-black text-center flex flex-col items-center justify-center">
               <Image
-                src={modokeQuestion}
+                src={
+                  "https://projeto-modoke.s3.us-east-2.amazonaws.com/modoke/Modoke+chorando.png"
+                }
                 width={300}
                 height={300}
                 alt="Ilustração de um cachorro chorando."

@@ -15,7 +15,6 @@ import _ from "lodash";
 import { useSession } from "next-auth/react";
 import { renderIcon } from "./RenderIcon";
 
-import modokeLendo from "../../../public/assets/modokeDog/livro.png";
 
 const RevisionUnit = () => {
   const token = useAuth();
@@ -89,7 +88,9 @@ const RevisionUnit = () => {
           title="Vamos revisar?"
           variant="revision"
           name={userName}
-          image={modokeLendo}
+          image={
+            "https://projeto-modoke.s3.us-east-2.amazonaws.com/modoke/Revis%C3%A3o.png"
+          }
         />
 
         <div className="flex flex-col lg:flex-row justify-between mt-8 space-y-2 lg:space-y-0">

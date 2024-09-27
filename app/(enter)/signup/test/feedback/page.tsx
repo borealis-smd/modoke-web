@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/sheet";
 
 import Image from "next/image";
-import modokeQuestion from "@/public/assets/modokeDog/Ilustração Pontuação - Teste de Familiaridade - Ajustado.png";
 
 function TestFeedbackPage() {
   const router = useRouter();
@@ -76,7 +75,9 @@ function TestFeedbackPage() {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div className="flex gap-8 justify-center items-center text-2xl">
               <Image
-                src={modokeQuestion}
+                src={
+                  "https://projeto-modoke.s3.us-east-2.amazonaws.com/modoke/Modoke+-+Pontua%C3%A7%C3%A3o+Teste+de+Familiaridade.png"
+                }
                 width={350}
                 height={350}
                 alt="Ilustração de um cachorro feliz."

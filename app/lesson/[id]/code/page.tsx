@@ -12,7 +12,7 @@ import { useBreadcrumb } from "../../BreadcrumbContext";
 import useAuth from "@/lib/hooks/useAuth";
 
 import Image from "next/image";
-import modokeQuestion from "@/public/assets/modokeDog/Aplicação.png";
+
 interface Props {
   params: { id: string };
 }
@@ -70,7 +70,9 @@ function CodePage({ params }: Props) {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div className="flex gap-8 justify-center items-center text-2xl">
               <Image
-                src={modokeQuestion}
+                src={
+                  "https://projeto-modoke.s3.us-east-2.amazonaws.com/modoke/Aplica%C3%A7%C3%A3o.png"
+                }
                 width={300}
                 height={300}
                 alt="Ilustração de um cachorro olhando para você."
