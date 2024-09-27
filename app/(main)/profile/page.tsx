@@ -47,7 +47,7 @@ const Profile = () => {
       const picture = dbUser.avatar_url;
       setProfilePicture(picture);
 
-      const userProgress = dbUser.xp / 20; // divide por 2000 e multiplica por 100
+      const userProgress = (dbUser.xp % 2000) / 20; // divide por 2000 e multiplica por 100
       setProgress(userProgress);
     };
 
