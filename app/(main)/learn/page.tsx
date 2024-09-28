@@ -46,7 +46,6 @@ const LearnPage = () => {
         }
       );
       setLessons(dbLessons);
-      console.log(dbLessons);
     };
 
     const fetchLessons = async () => {

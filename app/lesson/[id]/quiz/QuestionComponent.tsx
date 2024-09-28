@@ -4,8 +4,6 @@ import ChatBubbleComponent from "@/app/ChatBubbleComponent";
 import { parseTags } from "@/lib/parseTags";
 import Image from "next/image";
 
-import modokeQuestion from "@/public/assets/modokeDog/Ilustração - Pergunta Quiz - Ajustado.png";
-
 interface Props {
   currentQuestion: Question;
 }
@@ -17,7 +15,9 @@ const QuestionComponent = ({ currentQuestion }: Props) => {
       {currentQuestion && (
         <div className="flex gap-8 justify-center items-center text-lg">
           <Image
-            src={modokeQuestion}
+            src={
+              "https://projeto-modoke.s3.us-east-2.amazonaws.com/modoke/Quiz.png"
+            }
             width={300}
             height={300}
             alt="Ilustração de um cachorro com um balão de fala"

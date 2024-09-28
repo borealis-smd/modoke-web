@@ -30,7 +30,9 @@ export const Units = ({ lessons, lessonInProgress }: Props) => {
                   : false
               }
               current={
-                lessonInProgress?.Lesson.lesson_id === lesson.lesson_id || false
+                lessonInProgress?.Lesson
+                  ? lessonInProgress?.Lesson.lesson_id === lesson.lesson_id
+                  : false
               }
               index={index} // index passado para o LessonButton para controle dos estados
               totalCount={lessons.length}
