@@ -1,26 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-import badge1 from "@/public/assets/badge-a.png";
-import badge2 from "@/public/assets/badge-aaa.png";
-import badge3 from "@/public/assets/badge-ace.png";
-import badge4 from "@/public/assets/badge-beInclusive.png";
-
-import badge5 from "@/public/assets/badge-code.png";
-import badge6 from "@/public/assets/badge-web4all.png";
-
-import badge8 from "@/public/assets/badge-WCAG.png";
-import badge9 from "@/public/assets/badge-midia.png";
-
-import gio from "@/public/assets/team/gio.jpeg";
-import leti from "@/public/assets/team/leti.jpg";
-import ana from "@/public/assets/team/ticia.jpg";
-import jomar from "@/public/assets/team/jomar.jpeg";
-import mat from "@/public/assets/team/mat.jpg";
-
-import pequeno from "@/public/assets/team/henrique_pequeno.png";
-import inga from "@/public/assets/team/inga.jpg";
-import tici from "@/public/assets/team/tici.jpg";
 
 export default function Team() {
    return (
@@ -42,23 +22,33 @@ export default function Team() {
             {/* Emblemas flutuantes */}
             <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
                <Image
-                  src={badge1}
+                  src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/badges/badge-a.png"}
                   alt="Badge A"
+                  width={200}
+                  height={200}
                   className="absolute top-10 -left-20 w-50 h-50 transform -translate-x-20 -translate-y-15 -rotate-12"
                />
                <Image
-                  src={badge2}
+                  src={
+                     "https://projeto-modoke.s3.us-east-2.amazonaws.com/badges/badge-AA.png"
+                  }
+                  width={240}
+                  height={240}
                   alt="Badge AAA"
                   className="absolute top-0 right-0 w-50 h-50 transform translate-x-14 rotate-12"
                />
                <Image
-                  src={badge9}
+                  src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/badges/badge-midia.png"}
                   alt="Badge Mídia"
+                  width={240}
+                  height={240}
                   className="absolute -bottom-20 left-0 w-50 h-50 transform -translate-x-10 -rotate-12"
                />
                <Image
-                  src={badge4}
+                  src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/badges/badge-beInclusive.png"}
                   alt="Badge BeInclusive"
+                  width={240}
+                  height={240}
                   className="absolute -bottom-10 right-10 w-50 h-50 transform translate-x-10 rotate-12"
                />
             </div>
@@ -83,7 +73,7 @@ export default function Team() {
                {/* Cada perfil dos idealizadores */}
                <div className="flex flex-col items-center text-center space-y-3">
                   <Image
-                     src={pequeno}
+                     src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/team/henrique_pequeno.png"}
                      alt="Perfil de Henrique Pequeno"
                      width={200}
                      height={220}
@@ -94,7 +84,7 @@ export default function Team() {
                </div>
                <div className="flex flex-col items-center text-center space-y-3">
                   <Image
-                     src={inga}
+                     src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/team/inga.jpg"}
                      alt="Perfil de Inga Saboia"
                      width={200}
                      height={220}
@@ -105,7 +95,7 @@ export default function Team() {
                </div>
                <div className="flex flex-col items-center text-center space-y-3">
                   <Image
-                     src={tici}
+                     src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/team/tici.jpg"}
                      alt="Perfil de Ticianne Darin"
                      width={200}
                      height={220}
@@ -132,7 +122,7 @@ export default function Team() {
                      {/* Perfil de Giovana Fontes */}
                      <div id="perfil-giovana" className="flex flex-col items-center text-center space-y-2">
                         <Image
-                           src={gio}
+                           src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/team/gio.jpeg"}
                            alt="Perfil de Giovana Fontes"
                            width={200}
                            height={220}
@@ -145,7 +135,7 @@ export default function Team() {
                      {/* Perfil de Letícia Rodrigues */}
                      <div id="perfil-leticia" className="flex flex-col items-center text-center space-y-2">
                         <Image
-                           src={leti}
+                           src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/team/leti.jpg"}
                            alt="Perfil de Letícia Rodrigues"
                            width={200}
                            height={220}
@@ -158,7 +148,7 @@ export default function Team() {
                      {/* Perfil de Ana Letícia Costa */}
                      <div id="perfil-ana" className="flex flex-col items-center text-center space-y-2">
                         <Image
-                           src={ana}
+                           src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/team/ticia.jpg"}
                            alt="Perfil de Ana Letícia Costa"
                            width={200}
                            height={220}
@@ -173,7 +163,7 @@ export default function Team() {
                      {/* Perfil de João Marcos Moura */}
                      <div id="perfil-jomar" className="flex flex-col items-center text-center space-y-2">
                         <Image
-                           src={jomar}
+                           src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/team/gio.jpeg"}
                            alt="Perfil de João Marcos Moura"
                            width={200}
                            height={220}
@@ -186,7 +176,7 @@ export default function Team() {
                      {/* Perfil de Matheus Pinheiro */}
                      <div id="perfil-mat" className="flex flex-col items-center text-center space-y-2">
                         <Image
-                           src={mat}
+                           src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/team/mat.jpg"}
                            alt="Perfil de Matheus Pinheiro"
                            width={200}
                            height={220}
@@ -202,23 +192,31 @@ export default function Team() {
             {/* Emblemas flutuantes */}
             <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
                <Image
-                  src={badge8}
+                  src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/badges/badge-code.png"}
                   alt="Badge WCAG"
+                  width={240}
+                  height={240}
                   className="absolute top-10 -left-15 w-50 h-50 transform -translate-x-20 -translate-y-15 -rotate-12"
                />
                <Image
-                  src={badge5}
+                  src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/badges/badge-web4all.png"}
                   alt="Badge Code"
+                  width={240}
+                  height={240}
                   className="absolute top-0 right-0 w-50 h-50 transform translate-x-14 rotate-12"
                />
                <Image
-                  src={badge6}
+                  src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/badges/badge-beInclusive.png"}
                   alt="Badge Web4All"
+                  width={240}
+                  height={240}
                   className="absolute bottom-10 left-0 w-50 h-50 transform -translate-x-10 -rotate-12"
                />
                <Image
-                  src={badge3}
+                  src={"https://projeto-modoke.s3.us-east-2.amazonaws.com/badges/badge-ace.png"}
                   alt="Badge ACE"
+                  width={200}
+                  height={200}
                   className="absolute bottom-10 right-10 w-50 h-50 transform translate-x-10 rotate-12"
                />
             </div>
