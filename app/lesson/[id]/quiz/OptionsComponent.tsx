@@ -68,7 +68,7 @@ const OptionsComponent = ({
                       selectedOption?.option_id === option.option_id &&
                       option.is_correct,
                   },
-                  "max-w-80 w-max p-4 h-max max-h-36 text-lg text-wrap"
+                  "min-w-64 min-h-52 max-w-80 w-max p-4 h-max max-h-36 text-lg text-wrap hover:text-gray-700"
                 )}
               >
                 {option.option_text}
