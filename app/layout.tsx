@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: "modoke",
   description:
     "Apredendo sobre acessibilidade web de forma simples e divertida",
+  icons: {
+    icon: "public/favicon.ico",
+  },
 };
 
 export default function RootLayout({
