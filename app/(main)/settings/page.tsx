@@ -28,7 +28,7 @@ const Settings = () => {
   const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string>(
-    "/assets/default.png"
+    "https://projeto-modoke.s3.us-east-2.amazonaws.com/default.png"
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
 

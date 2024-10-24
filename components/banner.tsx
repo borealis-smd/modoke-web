@@ -36,7 +36,9 @@ export const Banner = ({ title, variant, image, name = "usuário" }: Props) => {
           <Image
             src={image}
             alt="Banner"
-            className="object-contain max-h-full max-w-full transition-transform duration-300 group-hover:scale-105"
+            className="object-contain max-h-full max-w-full transition-transform duration-300 group-hover:scale-105 mt-20"
+            width={500}
+            height={500}
           />
         </div>
       )}

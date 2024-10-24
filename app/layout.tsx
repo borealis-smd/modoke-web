@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description:
     "Apredendo sobre acessibilidade web de forma simples e divertida",
   icons: {
-    icon: "public/favicon.ico",
+    icon: "https://projeto-modoke.s3.us-east-2.amazonaws.com/favicon.ico",
   },
 };
 

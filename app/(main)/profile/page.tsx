@@ -101,7 +101,7 @@ const Profile = () => {
                 <div className="w-full lg:w-[14.875rem] h-[13.6875rem] bg-gray-300 rounded-lg">
                   {/* Profile Image */}
                   <Image
-                    src={profilePicture || "/assets/default.png"}
+                    src={profilePicture || "https://projeto-modoke.s3.us-east-2.amazonaws.com/default.png"}
                     alt="Perfil de Modoken"
                     width={200}
                     height={220}
